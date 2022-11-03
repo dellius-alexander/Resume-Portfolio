@@ -28,6 +28,8 @@
     "bootstrap": "file:./assets/vendor/bootstrap",
     "bootstrap-icons": "file:./assets/vendor/bootstrap-icons",
     "boxicons": "file:./assets/vendor/boxicons",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
     "glightbox": "file:./assets/vendor/glightbox",
     "isotope-layout": "file:./assets/vendor/isotope-layout",
     "php-email-form": "file:./assets/vendor/php-email-form",
@@ -35,9 +37,6 @@
     "swiper": "file:./assets/vendor/swiper",
     "typed.js": "file:./assets/vendor/typed.js",
     "waypoints": "file:./assets/vendor/waypoints",
-    "express": "^4.18.2",
-    "consolidate": "^0.16.0",
-    "morgan": "^1.10.0",
-    "cookie-parser": "^1.4.6"
+    "morgan": "^1.10.0"
   }
 }
