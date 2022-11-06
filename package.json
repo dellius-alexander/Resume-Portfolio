@@ -37,7 +37,7 @@
     "express": "^4.18.2",
     "glightbox": "file:./assets/vendor/glightbox",
     "html": "^1.0.0",
-    "html5shiv.min.js": "^3.7.2",
+    "html5shiv.min.js": "file:./assets/vendor/html5shiv.min.js",
     "isotope-layout": "file:./assets/vendor/isotope-layout",
     "mongodb": "^4.11.0",
     "morgan": "^1.10.0",

@@ -1,6 +1,6 @@
 // import environment variables
 const dotenv = require('dotenv')
-const result = dotenv.config({ path: 'example.env', encoding: 'utf8', debug: true, override: true })
+const result = dotenv.config({ path: '*.env', encoding: 'utf8', debug: true, override: true })
 if (result.error) {
     throw result.error
 }
