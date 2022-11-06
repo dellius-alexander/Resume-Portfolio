@@ -37,7 +37,8 @@ concurrency:
   cancel-in-progress: false
 # Workflow Jobs
 jobs:
-  build-project:
+  github-pages:
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
       - name: Install node
@@ -80,25 +81,6 @@ jobs:
           # Since this repository has no protected branches we will omit
           # this part of the step. end
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
- # Single deploy job since we're just deploying
-  setup-github-pages:
-    if: ${{ github.ref == 'refs/heads/main' }}
-    needs:
-      - build-project
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 18.x
-
-      - name: Verify dependencies
-        run: |
-          ls -liaR
 
       - name: Setup Pages
         uses: actions/configure-pages@v2
