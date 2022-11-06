@@ -68,7 +68,19 @@ jobs:
           cp .npmrc staging/ &&
           cp package.json staging/package.json &&
           cp server.js staging/server.js
-          
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          # Upload entire repository to pages
+          path: 'staging'
+          # Depending on branch protection rules, a  manually populated
+          # `GITHUB_TOKEN_WORKAROUND` secret with permissions to push to
+          # a protected branch must be used. This secret can have an arbitrary
+          # name, as an example, you can use `SOME_RANDOM_TOKEN_STRING`.
+          # Since this repository has no protected branches we will omit
+          # this part of the step. end
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
  # Single deploy job since we're just deploying
   setup-github-pages:
@@ -80,19 +92,6 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          # Upload entire repository to pages
-          path: './staging'
-          # Depending on branch protection rules, a  manually populated
-          # `GITHUB_TOKEN_WORKAROUND` secret with permissions to push to
-          # a protected branch must be used. This secret can have an arbitrary
-          # name, as an example, you can use `SOME_RANDOM_TOKEN_STRING`.
-          # Since this repository has no protected branches we will omit
-          # this part of the step. end
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Setup Pages
         uses: actions/configure-pages@v2
 
