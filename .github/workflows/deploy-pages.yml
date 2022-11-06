@@ -62,7 +62,7 @@ jobs:
       - name: Generate SSL Certificates and stage assets
         run: |
           sh ./cert.sh &&
-          mkdir -p staging &&
+          mkdir -p staging/js staging/css staging/scss staging/img staging/img/portfolio staging/img/testimonials &&
           cp -r assets/**/*.css staging/css &&
           cp -r assets/**/*.js staging/js &&
           cp -r assets/**/*.scss staging/scss &&
