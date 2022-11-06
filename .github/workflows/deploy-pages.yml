@@ -38,13 +38,21 @@ concurrency:
 # Workflow Jobs
 jobs:
   setup-pages:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Start containers
+        run: docker-compose -f "docker-compose.yml" up -d --build
+
+      - name: Install node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18.x
+
+      - name: Install dependencies
+        run: npm install
 
       - name: Project Contents
         run: |
@@ -63,6 +71,10 @@ jobs:
           cp package.json staging/package.json
           cp example.env staging/example.env
           cp server.js staging/server.js
+
+      - name: Stop containers
+        if: always()
+        run: docker-compose -f "docker-compose.yml" down
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
