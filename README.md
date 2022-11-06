@@ -1,3 +1,6 @@
-# html-css-module-one-project
+# Resume Portfolio
 
-Create a resume/portfolio website that includes Bootstrap, php, and linked css file.
+This project was created by me to showcase my professional and academic experience.
+As well as highlight some of my more notable projects and accomplishments.
+
+

@@ -1,0 +1,32 @@
+
+#############################################################################################################
+# Start your application services by typing at the Docker CLI:
+#     ~$> docker-compose -f <"a unique name">.docker-compose.yml up -d
+# Shutdown services with the Docker CLI command:
+#     ~$> docker-compose -f  <"a unique name">.docker-compose.yml down --remove-orphans
+#     The "--remove-orphans" flag is used to remove any child container instances that may have been created
+#############################################################################################################
+version: '3.8'
+services:
+  node:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    user: 'node'
+    hostname: "example.com"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=development
+      - NPM_CONFIG_LOGLEVEL=verbose
+    volumes:
+      - ./:/home/node/app
+    expose:
+      - '443'
+    ports:
+      - '443:443'
+    command:
+      - /bin/sh
+      - -c
+      - |
+        sh "./cert.sh" &&
+        sh -c "npm start"

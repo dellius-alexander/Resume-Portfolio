@@ -37,6 +37,7 @@
     "express": "^4.18.2",
     "glightbox": "file:./assets/vendor/glightbox",
     "html": "^1.0.0",
+    "html5shiv.min.js": "^3.7.2",
     "isotope-layout": "file:./assets/vendor/isotope-layout",
     "mongodb": "^4.11.0",
     "morgan": "^1.10.0",
@@ -45,6 +46,7 @@
     "php-email-form": "file:./assets/vendor/php-email-form",
     "swiper": "file:./assets/vendor/swiper",
     "typed.js": "file:./assets/vendor/typed.js",
-    "waypoints": "file:./assets/vendor/waypoints"
+    "waypoints": "file:./assets/vendor/waypoints",
+    "webfont": "file:./assets/vendor/webfont"
   }
 }
