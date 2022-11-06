@@ -42,9 +42,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    container:
-      image: node:18
-      options: --user node
     steps:
       - name: Checkout
         uses: actions/checkout@v3
