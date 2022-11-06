@@ -66,7 +66,6 @@ jobs:
           cp -r views/ staging/views
           cp .npmrc staging/
           cp package.json staging/package.json
-          cp example.env staging/example.env
           cp server.js staging/server.js
 
       - name: Upload artifact
