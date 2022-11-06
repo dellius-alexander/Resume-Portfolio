@@ -43,13 +43,14 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
       - name: Install node
         uses: actions/setup-node@v1
         with:
           node-version: 18.x
+          
+      - name: Checkout
+        uses: actions/checkout@v3
+      
 
       - name: Install dependencies
         run: npm install
@@ -60,22 +61,22 @@ jobs:
 
       - name: Generate SSL Certificates and stage assets
         run: |
-          sh ./cert.sh
-          mkdir -p staging 
-          cp -r assets/ staging/assets
-          cp -r .certs/ staging/.certs
-          cp -r node_modules/ staging/node_modules
-          cp -r routes/ staging/routes
-          cp -r views/ staging/views
-          cp .npmrc staging/
-          cp package.json staging/package.json
+          sh ./cert.sh &&
+          mkdir -p staging &&
+          cp -r assets/ staging/assets &&
+          cp -r .certs/ staging/.certs &&
+          cp -r node_modules/ staging/node_modules &&
+          cp -r routes/ staging/routes &&
+          cp -r views/ staging/views &&
+          cp .npmrc staging/ &&
+          cp package.json staging/package.json &&
           cp server.js staging/server.js
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload entire repository to pages
-          path: 'staging'
+          path: './staging'
           # Depending on branch protection rules, a  manually populated
           # `GITHUB_TOKEN_WORKAROUND` secret with permissions to push to
           # a protected branch must be used. This secret can have an arbitrary
