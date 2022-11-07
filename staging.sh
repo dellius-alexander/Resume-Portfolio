@@ -12,8 +12,8 @@ mkdir -p  staging/js \
           staging/img/testimonials
 
 # state all boxicons fonts
-cp -R assets/vendor/boxicons/fonts/ staging/fonts/ && \
-cp -R assets/vendor/bootstrap-icons/fonts/ staging/fonts/ && \
+cp -R assets/vendor/boxicons/fonts/** staging/fonts/ && \
+cp -R assets/vendor/bootstrap-icons/fonts/** staging/fonts/ && \
 
 # stage all js files
 cp -R assets/js/** staging/js/ && \
