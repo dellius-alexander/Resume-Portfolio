@@ -22,11 +22,11 @@ cp assets/vendor/aos/aos.js staging/js/ && \
 cp assets/vendor/purecounter/dist/purecounter_vanilla.js staging/js/ && \
 cp -R assets/vendor/bootstrap/js/** staging/js/ && \
 cp -R assets/vendor/glightbox/js/** staging/js/ && \
-cp assets/vendor/isotope-layout/isotope.pkgd.min.js staging/js/ && \
-cp assets/vendor/swiper/swiper-bundle.min.js staging/js/ && \
-cp assets/vendor/typed.js/typed.min.js staging/js/ && \
-cp assets/vendor/waypoints/noframework.waypoints.js staging/js/ && \
-cp assets/vendor/php-email-form/validate.js staging/js/ && \
+cp assets/vendor/isotope-layout/** staging/js/ && \
+cp assets/vendor/swiper/** staging/js/ && \
+cp assets/vendor/typed.js/** staging/js/ && \
+cp assets/vendor/waypoints/** staging/js/ && \
+cp assets/vendor/php-email-form/*.js staging/js/ && \
 cp -R assets/vendor/webfont/** staging/js/ && \
 
 # stage all css files
