@@ -7,6 +7,7 @@ mkdir -p  staging/js \
           staging/css \
           staging/scss \
           staging/fonts \
+          staging/forms \
           staging/img \
           staging/img/portfolio \
           staging/img/testimonials
@@ -38,9 +39,11 @@ cp assets/vendor/boxicons/css/boxicons.min.css staging/css/ && \
 cp assets/vendor/glightbox/css/glightbox.min.css staging/css/ && \
 cp assets/vendor/swiper/swiper-bundle.min.css staging/css/ && \
 
-
 # stage all scss files
 cp -R assets/scss/** staging/scss/ && \
+
+# stage all forms
+cp assets/forms/** staging/forms/ && \
 
 # stage all image files
 cp -R assets/img/** staging/img/ && \
