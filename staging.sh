@@ -19,8 +19,8 @@ cp -R assets/vendor/bootstrap-icons/fonts/** staging/fonts/ && \
 cp -R assets/js/** staging/js/ && \
 cp assets/vendor/aos/aos.js staging/js/ && \
 cp assets/vendor/purecounter/dist/purecounter_vanilla.js staging/js/ && \
-cp assets/vendor/bootstrap/js/bootstrap.bundle.min.js staging/js/ && \
-cp assets/vendor/glightbox/js/glightbox.min.js staging/js/ && \
+cp -R assets/vendor/bootstrap/js/** staging/js/ && \
+cp -R assets/vendor/glightbox/js/** staging/js/ && \
 cp assets/vendor/isotope-layout/isotope.pkgd.min.js staging/js/ && \
 cp assets/vendor/swiper/swiper-bundle.min.js staging/js/ && \
 cp assets/vendor/typed.js/typed.min.js staging/js/ && \
