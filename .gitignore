@@ -112,4 +112,5 @@ dist
 /.certs/
 # custom environment variables file
 /*.env
-
+# exclude staging directory
+/staging/
