@@ -112,8 +112,4 @@ dist
 /.certs/
 # custom environment variables file
 /*.env
-# remove images for now
-assets/img/**/*.png
-assets/img/**/*.jpeg
-assets/img/**/*.jpg
 
