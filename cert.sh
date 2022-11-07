@@ -60,7 +60,7 @@ __generate_config() {
     wait $!
     echo "Generating config file for: ${HOSTNAME} @ ${CERTS_DIR}/${DOMAIN_NAME}.req..." &&
     # else generate new config file with defined domain name
-    cat <<EOF | tee  "${CERTS_DIR}/${DOMAIN_NAME}.req" &&
+    cat <<EOF | tee  "${CERTS_DIR}/${DOMAIN_NAME}.req" > /dev/null 2>&1 &&
   [ req ]
   default_bits        = 2048
   default_keyfile     = ${DOMAIN_NAME}.key
