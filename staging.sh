@@ -45,6 +45,8 @@ cp -r assets/scss/ staging/scss/ && \
 # stage all image files
 cp -R assets/img/** staging/img/ && \
 cp -r views/** staging/
+echo "Staging github-pages files complete..." &&
+ls -liaR staging/
 return 0
 }
 
@@ -55,5 +57,4 @@ __get_css_files(){
   done
 }
 
-__setup_staging &&
-echo "Staging github-pages files complete..."
+__setup_staging
