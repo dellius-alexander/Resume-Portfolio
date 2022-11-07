@@ -36,12 +36,10 @@ cp assets/vendor/webfont/webfont.js staging/js && \
 # stage all scss files
 cp -r assets/scss/ staging/scss && \
 
-# stage all webfont files
-
-
 # stage all image files
 cp -r assets/img/ staging/img && \
-cp -r views/ staging/
+cp -r views/** staging/
+return 0
 }
 
 __get_css_files(){
@@ -52,3 +50,4 @@ __get_css_files(){
 }
 
 __setup_staging
+echo "Staging github-pages files complete..."
