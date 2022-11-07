@@ -16,17 +16,17 @@ cp -R assets/vendor/boxicons/fonts/ staging/fonts/ && \
 cp -R assets/vendor/bootstrap-icons/fonts/ staging/fonts/ && \
 
 # stage all js files
-cp -r assets/js/ staging/js/ && \
+cp -R assets/js/** staging/js/ && \
 cp assets/vendor/aos/aos.js staging/js/ && \
 cp assets/vendor/purecounter/dist/purecounter_vanilla.js staging/js/ && \
-cp -r assets/vendor/bootstrap/js/** staging/js/ && \
-cp -r assets/vendor/glightbox/js/** staging/js/ && \
+cp -R assets/vendor/bootstrap/js/** staging/js/ && \
+cp -R assets/vendor/glightbox/js/** staging/js/ && \
 cp assets/vendor/isotope-layout/isotope.pkgd.min.js staging/js/ && \
 cp assets/vendor/swiper/swiper-bundle.min.js staging/js/ && \
 cp assets/vendor/typed.js/typed.min.js staging/js/ && \
 cp assets/vendor/waypoints/noframework.waypoints.js staging/js/ && \
 cp assets/vendor/php-email-form/validate.js staging/js/ && \
-cp -r assets/vendor/webfont/ staging/js/ && \
+cp -R assets/vendor/webfont/** staging/js/ && \
 
 # stage all css files
 cp -r assets/css/** staging/css/ && \
@@ -40,7 +40,7 @@ cp assets/vendor/swiper/swiper-bundle.min.css staging/css/ && \
 
 
 # stage all scss files
-cp -r assets/scss/ staging/scss/ && \
+cp -R assets/scss/** staging/scss/ && \
 
 # stage all image files
 cp -R assets/img/** staging/img/ && \
