@@ -15,7 +15,7 @@ cp assets/vendor/boxicons/fonts/** staging/fonts/ && \
 cp -r assets/vendor/bootstrap-icons/fonts/*.woff* staging/fonts/ && \
 
 # stage all js files
-cp -r assets/js/ staging/js/ && \
+cp -r assets/js/** staging/js/ && \
 cp -r assets/vendor/aos/aos.js staging/js/ && \
 cp -r assets/vendor/purecounter/dist/*.js staging/js/ && \
 cp -r assets/vendor/bootstrap/js/*.js staging/js/ && \
@@ -44,7 +44,8 @@ cp -r assets/scss/*.scss staging/scss/ && \
 cp -r assets/forms/*.php staging/forms/ && \
 
 # stage all image files
-cp -r assets/img/ staging/img/ && \
+cp -R assets/img/*.jpg staging/img/ && \
+cp -R assets/img/*.png staging/img/ && \
 
 # stage all .html files
 cp -r views/*.html staging/ && \
