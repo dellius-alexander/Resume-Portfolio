@@ -5,6 +5,8 @@
 __setup_staging() {
 # Setup staging directory
 rm -rf staging &&
+sleep 3 && \
+
 mkdir -p  staging/js \
           staging/css \
           staging/scss \
