@@ -1,7 +1,5 @@
 #!/usr.bin/env bash
 
-
-
 __setup_staging() {
 # Setup staging directory
 rm -rf staging &&
@@ -57,7 +55,7 @@ echo "Staging github-pages files complete..." &&
 
 # list contents of all files staged
 ls -liaR staging
-return 0
+
 }
 
 __get_css_files(){
