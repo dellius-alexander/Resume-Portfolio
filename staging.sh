@@ -44,8 +44,7 @@ cp -r assets/scss/*.scss staging/scss/ && \
 cp -r assets/forms/*.php staging/forms/ && \
 
 # stage all image files
-cp -R assets/img/*.jpg staging/img/ && \
-cp -R assets/img/*.png staging/img/ && \
+cp -R assets/img/** staging/img/ && \
 
 # stage all .html files
 cp -r views/*.html staging/ && \
