@@ -13,11 +13,11 @@ mkdir -p  staging/js \
           staging/img/testimonials
 
 # state all boxicons fonts
-cp -r assets/vendor/boxicons/fonts staging/fonts && \
-cp -r assets/vendor/bootstrap-icons/fonts staging/fonts && \
+cp -r assets/vendor/boxicons/fonts/ staging/fonts && \
+cp -r assets/vendor/bootstrap-icons/fonts/ staging/fonts && \
 
 # stage all js files
-cp -r assets/js staging/js && \
+cp -r assets/js/ staging/js && \
 cp -r assets/vendor/aos/aos.js staging/js && \
 cp -r assets/vendor/purecounter/dist/*.js staging/js && \
 cp -r assets/vendor/bootstrap/js/*.js staging/js && \
@@ -43,13 +43,13 @@ cp -r assets/vendor/swiper/*.css staging/css && \
 cp -r assets/scss/*.scss staging/scss && \
 
 # stage all forms
-cp -r assets/forms staging/forms && \
+cp -r assets/forms/ staging/forms && \
 
 # stage all image files
-cp -r assets/img staging/img && \
+cp -r assets/img/ staging/img && \
 
 # stage all .html files
-cp -r views staging && \
+cp -r views/ staging && \
 
 echo "Staging github-pages files complete..." &&
 
