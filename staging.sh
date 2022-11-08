@@ -8,9 +8,7 @@ mkdir -p  staging/js \
           staging/scss \
           staging/fonts \
           staging/forms \
-          staging/img \
-          staging/img/portfolio \
-          staging/img/testimonials  && \
+          staging/img && \
 
 # state all boxicons fonts
 cp -r assets/vendor/boxicons/fonts/ staging/fonts && \
@@ -49,7 +47,7 @@ cp -r assets/forms/ staging/forms && \
 cp -r assets/img/ staging/img && \
 
 # stage all .html files
-cp -r views/ staging && \
+cp -r views/*.html staging && \
 
 echo "Staging github-pages files complete..." &&
 
