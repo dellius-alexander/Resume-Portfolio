@@ -3,8 +3,6 @@
 __setup_staging() {
 # Setup staging directory
 rm -rf staging &&
-sleep 3 && \
-
 mkdir -p  staging/js \
           staging/css \
           staging/scss \
@@ -13,8 +11,8 @@ mkdir -p  staging/js \
           staging/img && \
 
 # state all boxicons fonts
-cp -R assets/vendor/boxicons/fonts/ staging/fonts/ && \
-cp -R assets/vendor/bootstrap-icons/fonts/ staging/fonts/ && \
+cp assets/vendor/boxicons/fonts/** staging/fonts/ && \
+cp -r assets/vendor/bootstrap-icons/fonts/*.woff* staging/fonts/ && \
 
 # stage all js files
 cp -r assets/js/ staging/js/ && \
