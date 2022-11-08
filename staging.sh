@@ -2,7 +2,7 @@
 
 __setup_staging() {
 # Setup staging directory
-rm -rf staging
+rm -rf staging && \
 mkdir -p  staging/js \
           staging/css \
           staging/scss \
@@ -10,7 +10,7 @@ mkdir -p  staging/js \
           staging/forms \
           staging/img \
           staging/img/portfolio \
-          staging/img/testimonials
+          staging/img/testimonials  && \
 
 # state all boxicons fonts
 cp -r assets/vendor/boxicons/fonts/ staging/fonts && \
@@ -55,7 +55,7 @@ echo "Staging github-pages files complete..." &&
 
 # list contents of all files staged
 ls -liaR staging
-
+return 0
 }
 
 __get_css_files(){
