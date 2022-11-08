@@ -1,8 +1,10 @@
 #!/usr.bin/env bash
 
+
+
 __setup_staging() {
 # Setup staging directory
-rm -rf staging && \
+rm -rf staging &&
 mkdir -p  staging/js \
           staging/css \
           staging/scss \
@@ -11,8 +13,8 @@ mkdir -p  staging/js \
           staging/img && \
 
 # state all boxicons fonts
-cp -r assets/vendor/boxicons/fonts/ staging/fonts/ && \
-cp -r assets/vendor/bootstrap-icons/fonts/ staging/fonts/ && \
+cp assets/vendor/boxicons/fonts/ staging/fonts/ && \
+cp assets/vendor/bootstrap-icons/fonts/ staging/fonts/ && \
 
 # stage all js files
 cp -r assets/js/ staging/js/ && \
@@ -41,13 +43,13 @@ cp -r assets/vendor/swiper/*.css staging/css/ && \
 cp -r assets/scss/*.scss staging/scss/ && \
 
 # stage all forms
-cp -r assets/forms/ staging/forms/ && \
+cp -r assets/forms/*.php staging/forms/ && \
 
 # stage all image files
-cp -r assets/img/ staging/img && \
+cp -r assets/img/ staging/img/ && \
 
 # stage all .html files
-cp -r views/*.html staging && \
+cp -r views/*.html staging/ && \
 
 echo "Staging github-pages files complete..." &&
 
