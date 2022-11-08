@@ -13,43 +13,43 @@ mkdir -p  staging/js \
           staging/img/testimonials
 
 # state all boxicons fonts
-cp -R assets/vendor/boxicons/fonts/** staging/fonts/ && \
-cp -R assets/vendor/bootstrap-icons/fonts/** staging/fonts/ && \
+cp -r assets/vendor/boxicons/fonts/** staging/fonts/ && \
+cp -r assets/vendor/bootstrap-icons/fonts/** staging/fonts/ && \
 
 # stage all js files
-cp -R assets/js/** staging/js/ && \
-cp assets/vendor/aos/aos.js staging/js/ && \
-cp assets/vendor/purecounter/dist/purecounter_vanilla.js staging/js/ && \
-cp -R assets/vendor/bootstrap/js/** staging/js/ && \
-cp -R assets/vendor/glightbox/js/** staging/js/ && \
-cp assets/vendor/isotope-layout/** staging/js/ && \
-cp assets/vendor/swiper/** staging/js/ && \
-cp assets/vendor/typed.js/** staging/js/ && \
-cp assets/vendor/waypoints/** staging/js/ && \
-cp assets/vendor/php-email-form/*.js staging/js/ && \
-cp -R assets/vendor/webfont/** staging/js/ && \
+cp -r assets/js staging/js/ && \
+cp -r assets/vendor/aos/aos.js staging/js/ && \
+cp -r assets/vendor/purecounter/dist/*.js staging/js/ && \
+cp -r assets/vendor/bootstrap/js/*.js staging/js/ && \
+cp -r assets/vendor/glightbox/js/*.js staging/js/ && \
+cp -r assets/vendor/isotope-layout/*.js staging/js && \
+cp -r assets/vendor/swiper/*.js staging/js && \
+cp -r assets/vendor/typed.js/*.js staging/js && \
+cp -r assets/vendor/waypoints/*.js staging/js && \
+cp -r assets/vendor/php-email-form/*.js staging/js && \
+cp -r assets/vendor/webfont/*.js staging/js && \
 
 # stage all css files
-cp -r assets/css/** staging/css/ && \
-cp assets/vendor/aos/aos.css staging/css/ && \
-cp assets/vendor/bootstrap/css/bootstrap.min.css staging/css/ && \
-cp assets/vendor/bootstrap/css/bootstrap.min.css.map staging/css/ && \
-cp assets/vendor/bootstrap-icons/bootstrap-icons.css staging/css/ && \
-cp assets/vendor/boxicons/css/boxicons.min.css staging/css/ && \
-cp assets/vendor/glightbox/css/glightbox.min.css staging/css/ && \
-cp assets/vendor/swiper/swiper-bundle.min.css staging/css/ && \
+cp -r assets/css/*.css staging/css && \
+cp -r assets/vendor/aos/*.css staging/css && \
+cp -r assets/vendor/bootstrap/css/*.css staging/css && \
+cp -r assets/vendor/bootstrap/css/*.css.map staging/css && \
+cp -r assets/vendor/bootstrap-icons/*.css staging/css && \
+cp -r assets/vendor/boxicons/css/*.css staging/css && \
+cp -r assets/vendor/glightbox/css/*.css staging/css && \
+cp -r assets/vendor/swiper/*.css staging/css && \
 
 # stage all scss files
-cp -R assets/scss/** staging/scss/ && \
+cp -r assets/scss/*.scss staging/scss && \
 
 # stage all forms
-cp assets/forms/** staging/forms/ && \
+cp -r assets/forms staging/forms && \
 
 # stage all image files
-cp -R assets/img/** staging/img/ && \
-cp -r views/** staging/
+cp -r assets/img staging/img && \
+cp -r views staging
 echo "Staging github-pages files complete..." &&
-ls -liaR staging/
+ls -liaR staging
 return 0
 }
 
