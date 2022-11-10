@@ -59,6 +59,11 @@
       ("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")
     }(window,document);
   </script>
+  <script
+          src="https://code.jquery.com/jquery-3.6.1.min.js"
+          integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+          crossorigin="anonymous">
+  </script>
 
   <!-- Favicons -->
   <link href="img/favicon.png" rel="icon" >
@@ -159,7 +164,7 @@
                 <ul>
 <!--                  <li><i class="bi bi-chevron-right"></i> <strong>Birthday:</strong> <span>3 January 1986</span></li>-->
                   <li><i class="bi bi-chevron-right"></i> <strong>Website:</strong> <span><a href="www.delliusalexander.com">www.delliusalexander.com</a></span></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Phone:</strong> <span><a href="tel:=+16786509414" >(678) 650-9414</a></span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Phone:</strong> <span><a href="tel:=+16786509414" >+1 (678) 650-9414</a></span></li>
                   <li><i class="bi bi-chevron-right"></i> <strong>City:</strong> <span>Atlanta, USA</span></li>
                 </ul>
               </div>
@@ -440,251 +445,6 @@
       </div>
     </section><!-- End Resume Section -->
 
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="portfolio section-bg">
-      <div class="container">
-
-        <div class="section-title">
-          <h2>Portfolio</h2>
-          <p>Check out my latest projects.</p>
-        </div>
-
-        <div class="row" data-aos="fade-up">
-          <div class="col-lg-12 d-flex justify-content-center">
-            <ul id="portfolio-flters">
-              <li data-filter="*" class="filter-active">All</li>
-              <li data-filter=".filter-app">HTML/CSS/Javascript</li>
-              <li data-filter=".filter-card">Python</li>
-              <li data-filter=".filter-web">JavaScript</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="100">
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-            <div class="portfolio-wrap">
-              <img src="img/portfolio/portfolio-1.jpg" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="img/portfolio/portfolio-1.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 1"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <div class="portfolio-wrap">
-              <img src="img/portfolio/portfolio-2.jpg" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="img/portfolio/portfolio-2.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Web 3"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details2.html" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
-              <img src="img/portfolio/portfolio-3.jpg" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="img/portfolio/portfolio-3.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 2"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details3.html" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-          <!-- add more projects later
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <div class="portfolio-wrap">
-              <img src="img/portfolio/portfolio-4.jpg" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="img/portfolio/portfolio-4.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Card 2"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
-              <img src="img/portfolio/portfolio-5.jpg" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="img/portfolio/portfolio-5.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Web 2"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
-              <img src="img/portfolio/portfolio-6.jpg" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="img/portfolio/portfolio-6.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 3"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
-              <img src="img/portfolio/portfolio-7.jpg" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="img/portfolio/portfolio-7.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Card 1"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
-              <img src="img/portfolio/portfolio-8.jpg" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="img/portfolio/portfolio-8.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Card 3"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
-              <img src="img/portfolio/portfolio-9.jpg" class="img-fluid" alt="">
-              <div class="portfolio-links">
-                <a href="img/portfolio/portfolio-9.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Web 3"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-          -->
-        </div>
-
-      </div>
-    </section><!-- End Portfolio Section -->
-
-    <!-- Services Section -->
-    <section id="services" class="services">
-      <div class="container">
-
-        <div class="section-title">
-          <h2>Services</h2>
-          <p>Check out the freelancing services I offer.</p>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up">
-            <div class="icon"><i class="bi bi-briefcase"></i></div>
-            <h4 class="title"><a href="">Web Development</a></h4>
-            <p class="description">Research, design, development, testing, implementation, and maintenance of all facets of web-based projects and websites.</p>
-          </div>
-          <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="100">
-            <div class="icon"><i class="bi bi-card-checklist"></i></div>
-            <h4 class="title"><a href="">Blockchain Development</a></h4>
-            <p class="description">Research, design, develop, and test blockchain technologies.</p>
-          </div>
-          <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="200">
-            <div class="icon"><i class="bi bi-bar-chart"></i></div>
-            <h4 class="title"><a href="">Business Development</a></h4>
-            <p class="description">Development of and management of the business development team in addition to client activity/client relationship management and soliciting project opportunities.</p>
-          </div>
-          <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="300">
-            <div class="icon"><i class="bi bi-binoculars"></i></div>
-            <h4 class="title"><a href="">Payroll Accounting</a></h4>
-            <p class="description">Implements, maintains, and reviews payroll processing and accounting systems to ensure timely and accurate processing of payroll transactions.</p>
-          </div>
-          <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="400">
-            <div class="icon"><i class="bi bi-brightness-high"></i></div>
-            <h4 class="title"><a href="">Billing Accounting</a></h4>
-            <p class="description">Basic accounting and bookkeeping functions, such as preparing invoices, managing client accounts, creating reports, and other clerical accounting activities.</p>
-          </div>
-          <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="500">
-            <div class="icon"><i class="bi bi-calendar4-week"></i></div>
-            <h4 class="title"><a href="">Project Accounting</a></h4>
-            <p class="description">General accounting, billing, job cost maintenance, performance analysis and collections.</p>
-          </div>
-        </div>
-
-      </div>
-    </section><!-- End Services Section -->
-
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="testimonials section-bg">
-      <div class="container">
-
-        <div class="section-title">
-          <h2>Testimonials</h2>
-          <p>See what clients have said about me or the companies I've co-founded.</p>
-        </div>
-
-        <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
-          <div class="swiper-wrapper">
-
-            <div class="swiper-slide">
-              <div class="testimonial-item" data-aos="fade-up">
-                <p>
-                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                  Sheneeza is honest and helpful.  Services was delivered earlier than due date.
-                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                </p>
-                <img src="img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
-                <h3>Scott Bunce</h3>
-                <h4>COO at Cabins for You</h4>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item" data-aos="fade-up" data-aos-delay="100">
-                <p>
-                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                  AUOR provides the best high dusting cleaning services in Middle Tennessee.
-                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                </p>
-                <img src="img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
-                <h3>Manuel Britt</h3>
-                <h4>Maintenance Supervisor at Hubbard</h4>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item" data-aos="fade-up" data-aos-delay="200">
-                <p>
-                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                  Their service technicians are always on time and keeps my facility clean and dusted every month.
-                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                </p>
-                <img src="img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
-                <h3>Neil R.</h3>
-                <h4>CEO at True Spice Packing</h4>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item" data-aos="fade-up" data-aos-delay="300">
-                <p>
-                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                  All under One Roof Cleaning has been providing high dusting services for the gym for the past few years.  We have no complaints!
-                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                </p>
-                <img src="img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
-                <h3>Dustin Bass</h3>
-                <h4>General Manager at Armor Gym</h4>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item" data-aos="fade-up" data-aos-delay="400">
-                <p>
-                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                  They saved my rear when I have to deliver a apartment complex renovation to a client.  They came and fixed the problem caused by the other contractor.
-                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                </p>
-                <img src="img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
-                <h3>Jessie Costello</h3>
-                <h4>Owner/President of Volunteer Properties</h4>
-              </div>
-            </div><!-- End testimonial item -->
-
-          </div>
-          <div class="swiper-pagination"></div>
-        </div>
-
-      </div>
-    </section><!-- End Testimonials Section -->
 
     <!-- Contact Section -->
     <section id="contact" class="contact">
@@ -708,13 +468,13 @@
               <div class="email">
                 <i class="bi bi-envelope"></i>
                 <h4>Email:</h4>
-                <p>sheneeza.volcova@gmail.com</p>
+                <p><a href="mailto:dellius.alexander@gmail.com"> dellius.alexander@gmail.com</a></p>
               </div>
 
               <div class="phone">
                 <i class="bi bi-phone"></i>
                 <h4>Call:</h4>
-                <p>+1 404 513 8553</p>
+                <p><a href="tel:=+16786509414" >+1 (678) 650-9414</a></p>
               </div>
 
               <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26524.32219578384!2d-84.38828844999999!3d33.7983681!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88f50440bd0f262d%3A0x89752da93fd0fc4c!2sAtlanta%2C%20GA%2030309!5e0!3m2!1sen!2sus!4v1665349576596!5m2!1sen!2sus" frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
@@ -723,7 +483,7 @@
           </div>
 
           <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+            <form id="jquery_form" role="form" class="php-email-form">
               <div class="row">
                 <div class="form-group col-md-6">
                   <label for="name">Your Name</label>
@@ -731,7 +491,7 @@
                 </div>
                 <div class="form-group col-md-6">
                   <label for="name">Your Email</label>
-                  <input type="email" class="form-control" name="email" id="email" required>
+                  <input type="email" class="form-control" name="reply_to" id="email" required>
                 </div>
               </div>
               <div class="form-group">
@@ -747,8 +507,58 @@
                 <div class="error-message"></div>
                 <div class="sent-message">Your message has been sent. Thank you!</div>
               </div>
-              <div class="text-center"><button type="submit">Send Message</button></div>
+              <div class="text-center"><button name="submit" type="submit">Send Message</button></div>
             </form>
+<!--            <script>-->
+
+<!--              //update this with your $form selector-->
+<!--              const form_id = "jquery_form";-->
+
+<!--              const data = {-->
+<!--                "access_token": "e9w8jj3zhtn4xjex8yhp8jey" // sent after you sign up-->
+<!--              };-->
+
+<!--              function onSuccess() {-->
+<!--                // remove this to avoid redirect-->
+<!--                window.location = window.location.pathname + "?message=Email+Successfully+Sent%21&isError=0";-->
+<!--              }-->
+
+<!--              function onError(error) {-->
+<!--                // remove this to avoid redirect-->
+<!--                window.location = window.location.pathname + "?message=Email+could+not+be+sent.&isError=1";-->
+<!--              }-->
+
+<!--              const sendButton = $("#" + form_id + " [name=\"submit\"]");-->
+
+<!--              function send() {-->
+<!--                sendButton.val('Sending…');-->
+<!--                sendButton.prop('disabled',true);-->
+
+<!--                const subject = $("#" + form_id + " [name=\"subject\"]").val();-->
+<!--                const message = $("#" + form_id + " [name=\"message\"]").val();-->
+<!--                const email = $("#" + form_id + " [name=\"reply_to\"]").val();-->
+<!--                const name = $("#" + form_id + " [name=\"name\"]").val();-->
+<!--                data['extra_name'] = name;-->
+<!--                data['reply_to'] = email;-->
+<!--                data['subject'] = subject;-->
+<!--                data['message'] = message;-->
+<!--                console.log(data);-->
+
+<!--                $.post(`https://postmail.invotes.com/send/`,-->
+<!--                        data,-->
+<!--                        onSuccess-->
+<!--                ).fail(onError);-->
+
+<!--                return false;-->
+<!--              }-->
+
+<!--              sendButton.on('click', send);-->
+
+<!--              const $form = $("#" + form_id);-->
+<!--              $form.submit(function( event ) {-->
+<!--                event.preventDefault();-->
+<!--              });-->
+<!--            </script>-->
           </div>
 
         </div>
