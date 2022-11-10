@@ -5,6 +5,8 @@
 # Shutdown services with the Docker CLI command:
 #     ~$> docker-compose -f  <"a unique name">.docker-compose.yml down --remove-orphans
 #     The "--remove-orphans" flag is used to remove any child container instances that may have been created
+# Build, remove orphaned containers and refresh services:
+#     ~$> docker-compose -f docker-compose.yml up --always-recreate-deps --renew-anon-volumes --remove-orphans --force-recreate -d --build
 #############################################################################################################
 version: '3.8'
 services:
