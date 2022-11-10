@@ -89,7 +89,7 @@ try {
     app.use('/js', express.static(path.join(__dirname, 'node_modules/swiper')))
     app.use('/js', express.static(path.join(__dirname, 'node_modules/typed.js')))
     app.use('/js', express.static(path.join(__dirname, 'node_modules/waypoints')))
-    app.use('/js', express.static(path.join(__dirname, 'node_modules/php-email-form')))
+    // app.use('/js', express.static(path.join(__dirname, 'node_modules/php-email-form')))
     app.use('/js', express.static(path.join(__dirname, 'node_modules/html5shiv.min.js')))
     app.use('/js', express.static(path.join(__dirname, 'node_modules/webfont')))
 
