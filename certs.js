@@ -30,8 +30,6 @@ const result = dotenv.config({
 // check the results for errors
 if (result.error) {
     throw result.error
-} else {
-    console.log(result)
 }
 
 
@@ -40,19 +38,23 @@ if (result.error) {
  * @param cmd the command to execute
  * @param stdout the message returned from the command
  */
-function successCallback(cmd, stdout){
+async function successCallback(cmd, stdout){
     console.log(`Success executing: ${cmd}`)
     console.log(stdout)
+    return stdout;
 }
 
 /**
  * Callback for script failure.
  * @param cmd the command to execute
+ * @param error the error returned from the command execution
  * @param stderr the error returned from the command execution
  */
-function errorCallback(cmd, stderr){
+async function errorCallback(cmd, error, stderr){
     console.error(`Execution failed for [${cmd}], is invalid.`)
-    console.error(stderr)
+    // console.error(stderr)
+    console.error(error)
+    return error;
 }
 
 /**
@@ -61,14 +63,14 @@ function errorCallback(cmd, stderr){
  * @param successCallback success callback
  * @param errorCallback error callback
  */
-async function certs(script, successCallback, errorCallback) {
+async function execShell(script, successCallback, errorCallback) {
 // create the SSL Certificates
-    exec(`${fs.existsSync(script) ? script : script}`, function (error ,stdout, stderr) {
+    exec(`${script}`, function (error ,stdout, stderr) {
         if (error !== null) {
             // log and return error message
-            errorCallback(script, error + " \n" +  stderr)
+            return errorCallback(script, error, stderr);
         } else {
-            successCallback(script, stdout)
+            return successCallback(script, stdout);
         }
     });
 }
@@ -78,13 +80,16 @@ async function certs(script, successCallback, errorCallback) {
  * @param script shell script to execute or command to execute
  * @returns {Promise<void>} a promise that will be fulfilled on the script or command execution
  */
-module.exports.exec = async function execShellRun(script){
-    return await certs(
+const execShellCmd = async function execShellRun(script){
+    return await execShell(
             script,
             successCallback,
             errorCallback
             );
 }
+
+module.exports = execShellCmd
+
 /**
  * Generate certificates and private key
  */
@@ -100,12 +105,12 @@ fs.readdir(path.join(__dirname, `.certs`), (err, files) => {
         console.log(`Certificate files: ${files}`);
         if (files === undefined) {
             console.log(`No certificate files found.\nGenerating new certificate files.\n`);
-            exec(`sh  ${path.join(__dirname, 'certs.sh')}`)
+            execShellCmd(`sh  ${path.join(__dirname, 'certs.sh')}`)
         } else if (files.length !== 5) {
             console.log(`5 Certificate files expected but ${files.length} were found.
 Due to missing files, new certificates will have to be generated.
 Generating new certificate files for hostname: ${process.env.HOSTNAME}......\n`);
-            exec(`sh  ${path.join(__dirname, 'certs.sh')}`)
+            execShellCmd(`sh  ${path.join(__dirname, 'certs.sh')}`)
         } else {
             console.log(`SSL Certificate already exists...\nReusing certificates...`)
         }

@@ -62,7 +62,7 @@ try {
     // CSS dependencies
     // app.use(expressApp)
     // set static assets options
-    let staticOptions = {
+    const staticOptions = {
         dotfiles: 'ignore',
         etag: false,
         extensions: ['htm', 'html'],
@@ -105,7 +105,7 @@ try {
     app.use('/fonts', express.static(path.join(__dirname, 'node_modules/boxicons/fonts')))
 
     // set the view directory and .html as the default extension
-    app.set(`views`, path.join(__dirname, `views`));
+    app.set(`views`, path.join(__dirname, `views`) );
     app.use(logger('dev'));
     app.use(express.json());
     app.use(express.urlencoded({extended: false}));
