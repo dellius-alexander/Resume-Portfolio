@@ -76,7 +76,7 @@ try {
     // setup static file paths
     app.use('/css', express.static(path.join(__dirname, 'node_modules/aos')))
     app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap/css')))
-    app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap-icons')))
+    app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap-icons/')))
     app.use('/css', express.static(path.join(__dirname, 'node_modules/boxicons/css')))
     app.use('/css', express.static(path.join(__dirname, 'node_modules/glightbox/css')))
     app.use('/css', express.static(path.join(__dirname, 'node_modules/swiper')))
@@ -97,15 +97,17 @@ try {
     app.use('/js', express.static(path.join(__dirname, 'node_modules/webfont')))
 
     // add assets directory static file paths
-    app.use('/js', express.static(path.join(__dirname, 'assets/js/')))
-    app.use('/css', express.static(path.join(__dirname, 'assets/css/')))
-    app.use('/img', express.static(path.join(__dirname, 'assets/img/')))
-    app.use('/scss', express.static(path.join(__dirname, 'assets/scss/')))
+    app.use('/js', express.static(path.join(__dirname, 'assets/js')))
+    app.use('/css', express.static(path.join(__dirname, 'assets/css')))
+    app.use('/img', express.static(path.join(__dirname, 'assets/img')))
+    app.use('/scss', express.static(path.join(__dirname, 'assets/scss')))
+    app.use('/scss/bootstrap-icons.scss', express.static(path.join(__dirname, 'node_modules/bootstrap-icons/bootstrap-icons.scss')))
     // fonts path for boxicons
     app.use('/fonts', express.static(path.join(__dirname, 'node_modules/boxicons/fonts')))
+    app.use('/fonts', express.static(path.join(__dirname, 'node_modules/bootstrap-icons/fonts')))
 
     // set the view directory and .html as the default extension
-    app.set(`views`, path.join(__dirname, `views`) );
+    app.set(`views`, path.join(__dirname, `views`));
     app.use(logger('dev'));
     app.use(express.json());
     app.use(express.urlencoded({extended: false}));

@@ -48,7 +48,7 @@ cp -r assets/css/*.css staging/css/ && \
 cp -r assets/vendor/aos/*.css staging/css/ && \
 cp -r assets/vendor/bootstrap/css/*.css staging/css/ && \
 cp -r assets/vendor/bootstrap/css/*.css.map staging/css/ && \
-cp -r assets/vendor/bootstrap-icons/*.css staging/css/ && \
+cp -r assets/vendor/bootstrap-icons/** staging/css/ && \
 cp -r assets/vendor/boxicons/css/*.css staging/css/ && \
 cp -r assets/vendor/glightbox/css/*.css staging/css/ && \
 cp -r assets/vendor/swiper/*.css staging/css/ && \
