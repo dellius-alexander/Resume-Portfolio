@@ -9,4 +9,4 @@ As well as highlight some of my more notable projects and accomplishments.
 
 ---
 
-[![Resume Portfolio](./resume-poster.png)](https://dellius-alexander.github.io/Resume-Portfolio/)
+[![Resume Portfolio](./resume-poster.png)](https://profile.delliusalexander.com)

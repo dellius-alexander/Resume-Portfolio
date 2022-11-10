@@ -41,7 +41,7 @@ if (result.error) {
 }
 
 // express router
-// const expressApp = require("express/lib/router");
+// const expressApp = require(`express/lib/router`);
 // instantiate express middleware
 const app = express();
 
@@ -58,9 +58,6 @@ try {
     // a web application running at one origin, access to selected resources
     // from a different origin
     app.use(cors())
-    // Use node_modules scripts
-    // CSS dependencies
-    // app.use(expressApp)
     // set static assets options
     const staticOptions = {
         dotfiles: 'ignore',
@@ -150,16 +147,14 @@ try {
      * Test if server state is up by running: curl -k https://HOSTNAME:PORT
      * @type {Server<typeof https.IncomingMessage, typeof https.ServerResponse>}
      */
-    const {message, response} = https.createServer(sslOptions, app)
+    https.createServer(sslOptions, app)
         .listen(
             cfg.port,
              cfg.hostname,
              () => {
                     console.log(`Example app is listening on https://${cfg.hostname}:${cfg.port}`)
                     console.log(`To test server entrypoint Run: curl -k https://${cfg.hostname}:${cfg.port}`)
-            }
-         )
-    console.log(`Server: ${message} | ${response}`)
+            })
 
 } catch (e) {
     console.error(e)
