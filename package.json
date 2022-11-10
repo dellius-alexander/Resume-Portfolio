@@ -4,27 +4,28 @@
   "description": "Resume portfolio for Dellius Alexander",
   "private": false,
   "main": "server.js",
+  "homepage": "https://dellius-alexander.github.io/Resume-Portfolio/",
   "engines": {
     "node": ">= 0.10.0"
   },
   "scripts": {
+    "prestart": "node certs.js",
     "start": "node server.js",
+    "mongodb": "node routes/mongodb.js",
+    "mongodbTest": "npm run mongodb",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "directories": {
     "node_modules": "node_modules",
-    "public": "public",
+    "assets": "assets",
     "routes": "routes",
-    "views": "views",
-    "forms": "assets/forms",
-    "bin": "bin"
+    "views": "views"
   },
   "repository": {},
   "keywords": [],
   "author": "Dellius Alexander <dellius.alexander@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "purecounter": "file:./assets/vendor/purecounter",
     "aos": "file:./assets/vendor/aos",
     "body-parser": "^1.20.1",
     "bootstrap": "file:./assets/vendor/bootstrap",
@@ -44,9 +45,14 @@
     "multer": "^1.4.5-lts.1",
     "nodemon": "^2.0.20",
     "php-email-form": "file:./assets/vendor/php-email-form",
+    "purecounter": "file:./assets/vendor/purecounter",
     "swiper": "file:./assets/vendor/swiper",
     "typed.js": "file:./assets/vendor/typed.js",
     "waypoints": "file:./assets/vendor/waypoints",
-    "webfont": "file:./assets/vendor/webfont"
+    "webfont": "file:./assets/vendor/webfont",
+    "express-urlrewrite": "^2.0.0"
+  },
+  "devDependencies": {
+    "gh-pages": "^4.0.0"
   }
 }

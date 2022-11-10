@@ -61,7 +61,7 @@ jobs:
 
       - name: Generate SSL Certificates and stage assets
         run: |
-          sh ./cert.sh &&
+          sh ./certs.sh &&
           sh ./staging.sh
 
       - name: Upload artifact

@@ -1,4 +1,20 @@
-#!/bin/bash
+#!/usr.bin/env bash
+#/**
+# *    Copyright 2022 Dellius Alexander
+# *
+# *    Licensed under the Apache License, Version 2.0 (the "License");
+# *    you may not use this file except in compliance with the License.
+# *    You may obtain a copy of the License at
+# *
+# *        http://www.apache.org/licenses/LICENSE-2.0
+# *
+# *    Unless required by applicable law or agreed to in writing, software
+# *    distributed under the License is distributed on an "AS IS" BASIS,
+# *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# *    See the License for the specific language governing permissions and
+# *    limitations under the License.
+# */
+########################################################################
 # create a dot directory certs in root of project for key generation
 # ./certs/
 #       example.req   // config file
@@ -7,16 +23,25 @@
 #       example.pem   // fullchain
 #       example.pub   // public key file
 ########################################################################
-DOMAIN_NAME="example";
+set -e
+# setup environment variables
+ENV_FILE=$( find . -type f -name 'domain.env' )
+export $( cat ${ENV_FILE} | grep -v '#' | awk '/=/ {print $1}')
+LOGFILE="${PWD}/.npm/_logs/cert-$( date +'%Y-%m-%dT%H:%M:%s' ).log"
+DOMAIN_NAME="${DOMAIN_NAME}";
+DOMAIN="$(echo ${DOMAIN_NAME} | cut -d '.' -f1)"
 #HOSTNAME="${DOMAIN_NAME}${EXTENSION}"
 HOSTNAME="$(hostname)";
-SERVERKEYFILE="${DOMAIN_NAME}.key";
-CERTIFICATE_FILE="${DOMAIN_NAME}.crt";
-FULL_CHAIN="${DOMAIN_NAME}.pem";
-PUBLIC_KEY_FILE="${DOMAIN_NAME}.pub";
+SERVERKEYFILE="${DOMAIN}.key";
+CERTIFICATE_FILE="${DOMAIN}.crt";
+FULL_CHAIN="${DOMAIN}.pem";
+PUBLIC_KEY_FILE="${DOMAIN}.pub";
 CERTS_DIR="${PWD}/.certs";
 LEAF="";
-EXAMPLE_REQ=$( find ${PWD} -type f -iname ${1} &2>/dev/null );
+EXAMPLE_REQ=${1-""}
+
+# Delete certs directory
+rm -rf ./.certs/ &2>/dev/null
 
 # get certificate directory
 __get_cert_dir() {
@@ -35,7 +60,6 @@ __get_cert_dir() {
     CERTS_DIR=$( find ${PWD} -type d -iname '.certs' &2>/dev/null )
     # now generate the config file
     __generate_config
-    wait $!
 #    exit 1
   else
     # get the path depth count
@@ -44,6 +68,7 @@ __get_cert_dir() {
     # get the absolute path of cert directory
     CERTS_DIR=$(echo "${EXAMPLE_REQ}" | cut -d'/' -f-"${LEAF}" )
   fi;
+return 0
 }
 
 # generate random config file
@@ -58,12 +83,12 @@ __generate_config() {
       CERTS_DIR=$(find ${PWD} -type d -iname '.certs' &2>/dev/null)
     fi;
     wait $!
-    echo "Generating config file for: ${HOSTNAME} @ ${CERTS_DIR}/${DOMAIN_NAME}.req..." &&
+    echo "Generating config file for: ${HOSTNAME} @ ${CERTS_DIR}/${DOMAIN}.req" &&
     # else generate new config file with defined domain name
-    cat <<EOF | tee  "${CERTS_DIR}/${DOMAIN_NAME}.req" > /dev/null 2>&1 &&
+    cat <<EOF | tee "${CERTS_DIR}/${DOMAIN}.req"
   [ req ]
   default_bits        = 2048
-  default_keyfile     = ${DOMAIN_NAME}.key
+  default_keyfile     = ${DOMAIN}.key
   distinguished_name  = subject
   req_extensions      = req_ext
   x509_extensions     = x509_ext
@@ -75,8 +100,8 @@ __generate_config() {
   stateOrProvinceName = GA
   localityName        = Atlanta
   organizationName    = Hyfi Solutions
-  commonName          = ${DOMAIN_NAME}.com
-  emailAddress        = admin@${DOMAIN_NAME}.com
+  commonName          = ${DOMAIN_NAME}
+  emailAddress        = admin@${DOMAIN_NAME}
 
   # Section x509_ext is used when generating a self-signed certificate.
   [ x509_ext ]
@@ -99,12 +124,13 @@ __generate_config() {
 
   # add additional DNS options for the server hostname lookup
   [ alternate_names ]
-  DNS.1 = ${DOMAIN_NAME}.com
-  DNS.2 = www.${DOMAIN_NAME}.com
-  DNS.3 = https://${DOMAIN_NAME}.com
-  DNS.4 = https://www.${DOMAIN_NAME}.com
-  DNS.5 = *.${DOMAIN_NAME}.com
+  DNS.1 = ${DOMAIN_NAME}
+  DNS.2 = www.${DOMAIN_NAME}
+  DNS.3 = https://${DOMAIN_NAME}
+  DNS.4 = https://www.${DOMAIN_NAME}
+  DNS.5 = *.${DOMAIN_NAME}
   DNS.6 = *.localhost.com
+  DNS.7 = ${HOSTNAME}
 EOF
 # checking for config file creation
 cnt=0
@@ -118,9 +144,6 @@ while [ ! -f "${EXAMPLE_REQ}" ]; do
     fi
     __get_cert_dir # recurse the process tree looking for config file
 done;
-
-sleep 3 &&
-wait $!
 return 0
 }
 
@@ -148,14 +171,16 @@ __generate_cert(){
   #Then to extract the public key for use in validation:
   openssl x509 -pubkey -noout -in "${CERTS_DIR}/${FULL_CHAIN}" > "${CERTS_DIR}/${PUBLIC_KEY_FILE}" &2>/dev/null &&
   wait $!
-
+return 0
 }
+
 # main method
 __main() {
   __get_cert_dir &&
   __generate_cert
+  return 0
 }
 
-# run main
-__main
-#&2>>"${PWD}/.npm/_logs/cert.log";
+# run main and log stderr and stdout to logfile
+__main > ${LOGFILE} 2>&1
+

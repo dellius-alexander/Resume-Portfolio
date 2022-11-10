@@ -111,6 +111,7 @@ dist
 # certificate directory for generated certificate
 /.certs/
 # custom environment variables file
-/*.env
+/**/*.env
+!/**/*.env.example
 # exclude staging directory
 /staging/

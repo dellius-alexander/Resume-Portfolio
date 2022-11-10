@@ -8,16 +8,17 @@
 #############################################################################################################
 version: '3.8'
 services:
-  node:
+  # node backend service
+  resume-frontend:
     build:
       context: ./docker
       dockerfile: Dockerfile
+    container_name: frontend
     user: 'node'
     hostname: "example.com"
     working_dir: /home/node/app
-    environment:
-      - NODE_ENV=development
-      - NPM_CONFIG_LOGLEVEL=verbose
+    env_file:
+      - frontend.env
     volumes:
       - ./:/home/node/app
     expose:
@@ -28,5 +29,36 @@ services:
       - /bin/sh
       - -c
       - |
-        sh "./cert.sh" &&
-        sh -c "npm start"
+        sh -c "npm install" && 
+        sh -c "npm start" && 
+        sh -c "echo Environment: ${NODE_ENV}"
+
+    links:
+      - resume-backend
+    networks:
+      resume-network:
+  # mongodb service
+  resume-backend:
+    image: mongo:6.0.2
+    container_name: backend
+    restart: always
+    env_file:
+      - backend.env
+    volumes:
+      - mongodb-volume:/data
+    expose:
+      - "27017"
+    ports:
+      - "27017:27017"
+    networks:
+      resume-network:
+# Define application network
+networks:
+  resume-network:
+    driver: bridge
+    ipam:
+      driver: default
+# Define mongodb volume
+volumes:
+  mongodb-volume: null
+
