@@ -88,33 +88,65 @@ const execShellCmd = async function execShellRun(script){
             );
 }
 
-module.exports = execShellCmd
 
 /**
  * Generate certificates and private key
  */
-fs.readdir(path.join(__dirname, `.certs`), (err, files) => {
-    // const certs = {
-    //     crt: `example.crt`,
-    //     key: `example.key`,
-    //     pem: `example.pem`,
-    //     pub: `example.pub`,
-    //     req: `example.req`
-    // }
-    try {
-        console.log(`Certificate files: ${files}`);
-        if (files === undefined) {
-            console.log(`No certificate files found.\nGenerating new certificate files.\n`);
-            execShellCmd(`sh  ${path.join(__dirname, 'certs.sh')}`)
-        } else if (files.length !== 5) {
-            console.log(`5 Certificate files expected but ${files.length} were found.
+function gen_rsa(shell){
+    // generate if no .certs directory found
+    if (!fs.existsSync(path.join(__dirname, `.certs`)))
+    {
+        console.log(`No certificate files found.\nGenerating new certificate files.\n`);
+        shell(`sh  ${path.join(__dirname, 'certs.sh')}`)
+    } else {
+        // check the certs if they are found
+        fs.readdir(path.join(__dirname, `.certs`), (err, files) => {
+            const certs = {
+                crt: `example.crt`,
+                key: `example.key`,
+                pem: `example.pem`,
+                pub: `example.pub`,
+                req: `example.req`
+            }
+            var count = 0;
+            try {
+                if (err) { // exit on errorCallback
+                    console.error(err);
+                    process.exit(1);
+                }
+
+                for (let file of files) {
+                    for (const key in certs) {
+                        switch(`${file}`) {
+                            case `${certs[key]}`:
+                                console.log(`SSL dependency found: ${file}`);
+                                count += 1;
+                                break;
+                            default:
+                        }
+                    }
+                }
+                if (count !== 5)
+                {
+                    console.log(`Expected 5 Certificate files but ${files.length} were found.
 Due to missing files, new certificates will have to be generated.
 Generating new certificate files for hostname: ${process.env.HOSTNAME}......\n`);
-            execShellCmd(`sh  ${path.join(__dirname, 'certs.sh')}`)
-        } else {
-            console.log(`SSL Certificate already exists...\nReusing certificates...`)
-        }
-    } catch (e) {
-        console.error(e);
+                    shell(`sh  ${path.join(__dirname, 'certs.sh')}`)
+                } else {
+                    console.log(`SSL Certificate already exists...\nReusing certificates...`)
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        });
+
     }
+
+}
+
+module.exports = execShellCmd
+
+
+gen_rsa(execShellCmd, (callback) => {
+    console.log(callback)
 });

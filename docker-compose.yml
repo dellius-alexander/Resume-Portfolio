@@ -33,7 +33,7 @@ services:
       - |
         sh -c "npm install" && 
         sh -c "npm start" && 
-        sh -c "echo Environment: ${NODE_ENV}"
+        sh -c 'echo Environment: "${NODE_ENV}"'
 
     links:
       - resume-backend

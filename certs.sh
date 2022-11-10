@@ -25,8 +25,11 @@
 ########################################################################
 set -e
 # setup environment variables
-ENV_FILE=$( find . -type f -name 'domain.env*' )
-export $( cat ${ENV_FILE} | grep -v '#' | awk '/=/ {print $1}')
+ENV_FILE=$( find . -type f -iname 'domain.env' )
+if [ -z "$ENV_FILE" ]; then
+  ENV_FILE=$( find . -type f -iname 'domain.env*' )
+fi;
+export $( cat "${ENV_FILE}" | grep -v '#' | awk '/=/ {print $1}')
 LOGFILE="${PWD}/.npm/_logs/cert-$( date +'%Y-%m-%dT%H:%M:%s' ).log"
 DOMAIN_NAME="${DOMAIN_NAME}";
 DOMAIN="$(echo ${DOMAIN_NAME} | cut -d '.' -f1)"

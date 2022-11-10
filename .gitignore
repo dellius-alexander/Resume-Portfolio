@@ -115,3 +115,4 @@ dist
 !/**/*.env.example
 # exclude staging directory
 /staging/
+/.googleapis/
