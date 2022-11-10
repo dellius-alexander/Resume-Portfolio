@@ -1,4 +1,4 @@
-#!/usr.bin/env bash
+#!/usr/bin/env bash
 #/**
 # *    Copyright 2022 Dellius Alexander
 # *
@@ -28,18 +28,18 @@ mkdir -p  staging/js \
 
 # state all boxicons fonts
 cp assets/vendor/boxicons/fonts/** staging/fonts/ && \
-cp -r assets/vendor/bootstrap-icons/fonts/*.woff* staging/fonts/ && \
+cp -r assets/vendor/bootstrap-icons/fonts/** staging/fonts/ && \
 
 # stage all js files
 cp -r assets/js/** staging/js/ && \
 cp -r assets/vendor/aos/aos.js staging/js/ && \
-cp -r assets/vendor/purecounter/dist/*.js staging/js/ && \
-cp -r assets/vendor/bootstrap/js/*.js staging/js/ && \
-cp -r assets/vendor/glightbox/js/*.js staging/js/ && \
-cp -r assets/vendor/isotope-layout/*.js staging/js/ && \
-cp -r assets/vendor/swiper/*.js staging/js/ && \
-cp -r assets/vendor/typed.js/*.js staging/js/ && \
-cp -r assets/vendor/waypoints/*.js staging/js/ && \
+cp -r assets/vendor/purecounter/dist/*.js* staging/js/ && \
+cp -r assets/vendor/bootstrap/js/** staging/js/ && \
+cp -r assets/vendor/glightbox/js/** staging/js/ && \
+cp -r assets/vendor/isotope-layout/** staging/js/ && \
+cp -r assets/vendor/swiper/*.js* staging/js/ && \
+cp -r assets/vendor/typed.js/** staging/js/ && \
+cp -r assets/vendor/waypoints/** staging/js/ && \
 cp -r assets/vendor/php-email-form/*.js staging/js/ && \
 cp -r assets/vendor/webfont/*.js staging/js/ && \
 

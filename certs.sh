@@ -1,4 +1,4 @@
-#!/usr.bin/env bash
+#!/usr/bin/env bash
 #/**
 # *    Copyright 2022 Dellius Alexander
 # *
@@ -129,8 +129,6 @@ __generate_config() {
   DNS.3 = https://${DOMAIN_NAME}
   DNS.4 = https://www.${DOMAIN_NAME}
   DNS.5 = *.${DOMAIN_NAME}
-  DNS.6 = *.localhost.com
-  DNS.7 = ${HOSTNAME}
 EOF
 # checking for config file creation
 cnt=0
