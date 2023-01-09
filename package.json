@@ -4,27 +4,46 @@
   "description": "Resume portfolio for Dellius Alexander",
   "private": false,
   "main": "server.js",
-  "homepage": "https://dellius-alexander.github.io/Resume-Portfolio/",
+  "homepage": "https://profile.delliusalexander.com",
   "engines": {
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "prestart": "node certs.js",
-    "start": "node server.js",
-    "mongodb": "node routes/mongodb.js",
+    "prestart": "node certs",
+    "start": "node server",
+    "predev": "npm run prestart",
+    "dev": "nodemon server",
+    "mongodb": "nodemon src/backend/routes/mongodb",
     "mongodbTest": "npm run mongodb",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "directories": {
     "node_modules": "node_modules",
     "assets": "assets",
-    "routes": "routes",
-    "views": "views"
+    "routes": "src/backend/routes",
+    "models": "src/backend/models",
+    "views": "src/frontend/views",
+    "docs": "docs"
   },
-  "repository": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dellius-alexander/Resume-Portfolio.git"
+  },
   "keywords": [],
   "author": "Dellius Alexander <dellius.alexander@gmail.com>",
-  "license": "MIT",
+  "maintainers": [
+    {
+      "name": "Dellius Alexander",
+      "email": "Dellius Alexander <dellius.alexander@gmail.com>",
+      "url": "https://github.com/dellius-Alexander/"
+    }
+  ],
+  "os": [
+    "darwin",
+    "macos",
+    "linux"
+  ],
+  "license": "Apache License\n Version 2.0",
   "dependencies": {
     "aos": "file:./assets/vendor/aos",
     "body-parser": "^1.20.1",
@@ -36,6 +55,8 @@
     "dotenv": "^16.0.3",
     "ejs": "^3.1.8",
     "express": "^4.18.2",
+    "express-router": "^0.0.1",
+    "express-urlrewrite": "^2.0.0",
     "glightbox": "file:./assets/vendor/glightbox",
     "html": "^1.0.0",
     "html5shiv.min.js": "file:./assets/vendor/html5shiv.min.js",
@@ -43,16 +64,21 @@
     "mongodb": "^4.11.0",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
-    "nodemon": "^2.0.20",
+    "nodemailer": "^6.8.0",
     "php-email-form": "file:./assets/vendor/php-email-form",
     "purecounter": "file:./assets/vendor/purecounter",
+    "restify": "^8.6.1",
     "swiper": "file:./assets/vendor/swiper",
     "typed.js": "file:./assets/vendor/typed.js",
+    "uuid": "^9.0.0",
     "waypoints": "file:./assets/vendor/waypoints",
     "webfont": "file:./assets/vendor/webfont",
-    "express-urlrewrite": "^2.0.0"
+    "cjs": "^0.0.11",
+    "helmet": "^6.0.0",
+    "jquery": "^3.6.1"
   },
   "devDependencies": {
-    "gh-pages": "^4.0.0"
+    "gh-pages": "^4.0.0",
+    "nodemon": "^2.0.20"
   }
 }

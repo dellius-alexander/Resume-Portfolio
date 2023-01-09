@@ -23,46 +23,107 @@
 #       example.pem   // fullchain
 #       example.pub   // public key file
 ########################################################################
-set -e
-# setup environment variables
-ENV_FILE=$( find . -type f -iname 'domain.env' )
-if [ -z "$ENV_FILE" ]; then
-  ENV_FILE=$( find . -type f -iname 'domain.env*' )
-fi;
-export $( cat "${ENV_FILE}" | grep -v '#' | awk '/=/ {print $1}')
-LOGFILE="${PWD}/.npm/_logs/cert-$( date +'%Y-%m-%dT%H:%M:%s' ).log"
-DOMAIN_NAME="${DOMAIN_NAME}";
-DOMAIN="$(echo ${DOMAIN_NAME} | cut -d '.' -f1)"
-#HOSTNAME="${DOMAIN_NAME}${EXTENSION}"
-HOSTNAME="$(hostname)";
+
+HOSTNAME="";
+EXAMPLE_REQ="";
+DOMAIN_NAME="";
+DOMAIN="";
+EXAMPLE_REQ="";
+CONFIG_FILE="";
+
+option="${1}"
+
+case ${option} in
+  -f | --file)
+    echo "Entry is a file."
+    HOSTNAME=$(cat ${2} | grep -v '#' | cut -d'=' -f2 )
+    if [[ -z "${HOSTNAME}" ]]; then
+      echo "Configuration file error: hostname/commonname not defined."
+      exit 1
+    fi;
+    DOMAIN=$(echo ${HOSTNAME} | cut -d'.' -f1)
+    DOMAIN_NAME="${HOSTNAME}"
+    EXAMPLE_REQ=$( find ${PWD} -type f -iname "${DOMAIN}.req" &2>/dev/null)
+    echo "Hostname: $HOSTNAME"
+    ;;
+  -s | --string)
+    echo "String domain/hostname provided: ${2}"
+    HOSTNAME="${2}"
+    if [[ -z "${HOSTNAME}" ]]; then
+      echo "Configuration file error: missing second input parameter [ /bin/bash ${0} -s <input value> ]."
+      exit 1
+    fi;
+    DOMAIN=$(echo ${HOSTNAME} | cut -d'.' -f1)
+    DOMAIN_NAME="${HOSTNAME}"
+    EXAMPLE_REQ=$( find ${PWD} -type f -iname "${DOMAIN}.req" &2>/dev/null)
+    echo "Hostname: $HOSTNAME"
+    ;;
+  -d | --default) # invoke default hostname for development use
+    echo "Defaluting to example.com hostname..."
+    HOSTNAME="example.com"
+    DOMAIN=$(echo ${HOSTNAME} | cut -d'.' -f1)
+    DOMAIN_NAME="${HOSTNAME}"
+    EXAMPLE_REQ=$( find ${PWD} -type f -iname "${DOMAIN}.req" &2>/dev/null)
+    echo "Hostname: $HOSTNAME"
+    ;;
+  -c | --config)
+    echo "Configuration file found."
+    HOSTNAME=$(cat "${2}" | grep -i 'COMMONNAME' | awk '/=/ {print $3}')
+    if [[ -z "${HOSTNAME}" ]]; then
+      echo "Configuration file error: hostname/commonname not defined"
+      exit 1
+    fi;
+    DOMAIN=$(echo ${HOSTNAME} | cut -d'.' -f1)
+    DOMAIN_NAME="${HOSTNAME} "
+    EXAMPLE_REQ=$( find ${PWD} -type f -iname "${DOMAIN}.req" &2>/dev/null)
+    echo "Configuration file location: $EXAMPLE_REQ"
+    echo "Hostname: $HOSTNAME"
+    ;;
+  * | -h | --help)
+    # default behavior
+    echo """
+    HELP DOCS:
+    Usage:
+    /bin/bash ${0} [ -f file | -s string | -d  | -h | -c ]
+      Options:
+        -f | --file: passing a file containing the hostname.
+        -s | --string: passing a string containing the hostname.
+        -d | --default: default hostname used is example.com, no second paramater should be entered.
+        -c | --config: config file to be used in certificate generation.
+                       If no config file is provided one will be created from hostname.
+        -h | --help: this help message.
+    """
+    exit 1
+    ;;
+esac
+
+
 SERVERKEYFILE="${DOMAIN}.key";
 CERTIFICATE_FILE="${DOMAIN}.crt";
 FULL_CHAIN="${DOMAIN}.pem";
 PUBLIC_KEY_FILE="${DOMAIN}.pub";
 CERTS_DIR="${PWD}/.certs";
 LEAF="";
-EXAMPLE_REQ=${1-""}
-
-# Delete certs directory
-rm -rf ./.certs/ &2>/dev/null
 
 # get certificate directory
 __get_cert_dir() {
   # check for the config file example.req
-  if [ -z "${EXAMPLE_REQ}" ]; then
-    EXAMPLE_REQ=$( find ${PWD} -type f -iname "example.req" &2>/dev/null )
+  if [ ! -f "${EXAMPLE_REQ}" ] || [ ! -d "${CERTS_DIR}" ]; then
+    __generate_config
   else
     EXAMPLE_REQ=$( find ${PWD} -type f -iname "${EXAMPLE_REQ}" &2>/dev/null )
   fi;
 
   # terminate script if config file not found
   if [ -z "${EXAMPLE_REQ}" ]; then
-    echo "Config file [\"example.req\"] not found"
-    echo "Generating new config file for \"example.com\""
+    echo "Config file [\"${DOMAIN}.req\"] not found"
+    echo "Generating new config file for \"${DOMAIN_NAME}\""
     # find or create the .certs directory
     CERTS_DIR=$( find ${PWD} -type d -iname '.certs' &2>/dev/null )
     # now generate the config file
     __generate_config
+    # checking for config file creation
+
 #    exit 1
   else
     # get the path depth count
@@ -71,7 +132,7 @@ __get_cert_dir() {
     # get the absolute path of cert directory
     CERTS_DIR=$(echo "${EXAMPLE_REQ}" | cut -d'/' -f-"${LEAF}" )
   fi;
-return 0
+
 }
 
 # generate random config file
@@ -84,11 +145,13 @@ __generate_config() {
       echo "Creating new certificate directory at: \"${PWD}/.certs\""
       mkdir -p "${PWD}/.certs"
       CERTS_DIR=$(find ${PWD} -type d -iname '.certs' &2>/dev/null)
+      __generate_config
     fi;
-    wait $!
+
     echo "Generating config file for: ${HOSTNAME} @ ${CERTS_DIR}/${DOMAIN}.req" &&
     # else generate new config file with defined domain name
-    cat <<EOF | tee "${CERTS_DIR}/${DOMAIN}.req"
+  rm -rf ${CERTS_DIR} && mkdir -p ${CERTS_DIR} &&
+  cat > "${CERTS_DIR}/${DOMAIN}.req" <<EOF
   [ req ]
   default_bits        = 2048
   default_keyfile     = ${DOMAIN}.key
@@ -133,19 +196,19 @@ __generate_config() {
   DNS.4 = https://www.${DOMAIN_NAME}
   DNS.5 = *.${DOMAIN_NAME}
 EOF
-# checking for config file creation
+
+EXAMPLE_REQ=$( find ${PWD} -type f -iname "${DOMAIN}.req")
 cnt=0
 while [ ! -f "${EXAMPLE_REQ}" ]; do
-    echo "Waiting for config file creation..."
-    sleep 3
+    echo "Waiting for config file creation..." &&
+    sleep 2 &&
     cnt=$((cnt + 1))
     if [ "${cnt}" -gt 3 ]; then
-      echo "Config file not found..."
-      exit 1
+      echo "Config file not found..." &&
+      break
     fi
-    __get_cert_dir # recurse the process tree looking for config file
+    #__get_cert_dir # recurse the process tree looking for config file
 done;
-return 0
 }
 
 # generate the certificate for the defined DNS domain namespace
@@ -172,16 +235,17 @@ __generate_cert(){
   #Then to extract the public key for use in validation:
   openssl x509 -pubkey -noout -in "${CERTS_DIR}/${FULL_CHAIN}" > "${CERTS_DIR}/${PUBLIC_KEY_FILE}" &2>/dev/null &&
   wait $!
-return 0
+
 }
 
 # main method
 __main() {
   __get_cert_dir &&
   __generate_cert
-  return 0
+
 }
 
 # run main and log stderr and stdout to logfile
-__main > ${LOGFILE} 2>&1
+__main
+
 

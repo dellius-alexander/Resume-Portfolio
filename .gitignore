@@ -116,3 +116,4 @@ dist
 # exclude staging directory
 /staging/
 /.googleapis/
+/test/cacert.pem

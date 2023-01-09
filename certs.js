@@ -13,24 +13,37 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-// filesystem
-const fs = require('fs')
+// import environment variables
 const path = require('path');
+const fs = require('fs')
+const dotenv = require('dotenv')
+try {
+    if (fs.existsSync(path.join(process.env.APP_HOME, '.env'))) {
+        // if we have environment file we use it, else use default runtime environment
+        const result = dotenv.config({
+                path: path.join(process.env.APP_HOME, ".env"),
+                encoding: 'utf8',
+                debug: true,
+                override: true
+            }
+        )
+        if (result.error) {
+            // console.error(result.error)
+        }
+        // else {
+        //     // console.log(result)
+        // }
+    } else {
+        console.log(`No .env file found...\nDefaulting to rutime environment...\n`)
+    }
+}
+catch (e) {
+    console.error(e)
+    console.error(`Startup will continue, defaulting to runtime environment.`)
+}
+
 // initialize SSL configuration using child process
 const { exec } = require("node:child_process")
-// import environment variables
-const dotenv = require('dotenv')
-const result = dotenv.config({
-                            path: path.join(__dirname, ".env"),
-                            encoding: 'utf8',
-                            debug: true,
-                            override: true
-                        }
-                    )
-// check the results for errors
-if (result.error) {
-    throw result.error
-}
 
 
 /**
@@ -38,10 +51,9 @@ if (result.error) {
  * @param cmd the command to execute
  * @param stdout the message returned from the command
  */
-async function successCallback(cmd, stdout){
+function successCallback(cmd, stdout){
     console.log(`Success executing: ${cmd}`)
     console.log(stdout)
-    return stdout;
 }
 
 /**
@@ -50,11 +62,10 @@ async function successCallback(cmd, stdout){
  * @param error the error returned from the command execution
  * @param stderr the error returned from the command execution
  */
-async function errorCallback(cmd, error, stderr){
+function errorCallback(cmd, error, stderr){
     console.error(`Execution failed for [${cmd}], is invalid.`)
     // console.error(stderr)
     console.error(error)
-    return error;
 }
 
 /**
@@ -64,49 +75,55 @@ async function errorCallback(cmd, error, stderr){
  * @param errorCallback error callback
  */
 async function execShell(script, successCallback, errorCallback) {
-// create the SSL Certificates
-    exec(`${script}`, function (error ,stdout, stderr) {
+// execute a script or Shell command
+    return exec(`${script}`, function (error ,stdout, stderr) {
         if (error !== null) {
             // log and return error message
-            return errorCallback(script, error, stderr);
+            errorCallback(script, error, stderr);
+            return error;
         } else {
-            return successCallback(script, stdout);
+            successCallback(script, stdout);
+            return stdout;
         }
     });
 }
 
 /**
- * Execute promise on script or command execution.
- * @param script shell script to execute or command to execute
- * @returns {Promise<void>} a promise that will be fulfilled on the script or command execution
+ * Execute Shell command async with a promise on script or command execution.
+ * @param script {String} shell script to execute or command to execute
+ * @returns {Promise<Object>} a promise that will be fulfilled on the script or command execution
  */
-const execShellCmd = async function execShellRun(script){
-    return await execShell(
+const execShellCmd = function execShellRun(script){
+    return execShell(
             script,
             successCallback,
             errorCallback
             );
 }
 
+// export our newly created shell wrapper
+// module.exports = execShellCmd
 
 /**
  * Generate certificates and private key
  */
-function gen_rsa(shell){
+function gen_rsa(execShellCmd){
     // generate if no .certs directory found
     if (!fs.existsSync(path.join(__dirname, `.certs`)))
     {
         console.log(`No certificate files found.\nGenerating new certificate files.\n`);
-        shell(`sh  ${path.join(__dirname, 'certs.sh')}`)
+        execShellCmd(`sh  ${path.join(__dirname, 'certs.sh')}  -s ${process.env.HOSTNAME}`)
+            .catch(e => console.error(e))
     } else {
         // check the certs if they are found
         fs.readdir(path.join(__dirname, `.certs`), (err, files) => {
+            console.log(`Domain Basename: ${process.env.DOMAIN_BASENAME}`)
             const certs = {
-                crt: `example.crt`,
-                key: `example.key`,
-                pem: `example.pem`,
-                pub: `example.pub`,
-                req: `example.req`
+                crt: `${process.env.DOMAIN_BASENAME}.crt`,
+                key: `${process.env.DOMAIN_BASENAME}.key`,
+                pem: `${process.env.DOMAIN_BASENAME}.pem`,
+                pub: `${process.env.DOMAIN_BASENAME}.pub`,
+                req: `${process.env.DOMAIN_BASENAME}.req`
             }
             var count = 0;
             try {
@@ -131,7 +148,8 @@ function gen_rsa(shell){
                     console.log(`Expected 5 Certificate files but ${files.length} were found.
 Due to missing files, new certificates will have to be generated.
 Generating new certificate files for hostname: ${process.env.HOSTNAME}......\n`);
-                    shell(`sh  ${path.join(__dirname, 'certs.sh')}`)
+                    execShellCmd(`sh  ${path.join(__dirname, 'certs.sh')} -s ${process.env.HOSTNAME}`)
+                        .catch(e => console.error(e))
                 } else {
                     console.log(`SSL Certificate already exists...\nReusing certificates...`)
                 }
@@ -143,10 +161,5 @@ Generating new certificate files for hostname: ${process.env.HOSTNAME}......\n`)
     }
 
 }
-
-module.exports = execShellCmd
-
-
-gen_rsa(execShellCmd, (callback) => {
-    console.log(callback)
-});
+// Generate new certificates or reuse old certificates
+gen_rsa(execShellCmd)

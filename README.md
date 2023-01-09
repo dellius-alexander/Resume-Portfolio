@@ -9,4 +9,4 @@ As well as highlight some of my more notable projects and accomplishments.
 
 ---
 
-[![Resume Portfolio](./resume-poster.png)](https://profile.delliusalexander.com)
+[![Resume Portfolio](docs/img/resume-poster.png)](https://profile.delliusalexander.com)

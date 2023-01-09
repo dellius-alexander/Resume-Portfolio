@@ -18,22 +18,40 @@
 // const cluster = "<clusterName>";
 // const authSource = "<authSource>";
 // const authMechanism = "<authMechanism>";
+// // import environment variables
+const path = require('path');
+// const fs = require('fs')
+// const dotenv = require('dotenv')
+// const app = require(path.join(process.env.APP_HOME, 'server'))
+// try {
+//     if (fs.existsSync(path.join(__dirname, '.env'))) {
+//         const result = dotenv.config({ // if we have environment file we use it, else default runtime environment
+//                 path: path.join(__dirname, ".env"),
+//                 encoding: 'utf8',
+//                 debug: true,
+//                 override: true
+//             }
+//         )
+//         if (result.error) {
+//             throw result.error
+//         }
+//         // else {
+//         //     // console.log(result)
+//         // }
+//     }
+// }
+// catch (e) {
+//     console.error(e)
+//     console.error(`Startup will continue, defaulting to runtime environment.`)
+// }
+
 const { MongoClient, ServerApiVersion }  = require("mongodb");
-const dotenv = require('dotenv')
-const result = dotenv.config({ path:  "../config.env", encoding: 'utf8', debug: true, override: true })
-// test that config file loaded successfully
-if (result.error) {
-    throw result.error;
-} else {
-    console.log("Config file loaded successfully")
-    console.log(result.parsed)
-}
 
 /**
  * Establish MongoDB connection
  * @returns {Promise<void>}
  */
-async function mongodb_connect(callback){
+
     console.log('MongoClient URL: ' + process.env.MONGODB_URI)
     /**
      * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
@@ -51,50 +69,55 @@ async function mongodb_connect(callback){
      * pass option { useUnifiedTopology: true } to the MongoClient constructor.
      * const client =  new MongoClient(uri, {useUnifiedTopology: true})
      */
-    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+    const client = new MongoClient(uri,{useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1});
     // const client = new MongoClient(process.env.MONGODB_URL);
-    try {
+    var _db;
+    var _getDB;
+
+        // console.log(`Connection attempt: ${client}`)
         // connect to the MongoDB cluster
-        await client.connect()
-            .catch(err => {
-                console.error(`DB Connection error: ${err}`)
-            });
-
-        // Establish and verify the connection
-        const response = await client
-            .db("admin")
-            .command({ping: 2})
-            .then(
-                (value) => {
-                    console.log(`Connection ${value['ok'] === 1 ? "Successful..." : "Error"}`)
-                    return value;
-                }
-            )
-            .catch(err => {
-                console.error(`Error: ${err}`)
-            }).finally((value) => {
-                // verify connection
-                console.log(value)
-            })
+         client.connect( async function(err, connection){
+             if (err) {
+                 console.error(err);
+             } else {
+                 console.log(`Connection success: ${connection}`);
+                 _db = connection.db('messages');
+             }
+         });
+             // .catch(err => {
+             //     console.error(`DB Connection error: ${err}`)
+             // });
 
 
-        // get a list of databases from callback function
-        if (callback === null){
-            await listDatabases(client);
-        } else {
-            await callback(client);
-        }
+        // app.listen(process.env.PORT, function () {
+        //     console.log(`Connected to MongoDB on port ${process.env.PORT}`)
+        // })
 
-    } catch (e) {
-        console.error(e)
-        process.exit(1)
-    } finally {
-        await client.close()
-            .catch(err => {
-            console.error(`Error: ${err}`)
-        })
-    }
-};
+
+        // // Establish and verify the connection
+        // client
+        //     .db("admin0")
+        //     .command({ping: 2})
+        //     .then(
+        //         (value) => {
+        //             console.log(`Connection ${value['ok'] === 1 ? "Successful..." : "Error"}`)
+        //             return value;
+        //         }
+        //     )
+        //     .catch(err => {
+        //         console.error(`Error: ${err}`)
+        //     }).finally((value) => {
+        //         // verify connection
+        //         console.log(value)
+        //     })
+
+
+        // // get a list of databases from callback function
+        // if (callback === null){
+        //     await listDatabases(client);
+        // } else {
+        //     console.log(callback);
+        // }
 
 /**
  * Get collection from database.
@@ -106,7 +129,7 @@ async function mongodb_connect(callback){
  */
 async function get_collection(client, db_name, collection_name, callback) {
     try {
-        await client.connect(err => {
+        client.connect(err => {
             const collection = client.db(db_name).collection(collection_name);
             if (err) {
                 console.error(err)
@@ -139,6 +162,7 @@ async function listDatabases(client){
 
 };
 
-mongodb_connect(listDatabases).catch(console.error);
-
+function defaultCallback(err) {
+    console.error(err);
+}
 

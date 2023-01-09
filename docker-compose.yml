@@ -11,56 +11,150 @@
 version: '3.8'
 services:
   # node backend service
-  resume-frontend:
-    build:
-      context: ./docker
-      dockerfile: Dockerfile
-    container_name: frontend
-    user: 'node'
-    hostname: "example.com"
-    working_dir: /home/node/app
+  frontend:
+    image: node:18
+#    build:  # project contents imported into Dockerfile at build time
+#      context: .
+#      dockerfile: .devcontainer/Dockerfile
+#      args:
+#        NODE_VERSION: ${NODE_VERSION}
+#        NODE_ENV: ${NODE_ENV}
+#        EMAIL_USERNAME: ${EMAIL_USERNAME}
+#        EMAIL_PASSWORD: ${EMAIL_PASSWORD}
+#        EMAIL_PROVIDER: ${EMAIL_PROVIDER}
+#        DOMAIN_BASENAME: ${DOMAIN_BASENAME}
+#        APP_HOME: ${APP_HOME}
+#        DOMAIN_NAME: ${DOMAIN_NAME}
+#        TZ: ${DOMAIN_TZ}
+#        LISTEN_PORT: ${PORT}
+#        HOSTNAME: ${HOSTNAME}
+    container_name: resume-frontend
+    user: ${NODE_USER}
+    hostname: ${HOSTNAME}
+    working_dir: ${APP_HOME}
     env_file:
-      - frontend.env
-    volumes:
-      - ./:/home/node/app
+      - .devcontainer/frontend.env
+    environment:
+      EMAIL_USERNAME: ${EMAIL_USERNAME}
+      EMAIL_PASSWORD: ${EMAIL_PASSWORD}
     expose:
-      - '443'
+      - ${PORT}
     ports:
-      - '443:443'
+      - "${PORT}:${PORT}"
+    volumes:
+      - ./:${APP_HOME}
+    restart: on-failure
     command:
       - /bin/sh
       - -c
       - |
-        sh -c "npm install" && 
-        sh -c "npm start" && 
-        sh -c 'echo Environment: "${NODE_ENV}"'
-
+        sh -c "npm install" &&
+        sh -c "npm run dev"
+#        sh -c 'echo Environment: "${NODE_ENV}"'
+    depends_on:
+      - backend
     links:
-      - resume-backend
+      - backend
     networks:
       resume-network:
+#    secrets:
+#      - email_username
+#      - email_password
+
+  # mongo-express service
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    restart: on-failure
+    environment:
+      ME_CONFIG_MONGODB_AUTH_DATABASE: 'db'  # Database name
+#      ME_CONFIG_BASICAUTH_USERNAME:  ${MONGODB_USER}
+#      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGODB_PASSWD}
+      ME_CONFIG_MONGODB_AUTH_USERNAME: ${MONGODB_USER} # Database username
+      ME_CONFIG_MONGODB_AUTH_PASSWORD: ${MONGODB_PASSWD} # Database password
+      ME_CONFIG_MONGODB_URL: ${MONGODB_URI}
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: 'true' # Enable admin access to all databases.
+    ports:
+      - "8081:8081"
+    depends_on:
+      - backend
+    links:
+      - backend
+    networks:
+      resume-network:
+
   # mongodb service
-  resume-backend:
+  backend:
     image: mongo:6.0.2
-    container_name: backend
-    restart: always
+    container_name: resume-backend
+    restart: on-failure
     env_file:
-      - backend.env
+      - .devcontainer/backend.env
     volumes:
-      - mongodb-volume:/data
-    expose:
-      - "27017"
+      - mongodb-volume:/data/db
     ports:
       - "27017:27017"
     networks:
       resume-network:
+
+#  # Email Engine
+#  email_engine:
+#    restart: always
+#    image: andris9/emailengine:latest
+#    ports:
+#      # API and web interface
+#      - '3000:3000'
+#      # SMTP for message submission
+#      - '2525:2525'
+#    depends_on:
+#      - redis
+#    links:
+#      - redis
+#    environment:
+#      # Configuration to EmailEngine can be passed via environment variables
+#      # For full list see https://github.com/postalsys/emailengine#config-mapping
+#
+#      # Settings to write to v1/settings on startup (https://api.emailengine.app/#operation/postV1Settings)
+#      # The following value is a YAML block scalar string, so make it sure it is properly indented
+#      # This configuration enables SMTP server for local submission
+#      EENGINE_SETTINGS: >
+#        {
+#            "smtpServerEnabled": true,
+#            "smtpServerPort": 2525,
+#            "smtpServerHost": "0.0.0.0",
+#            "smtpServerAuthEnabled": true,
+#            "smtpServerPassword": "${EENGINE_SECRET}"
+#       }
+#
+#      # Encryption secret
+#      EENGINE_SECRET: /run/secrets/eengine_secret
+#      # Database connection URL
+#      EENGINE_REDIS: 'redis://redis:6379/2'
+#    secrets:
+#      - eengine_secret
+#
+#  redis:
+#    image: redis:alpine
+#    restart: always
+#    volumes:
+#      - redis-volume:/data
 # Define application network
 networks:
   resume-network:
     driver: bridge
     ipam:
       driver: default
+#
 # Define mongodb volume
 volumes:
   mongodb-volume: null
-
+#  redis-volume: null
+#
+# Email service
+#secrets:
+#  email_username:
+#    file: ./.devcontainer/email_username.txt
+#  email_password:
+#    file: ./.devcontainer/email_password.txt
+#  eengine_secret:
+#    file: ./.devcontainer/eengine_secret.txt

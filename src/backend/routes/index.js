@@ -14,13 +14,13 @@
  *    limitations under the License.
  */
 const express = require('express');
-// const path = require("path");
 const router = express.Router();
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
-  res.render('index', {title: 'Home'})
-  console.log(`${req.method} | ${req.url}`)
+  res.render('index', {title: 'Home'});
+  console.log(`Requested URL: ${req.originalUrl}`);
+  console.log(`Requested Body: ${req}`);
   next();
 });
 

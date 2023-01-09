@@ -14,62 +14,64 @@
 # *    See the License for the specific language governing permissions and
 # *    limitations under the License.
 # */
+set -e
 
 LOGFILE="${PWD}/.npm/_logs/staging-$( date +'%Y-%m-%dT%H:%M:%s' ).log"
 __setup_staging() {
+  echo "Beginning the staging process..."  >> ${LOGFILE} 2>&1
 # Setup staging directory
-rm -rf staging &&
-mkdir -p  staging/js \
-          staging/css \
-          staging/scss \
-          staging/fonts \
-          staging/forms \
-          staging/img && \
+rm -rf ./staging >> ${LOGFILE} 2>&1 &&
+mkdir -p  staging/views \
+          staging/routes \
+          staging/api \
+          staging/assets >> ${LOGFILE} 2>&1 && \
 
 # state all boxicons fonts
-cp assets/vendor/boxicons/fonts/** staging/fonts/ && \
-cp -r assets/vendor/bootstrap-icons/fonts/** staging/fonts/ && \
+#cp assets/vendor/boxicons/fonts/** staging/fonts/ >> ${LOGFILE} 2>&1 && \
+#cp -r assets/vendor/bootstrap-icons/fonts/** staging/fonts/ >> ${LOGFILE} 2>&1 && \
 
-# stage all js files
-cp -r assets/js/** staging/js/ && \
-cp -r assets/vendor/aos/aos.js staging/js/ && \
-cp -r assets/vendor/purecounter/dist/*.js* staging/js/ && \
-cp -r assets/vendor/bootstrap/js/** staging/js/ && \
-cp -r assets/vendor/glightbox/js/** staging/js/ && \
-cp -r assets/vendor/isotope-layout/** staging/js/ && \
-cp -r assets/vendor/swiper/*.js* staging/js/ && \
-cp -r assets/vendor/typed.js/** staging/js/ && \
-cp -r assets/vendor/waypoints/** staging/js/ && \
-cp -r assets/vendor/php-email-form/*.js staging/js/ && \
-cp -r assets/vendor/webfont/*.js staging/js/ && \
-
-# stage all css files
-cp -r assets/css/*.css staging/css/ && \
-cp -r assets/vendor/aos/*.css staging/css/ && \
-cp -r assets/vendor/bootstrap/css/*.css staging/css/ && \
-cp -r assets/vendor/bootstrap/css/*.css.map staging/css/ && \
-cp -r assets/vendor/bootstrap-icons/** staging/css/ && \
-cp -r assets/vendor/boxicons/css/*.css staging/css/ && \
-cp -r assets/vendor/glightbox/css/*.css staging/css/ && \
-cp -r assets/vendor/swiper/*.css staging/css/ && \
-
-# stage all scss files
-cp -r assets/scss/*.scss staging/scss/ && \
-
-# stage all forms
-cp -r assets/forms/*.php staging/forms/ && \
-
-# stage all image files
-cp -R assets/img/** staging/img/ && \
+# stage all vendor files
+cp -r assets/** staging/assets/ >> ${LOGFILE} 2>&1 && \
+#
+## stage all js files
+#cp -r assets/js/** staging/js/ >> ${LOGFILE} 2>&1  && \
+#
+## stage all css files
+#cp -r assets/css/*.css staging/css/  >> ${LOGFILE} 2>&1 && \
+#
+## stage all scss files
+#cp -r assets/scss/*.scss staging/scss/  >> ${LOGFILE} 2>&1 && \
+#
+## stage all forms
+#cp -r assets/forms/*.php staging/forms/  >> ${LOGFILE} 2>&1 && \
+#
+## stage all image files
+#cp -R assets/img/** staging/img/  >> ${LOGFILE} 2>&1 && \
 
 # stage all .html files
-cp -r views/*.html staging/ && \
+cp -r views/*.html staging/views/  >> ${LOGFILE} 2>&1 && \
 
-echo "Staging github-pages files complete..." &&
+# stage all routes files
+cp -r routes/ staging/routes/  >> ${LOGFILE} 2>&1 && \
+
+# stage all routes files
+cp -r api/ staging/api/  >> ${LOGFILE} 2>&1 && \
+
+# stage package.json file
+cp package.json staging/  >> ${LOGFILE} 2>&1 && \
+
+# stage server.js file
+cp server.js staging/  >> ${LOGFILE} 2>&1 && \
+
+# stage certs.js & certs.sh file
+cp certs.js staging/  >> ${LOGFILE} 2>&1 && \
+cp certs.sh staging/  >> ${LOGFILE} 2>&1 && \
+
+echo "Staging github-pages files complete..." >> ${LOGFILE} 2>&1 && \
 
 # list contents of all files staged
-ls -liaR staging
-
+ls -liaR staging  >> ${LOGFILE} 2>&1 &&
+return 0
 }
 
 __get_css_files(){
@@ -79,6 +81,11 @@ __get_css_files(){
   done
 }
 
-__setup_staging > ${LOGFILE} 2>&1
+__main(){
+  RESULT=$(__setup_staging)
+  return 0;
+}
+
+__main > ${LOGFILE} 2>&1
 
 ################################################################

@@ -1282,7 +1282,7 @@ class PHPMailer
     }
 
     /**
-     * Add an address to one of the recipient arrays or to the ReplyTo array. Because PHPMailer
+     * Add an address to one of the sender arrays or to the ReplyTo array. Because PHPMailer
      * can't validate addresses with an IDN without knowing the PHPMailer::$CharSet (that can still
      * be modified after calling this function), addition of such addresses is delayed until send().
      * Addresses that have been added already return false, but do not throw exceptions.
@@ -1347,7 +1347,7 @@ class PHPMailer
     }
 
     /**
-     * Add an address to one of the recipient arrays or to the ReplyTo array.
+     * Add an address to one of the sender arrays or to the ReplyTo array.
      * Addresses that have been added already return false, but do not throw exceptions.
      *
      * @param string $kind    One of 'to', 'cc', 'bcc', or 'ReplyTo'
@@ -1363,7 +1363,7 @@ class PHPMailer
         if (!in_array($kind, ['to', 'cc', 'bcc', 'Reply-To'])) {
             $error_message = sprintf(
                 '%s: %s',
-                $this->lang('Invalid recipient kind'),
+                $this->lang('Invalid sender kind'),
                 $kind
             );
             $this->setError($error_message);
@@ -1766,7 +1766,7 @@ class PHPMailer
             $this->error_count = 0; //Reset errors
             $this->mailHeader = '';
 
-            //Dequeue recipient and Reply-To addresses with IDN
+            //Dequeue sender and Reply-To addresses with IDN
             foreach (array_merge($this->RecipientsQueue, $this->ReplyToQueue) as $params) {
                 $params[1] = $this->punyencodeAddress($params[1]);
                 call_user_func_array([$this, 'addAnAddress'], $params);
@@ -2240,7 +2240,7 @@ class PHPMailer
         //Attempt to send to all recipients
         foreach ([$this->to, $this->cc, $this->bcc] as $togroup) {
             foreach ($togroup as $to) {
-                if (!$this->smtp->recipient($to[0], $this->dsn)) {
+                if (!$this->smtp->sender($to[0], $this->dsn)) {
                     $error = $this->smtp->getError();
                     $bad_rcpt[] = ['to' => $to[0], 'error' => $error['detail']];
                     $isSent = false;
@@ -2504,7 +2504,7 @@ class PHPMailer
             'invalid_hostentry' => 'Invalid hostentry: ',
             'invalid_host' => 'Invalid host: ',
             'mailer_not_supported' => ' mailer is not supported.',
-            'provide_address' => 'You must provide at least one recipient email address.',
+            'provide_address' => 'You must provide at least one sender email address.',
             'recipients_failed' => 'SMTP Error: The following recipients failed: ',
             'signing' => 'Signing Error: ',
             'smtp_code' => 'SMTP code: ',
@@ -2599,11 +2599,11 @@ class PHPMailer
     }
 
     /**
-     * Create recipient headers.
+     * Create sender headers.
      *
      * @param string $type
      * @param array  $addr An array of recipients,
-     *                     where each recipient is a 2-element indexed array with element 0 containing an address
+     *                     where each sender is a 2-element indexed array with element 0 containing an address
      *                     and element 1 containing a name, like:
      *                     [['joe@example.com', 'Joe User'], ['zoe@example.com', 'Zoe User']]
      *
@@ -4217,7 +4217,7 @@ class PHPMailer
     }
 
     /**
-     * Clear all recipient types.
+     * Clear all sender types.
      */
     public function clearAllRecipients()
     {
@@ -6185,7 +6185,7 @@ class SMTP
      * Send an SMTP MAIL command.
      * Starts a mail transaction from the email address specified in
      * $from. Returns true if successful or false otherwise. If True
-     * the mail transaction is started and then one or more recipient
+     * the mail transaction is started and then one or more sender
      * commands may be called followed by a data command.
      * Implements RFC 821: MAIL <SP> FROM:<reverse-path> <CRLF>.
      *
@@ -6228,7 +6228,7 @@ class SMTP
     /**
      * Send an SMTP RCPT command.
      * Sets the TO argument to $toaddr.
-     * Returns true if the recipient was accepted false if it was rejected.
+     * Returns true if the sender was accepted false if it was rejected.
      * Implements from RFC 821: RCPT <SP> TO:<forward-path> <CRLF>.
      *
      * @param string $address The address the message is being sent to
@@ -6237,7 +6237,7 @@ class SMTP
      *
      * @return bool
      */
-    public function recipient($address, $dsn = '')
+    public function sender($address, $dsn = '')
     {
         if (empty($dsn)) {
             $rcpt = 'RCPT TO:<' . $address . '>';
@@ -6350,7 +6350,7 @@ class SMTP
      * Send an SMTP SAML command.
      * Starts a mail transaction from the email address specified in $from.
      * Returns true if successful or false otherwise. If True
-     * the mail transaction is started and then one or more recipient
+     * the mail transaction is started and then one or more sender
      * commands may be called followed by a data command. This command
      * will send the message to the users terminal if they are logged
      * in and send them an email.
