@@ -19,7 +19,7 @@ LOG_DIR=${PWD}/logs
 mkdir -p  ${LOG_DIR}
 LOG_FILE="${LOG_DIR}/staging-$( date +'%Y-%m-%dT%H:%M:%s' ).log"
 STAGING=${1:-'staging'}
-
+ls -liaR
 __setup_staging() {
   local ASSETS_DIR=frontend/assets
   local VIEWS_DIR=frontend/views
