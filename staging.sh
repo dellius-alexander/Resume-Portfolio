@@ -25,10 +25,11 @@ mkdir -p  staging/js \
           staging/scss \
           staging/fonts \
           staging/forms \
-          staging/img
+          staging/img &&
 
-ASSETS_DIR=$(find -type d -iname 'assets' -maxdepth 2)
-VIEWS_DIR=$(find -type d -iname 'views' -maxdepth 2)
+ASSETS_DIR=$(find ~+ -type d -iname 'assets' -maxdepth 2)
+
+VIEWS_DIR=$(find ~+ -type d -iname 'views' -maxdepth 2)
 
 # state all boxicons fonts
 cp -r ${ASSETS_DIR}/vendor/boxicons/fonts/** staging/fonts/ &&
