@@ -53,15 +53,16 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd frontend
+          npm install
 
       - name: Project Contents
         run: |
           ls -liaR
 
-      - name: Generate SSL Certificates and stage assets
+      - name: Stage assets
         run: |
-          sh ./certs.sh &&
           sh ./staging.sh
 
       - name: Upload artifact
