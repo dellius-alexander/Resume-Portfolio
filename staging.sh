@@ -86,6 +86,6 @@ __get_css_files(){
   done
 }
 
-__setup_staging
+__setup_staging > ${LOGFILE} 2>&1
 
 ################################################################
