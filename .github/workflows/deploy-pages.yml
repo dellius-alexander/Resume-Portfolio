@@ -63,8 +63,7 @@ jobs:
 
       - name: Stage assets
         run: |
-          STAGING_SH=$(find . -type f -iname 'staging.sh' -maxdepth 2) 
-          sh ${STAGING_SH}
+          sh staging
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1

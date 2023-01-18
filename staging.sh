@@ -19,19 +19,18 @@ LOGFILE="${PWD}/logs/staging-$( date +'%Y-%m-%dT%H:%M:%s' ).log"
 mkdir -p "${PWD}/logs"
 __setup_staging() {
 # Setup staging directory
-rm -rf staging &&
+rm -rf staging && wait $!
+# Create staging directory
 mkdir -p  staging/js \
           staging/css \
           staging/scss \
           staging/fonts \
           staging/forms \
-          staging/img &2>/dev/null
+          staging/img && wait $!
 
-STAGING=$(find . -type d -iname 'staging' -maxdepth 2)
-
-ASSETS_DIR=$(find frontend -type d -iname 'assets' -maxdepth 2)
-
-VIEWS_DIR=$(find frontend -type d -iname 'views' -maxdepth 2)
+local STAGING=staging
+local ASSETS_DIR=frontend/assets
+local VIEWS_DIR=frontend/views
 
 # state all boxicons fonts
 cp -r ${ASSETS_DIR}/vendor/boxicons/fonts/ ${STAGING}/fonts/ &&
@@ -77,13 +76,6 @@ echo "Staging github-pages files complete..." &&
 # list contents of all files staged
 ls -liaR ${STAGING}
 return 0;
-}
-
-__get_css_files(){
-  VENDOR_PATH=$(find ${PWD} -type d -iname 'vendor')
-  for dir in $(ls -R ${VENDOR_PATH}); do
-    echo "${dir}"
-  done
 }
 
 __setup_staging > ${LOGFILE} 2>&1
