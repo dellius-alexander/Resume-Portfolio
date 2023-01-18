@@ -63,7 +63,7 @@ jobs:
 
       - name: Stage assets
         run: |
-          mkdir -p ~/logs
+          mkdir -p ${PWD}/logs
           sh staging.sh "staging"
 
       - name: Upload artifact

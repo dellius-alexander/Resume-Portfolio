@@ -15,7 +15,7 @@
 # *    limitations under the License.
 # */
 set -e
-LOG_DIR=~/logs
+LOG_DIR=${PWD}/logs
 LOG_FILE="${LOG_DIR}/staging-$( date +'%Y-%m-%dT%H:%M:%s' ).log"
 STAGING=${1:-'staging'}
 
@@ -23,61 +23,61 @@ __setup_staging() {
   local ASSETS_DIR=frontend/assets
   local VIEWS_DIR=frontend/views
 
-# Setup staging directory
-rm -rf $(find . -type d -iname 'staging*') && wait $!
-# Create staging directory
-mkdir -p  ${LOG_DIR} \
-          ${STAGING}/js \
-          ${STAGING}/css \
-          ${STAGING}/scss \
-          ${STAGING}/fonts \
-          ${STAGING}/forms \
-          ${STAGING}/img && wait $!
+  # Setup staging directory
+  rm -rf $(find . -type d -iname 'staging*' &2>/dev/null) &&
+  # Create staging directory
+  mkdir -p  ${LOG_DIR} \
+            ${STAGING}/js \
+            ${STAGING}/css \
+            ${STAGING}/scss \
+            ${STAGING}/fonts \
+            ${STAGING}/forms \
+            ${STAGING}/img &&
 
-# state all boxicons fonts
-cp -r ${ASSETS_DIR}/vendor/boxicons/fonts/ ${STAGING}/fonts/ &&
-cp -r ${ASSETS_DIR}/vendor/bootstrap-icons/fonts/ ${STAGING}/fonts/ &&
+  # state all boxicons fonts
+  cp -r ${ASSETS_DIR}/vendor/boxicons/fonts/** ${STAGING}/fonts/ &&
+  cp -r ${ASSETS_DIR}/vendor/bootstrap-icons/fonts/** ${STAGING}/fonts/ &&
 
-# stage all js files
-cp -r ${ASSETS_DIR}/js/ ${STAGING}/js/ &&
-cp -r ${ASSETS_DIR}/vendor/aos/aos.js ${STAGING}/js/ &&
-cp -r ${ASSETS_DIR}/vendor/purecounter/dist/*.js* ${STAGING}/js/ &&
-cp -r ${ASSETS_DIR}/vendor/bootstrap/js/** ${STAGING}/js/ &&
-cp -r ${ASSETS_DIR}/vendor/glightbox/js/** ${STAGING}/js/ &&
-cp -r ${ASSETS_DIR}/vendor/isotope-layout/** ${STAGING}/js/ &&
-cp -r ${ASSETS_DIR}/vendor/swiper/*.js* ${STAGING}/js/ &&
-cp -r ${ASSETS_DIR}/vendor/typed.js/** ${STAGING}/js/ &&
-cp -r ${ASSETS_DIR}/vendor/waypoints/** ${STAGING}/js/ &&
-cp -r ${ASSETS_DIR}/vendor/php-email-form/*.js ${STAGING}/js/ &&
-cp -r ${ASSETS_DIR}/vendor/webfont/*.js ${STAGING}/js/ &&
+  # stage all js files
+  cp -r ${ASSETS_DIR}/js/** ${STAGING}/js/ &&
+  cp -r ${ASSETS_DIR}/vendor/aos/aos.js ${STAGING}/js/ &&
+  cp -r ${ASSETS_DIR}/vendor/purecounter/dist/*.js* ${STAGING}/js/ &&
+  cp -r ${ASSETS_DIR}/vendor/bootstrap/js/** ${STAGING}/js/ &&
+  cp -r ${ASSETS_DIR}/vendor/glightbox/js/** ${STAGING}/js/ &&
+  cp -r ${ASSETS_DIR}/vendor/isotope-layout/** ${STAGING}/js/ &&
+  cp -r ${ASSETS_DIR}/vendor/swiper/*.js* ${STAGING}/js/ &&
+  cp -r ${ASSETS_DIR}/vendor/typed.js/** ${STAGING}/js/ &&
+  cp -r ${ASSETS_DIR}/vendor/waypoints/** ${STAGING}/js/ &&
+  cp -r ${ASSETS_DIR}/vendor/php-email-form/*.js ${STAGING}/js/ &&
+  cp -r ${ASSETS_DIR}/vendor/webfont/*.js ${STAGING}/js/ &&
 
-# stage all css files
-cp -r ${ASSETS_DIR}/css/*.css ${STAGING}/css/ &&
-cp -r ${ASSETS_DIR}/vendor/aos/*.css ${STAGING}/css/ &&
-cp -r ${ASSETS_DIR}/vendor/bootstrap/css/*.css ${STAGING}/css/ &&
-cp -r ${ASSETS_DIR}/vendor/bootstrap/css/*.css.map ${STAGING}/css/ &&
-cp -r ${ASSETS_DIR}/vendor/bootstrap-icons/** ${STAGING}/css/ &&
-cp -r ${ASSETS_DIR}/vendor/boxicons/css/*.css ${STAGING}/css/ &&
-cp -r ${ASSETS_DIR}/vendor/glightbox/css/*.css ${STAGING}/css/ &&
-cp -r ${ASSETS_DIR}/vendor/swiper/*.css ${STAGING}/css/ &&
+  # stage all css files
+  cp -r ${ASSETS_DIR}/css/*.css ${STAGING}/css/ &&
+  cp -r ${ASSETS_DIR}/vendor/aos/*.css ${STAGING}/css/ &&
+  cp -r ${ASSETS_DIR}/vendor/bootstrap/css/*.css ${STAGING}/css/ &&
+  cp -r ${ASSETS_DIR}/vendor/bootstrap/css/*.css.map ${STAGING}/css/ &&
+  cp -r ${ASSETS_DIR}/vendor/bootstrap-icons/** ${STAGING}/css/ &&
+  cp -r ${ASSETS_DIR}/vendor/boxicons/css/*.css ${STAGING}/css/ &&
+  cp -r ${ASSETS_DIR}/vendor/glightbox/css/*.css ${STAGING}/css/ &&
+  cp -r ${ASSETS_DIR}/vendor/swiper/*.css ${STAGING}/css/ &&
 
-# stage all scss files
-cp -r ${ASSETS_DIR}/scss/*.scss ${STAGING}/scss/ &&
+  # stage all scss files
+  cp -r ${ASSETS_DIR}/scss/*.scss ${STAGING}/scss/ &&
 
-# stage all forms
-cp -r ${ASSETS_DIR}/forms/*.php ${STAGING}/forms/ &&
+  # stage all forms
+  cp -r ${ASSETS_DIR}/forms/*.php ${STAGING}/forms/ &&
 
-# stage all image files
-cp -r ${ASSETS_DIR}/img/** ${STAGING}/img/ &&
+  # stage all image files
+  cp -r ${ASSETS_DIR}/img/** ${STAGING}/img/ &&
 
-# stage all .html files
-cp -r ${VIEWS_DIR}/pages/*.html ${STAGING}/ &&
+  # stage all .html files
+  cp -r ${VIEWS_DIR}/pages/*.html ${STAGING}/ &&
 
-echo "Staging github-pages files complete..." &&
+  # list contents of all files staged
+  ls -liaR ${STAGING}  &&
 
-# list contents of all files staged
-ls -liaR ${STAGING}
-return 0;
+  echo "Staging github-pages files complete..."
+
 }
 
 __setup_staging > ${LOG_FILE} 2>&1
