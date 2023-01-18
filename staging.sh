@@ -26,7 +26,8 @@ __setup_staging() {
 # Setup staging directory
 rm -rf $(find . -type d -iname 'staging*') && wait $!
 # Create staging directory
-mkdir -p  ${STAGING}/js \
+mkdir -p  ${LOG_DIR} \
+          ${STAGING}/js \
           ${STAGING}/css \
           ${STAGING}/scss \
           ${STAGING}/fonts \
