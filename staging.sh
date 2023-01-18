@@ -16,6 +16,7 @@
 # */
 set -e
 LOG_DIR=${PWD}/logs
+mkdir -p  ${LOG_DIR}
 LOG_FILE="${LOG_DIR}/staging-$( date +'%Y-%m-%dT%H:%M:%s' ).log"
 STAGING=${1:-'staging'}
 
@@ -26,8 +27,7 @@ __setup_staging() {
   # Setup staging directory
   rm -rf $(find . -type d -iname 'staging*' &2>/dev/null) &&
   # Create staging directory
-  mkdir -p  ${LOG_DIR} \
-            ${STAGING}/js \
+  mkdir -p  ${STAGING}/js \
             ${STAGING}/css \
             ${STAGING}/scss \
             ${STAGING}/fonts \
