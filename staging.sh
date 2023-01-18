@@ -14,7 +14,7 @@
 # *    See the License for the specific language governing permissions and
 # *    limitations under the License.
 # */
-set -e
+
 LOG_DIR=${PWD}/logs
 mkdir -p  ${LOG_DIR}
 LOG_FILE="${LOG_DIR}/staging-$( date +'%Y-%m-%dT%H:%M:%s' ).log"
