@@ -15,7 +15,7 @@
 # *    limitations under the License.
 # */
 set -e
-LOG_DIR="${PWD}/logs"
+LOG_DIR=~/logs
 LOG_FILE="${LOG_DIR}/staging-$( date +'%Y-%m-%dT%H:%M:%s' ).log"
 STAGING=${1:-'staging'}
 
@@ -81,5 +81,7 @@ return 0;
 }
 
 __setup_staging > ${LOG_FILE} 2>&1
+
+cat ${LOG_FILE}
 
 ################################################################
