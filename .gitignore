@@ -48,7 +48,7 @@ typings/
 *.tsbuildinfo
 
 # Optional npm cache directory
-.npm
+frontend/.npm
 
 # Optional eslint cache
 .eslintcache
@@ -103,7 +103,7 @@ dist
 # TernJS port file
 .tern-port
 # package-lock.json file
-/package-lock.json
+/frontend/package-lock.json
 # for macOS users
 /**/.DS_Store
 # Intellij Idea IDE dotdirectory
@@ -116,3 +116,5 @@ dist
 # exclude staging directory
 /staging/
 /.googleapis/
+/**/.certs
+/**/.backup/

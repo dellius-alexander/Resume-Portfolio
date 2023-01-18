@@ -11,49 +11,50 @@
 version: '3.8'
 services:
   # node backend service
-  resume-frontend:
+  frontend:
     build:
-      context: ./docker
-      dockerfile: Dockerfile
+      context: .devcontainer
+      dockerfile: frontend.Dockerfile
+      args:
+        HOSTNAME: ${HOSTNAME}
+        USER: ${USERNAME}
+        CERTS_DIR: ${CERTS_DIR}
+        UUID: ${UUID}
+        PORT: ${PORT}
+        WORKDIR: /home/${USERNAME}/app
+        VERSION: 18
     container_name: frontend
-    user: 'node'
-    hostname: "example.com"
-    working_dir: /home/node/app
+    user: ${USERNAME}
+    hostname: ${HOSTNAME}
+    working_dir: /home/${USERNAME}/app
     env_file:
-      - frontend.env
+      - .devcontainer/frontend.env
     volumes:
-      - ./:/home/node/app
+      - ./frontend/:/home/${USERNAME}/app/
+      - .devcontainer/certs/.certs:/usr/local/app/.certs
     expose:
-      - '443'
+      - ${PORT}
     ports:
-      - '443:443'
-    command:
-      - /bin/sh
-      - -c
-      - |
-        sh -c "npm install" && 
-        sh -c "npm start" && 
-        sh -c 'echo Environment: "${NODE_ENV}"'
-
-    links:
-      - resume-backend
+      - ${PORT}:${PORT}
+#    links:
+#      - backend
     networks:
       resume-network:
   # mongodb service
-  resume-backend:
-    image: mongo:6.0.2
-    container_name: backend
-    restart: always
-    env_file:
-      - backend.env
-    volumes:
-      - mongodb-volume:/data
-    expose:
-      - "27017"
-    ports:
-      - "27017:27017"
-    networks:
-      resume-network:
+#  backend:
+#    image: mongo:6.0.2
+#    container_name: backend
+#    restart: always
+#    env_file:
+#      - .devcontainer/backend.env
+#    volumes:
+#      - mongodb-volume:/data
+#    expose:
+#      - "27017"
+#    ports:
+#      - "27017:27017"
+#    networks:
+#      resume-network:
 # Define application network
 networks:
   resume-network:
@@ -61,6 +62,6 @@ networks:
     ipam:
       driver: default
 # Define mongodb volume
-volumes:
-  mongodb-volume: null
+#volumes:
+#  mongodb-volume: null
 
