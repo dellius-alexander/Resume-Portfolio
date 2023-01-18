@@ -41,15 +41,16 @@ __setup_staging() {
   # stage all js files
   cp -r ${ASSETS_DIR}/js/** ${STAGING}/js &&
   cp -r ${ASSETS_DIR}/vendor/aos/aos.js ${STAGING}/js &&
-  cp -r ${ASSETS_DIR}/vendor/purecounter/dist/*.js ${STAGING}/js &&
+
   cp -r ${ASSETS_DIR}/vendor/bootstrap/js/** ${STAGING}/js &&
   cp -r ${ASSETS_DIR}/vendor/glightbox/js/** ${STAGING}/js &&
   cp -r ${ASSETS_DIR}/vendor/isotope-layout/** ${STAGING}/js &&
-  cp -r ${ASSETS_DIR}/vendor/swiper/*.js ${STAGING}/js &&
+  cp -r ${ASSETS_DIR}/vendor/purecounter/dist/*.js* ${STAGING}/js &&
+  cp -r ${ASSETS_DIR}/vendor/swiper/*.js* ${STAGING}/js &&
   cp -r ${ASSETS_DIR}/vendor/typed.js/** ${STAGING}/js &&
   cp -r ${ASSETS_DIR}/vendor/waypoints/** ${STAGING}/js &&
-  cp -r ${ASSETS_DIR}/vendor/php-email-form/*.js ${STAGING}/js &&
-  cp -r ${ASSETS_DIR}/vendor/webfont/*.js ${STAGING}/js &&
+  cp -r ${ASSETS_DIR}/vendor/php-email-form/*.js* ${STAGING}/js &&
+  cp -r ${ASSETS_DIR}/vendor/webfont/webfont.js ${STAGING}/js &&
 
   # stage all css files
   cp -r ${ASSETS_DIR}/css/*.css ${STAGING}/css &&
