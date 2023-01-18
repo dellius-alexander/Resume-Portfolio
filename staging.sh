@@ -14,23 +14,24 @@
 # *    See the License for the specific language governing permissions and
 # *    limitations under the License.
 # */
+set -e
+LOG_DIR="${PWD}/logs"
+LOG_FILE="${LOG_DIR}/staging-$( date +'%Y-%m-%dT%H:%M:%s' ).log"
+STAGING=${1:-'staging'}
 
-LOGFILE="${PWD}/logs/staging-$( date +'%Y-%m-%dT%H:%M:%s' ).log"
-mkdir -p "${PWD}/logs"
 __setup_staging() {
-# Setup staging directory
-rm -rf staging && wait $!
-# Create staging directory
-mkdir -p  staging/js \
-          staging/css \
-          staging/scss \
-          staging/fonts \
-          staging/forms \
-          staging/img && wait $!
+  local ASSETS_DIR=frontend/assets
+  local VIEWS_DIR=frontend/views
 
-local STAGING=staging
-local ASSETS_DIR=frontend/assets
-local VIEWS_DIR=frontend/views
+# Setup staging directory
+rm -rf $(find . -type d -iname 'staging*') && wait $!
+# Create staging directory
+mkdir -p  ${STAGING}/js \
+          ${STAGING}/css \
+          ${STAGING}/scss \
+          ${STAGING}/fonts \
+          ${STAGING}/forms \
+          ${STAGING}/img && wait $!
 
 # state all boxicons fonts
 cp -r ${ASSETS_DIR}/vendor/boxicons/fonts/ ${STAGING}/fonts/ &&
@@ -78,6 +79,6 @@ ls -liaR ${STAGING}
 return 0;
 }
 
-__setup_staging > ${LOGFILE} 2>&1
+__setup_staging > ${LOG_FILE} 2>&1
 
 ################################################################

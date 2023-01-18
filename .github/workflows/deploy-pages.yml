@@ -63,7 +63,7 @@ jobs:
 
       - name: Stage assets
         run: |
-          sh staging
+          sh staging.sh
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
