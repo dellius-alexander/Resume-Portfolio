@@ -45,11 +45,11 @@ __setup_staging() {
   cp -r ${ASSETS_DIR}/vendor/bootstrap/js/** ${STAGING}/js &&
   cp -r ${ASSETS_DIR}/vendor/glightbox/js/** ${STAGING}/js &&
   cp -r ${ASSETS_DIR}/vendor/isotope-layout/** ${STAGING}/js &&
-  cp -r ${ASSETS_DIR}/vendor/purecounter/dist/*.js* ${STAGING}/js &&
-  cp -r ${ASSETS_DIR}/vendor/swiper/*.js* ${STAGING}/js &&
+  cp -r ${ASSETS_DIR}/vendor/purecounter/dist/{purecounter*.js,purecounter*.js.map} ${STAGING}/js &&
+  cp -r ${ASSETS_DIR}/vendor/swiper/{swiper-bundle.min.js,swiper-bundle.min.js.map} ${STAGING}/js &&
   cp -r ${ASSETS_DIR}/vendor/typed.js/** ${STAGING}/js &&
   cp -r ${ASSETS_DIR}/vendor/waypoints/** ${STAGING}/js &&
-  cp -r ${ASSETS_DIR}/vendor/php-email-form/*.js* ${STAGING}/js &&
+  cp -r ${ASSETS_DIR}/vendor/php-email-form/*.js ${STAGING}/js &&
   cp -r ${ASSETS_DIR}/vendor/webfont/webfont.js ${STAGING}/js &&
 
   # stage all css files
