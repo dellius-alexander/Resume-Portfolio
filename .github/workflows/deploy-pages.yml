@@ -66,11 +66,13 @@ jobs:
           cd .. 
           STAGING=$(find .. -type f -iname 'staging.sh') 
           /bin/bash -c sh "${STAGING}"
+          ls -liaR 
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload entire repository to pages
+          name: 'staging'
           path: 'frontend/staging'
           # Depending on branch protection rules, a  manually populated
           # `GITHUB_TOKEN_WORKAROUND` secret with permissions to push to
@@ -78,7 +80,7 @@ jobs:
           # name, as an example, you can use `SOME_RANDOM_TOKEN_STRING`.
           # Since this repository has no protected branches we will omit
           # this part of the step. end
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v2
