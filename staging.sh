@@ -39,39 +39,39 @@ __setup_staging() {
   cp -r ${ASSETS_DIR}/vendor/bootstrap-icons/fonts/** ${STAGING}/fonts/ &&
 
   # stage all js files
-  cp -r ${ASSETS_DIR}/js/** ${STAGING}/js/ &&
-  cp -r ${ASSETS_DIR}/vendor/aos/aos.js ${STAGING}/js/ &&
-  cp -r ${ASSETS_DIR}/vendor/purecounter/dist/*.js* ${STAGING}/js/ &&
-  cp -r ${ASSETS_DIR}/vendor/bootstrap/js/** ${STAGING}/js/ &&
-  cp -r ${ASSETS_DIR}/vendor/glightbox/js/** ${STAGING}/js/ &&
-  cp -r ${ASSETS_DIR}/vendor/isotope-layout/** ${STAGING}/js/ &&
-  cp -r ${ASSETS_DIR}/vendor/swiper/*.js* ${STAGING}/js/ &&
-  cp -r ${ASSETS_DIR}/vendor/typed.js/** ${STAGING}/js/ &&
-  cp -r ${ASSETS_DIR}/vendor/waypoints/** ${STAGING}/js/ &&
-  cp -r ${ASSETS_DIR}/vendor/php-email-form/*.js ${STAGING}/js/ &&
-  cp -r ${ASSETS_DIR}/vendor/webfont/*.js ${STAGING}/js/ &&
+  cp -r ${ASSETS_DIR}/js/** ${STAGING}/js &&
+  cp -r ${ASSETS_DIR}/vendor/aos/aos.js ${STAGING}/js &&
+  cp -r ${ASSETS_DIR}/vendor/purecounter/dist/*.js ${STAGING}/js &&
+  cp -r ${ASSETS_DIR}/vendor/bootstrap/js/** ${STAGING}/js &&
+  cp -r ${ASSETS_DIR}/vendor/glightbox/js/** ${STAGING}/js &&
+  cp -r ${ASSETS_DIR}/vendor/isotope-layout/** ${STAGING}/js &&
+  cp -r ${ASSETS_DIR}/vendor/swiper/*.js ${STAGING}/js &&
+  cp -r ${ASSETS_DIR}/vendor/typed.js/** ${STAGING}/js &&
+  cp -r ${ASSETS_DIR}/vendor/waypoints/** ${STAGING}/js &&
+  cp -r ${ASSETS_DIR}/vendor/php-email-form/*.js ${STAGING}/js &&
+  cp -r ${ASSETS_DIR}/vendor/webfont/*.js ${STAGING}/js &&
 
   # stage all css files
-  cp -r ${ASSETS_DIR}/css/*.css ${STAGING}/css/ &&
-  cp -r ${ASSETS_DIR}/vendor/aos/*.css ${STAGING}/css/ &&
-  cp -r ${ASSETS_DIR}/vendor/bootstrap/css/*.css ${STAGING}/css/ &&
-  cp -r ${ASSETS_DIR}/vendor/bootstrap/css/*.css.map ${STAGING}/css/ &&
-  cp -r ${ASSETS_DIR}/vendor/bootstrap-icons/** ${STAGING}/css/ &&
-  cp -r ${ASSETS_DIR}/vendor/boxicons/css/*.css ${STAGING}/css/ &&
-  cp -r ${ASSETS_DIR}/vendor/glightbox/css/*.css ${STAGING}/css/ &&
-  cp -r ${ASSETS_DIR}/vendor/swiper/*.css ${STAGING}/css/ &&
+  cp -r ${ASSETS_DIR}/css/*.css ${STAGING}/css &&
+  cp -r ${ASSETS_DIR}/vendor/aos/*.css ${STAGING}/css &&
+  cp -r ${ASSETS_DIR}/vendor/bootstrap/css/*.css ${STAGING}/css &&
+  cp -r ${ASSETS_DIR}/vendor/bootstrap/css/*.css.map ${STAGING}/css &&
+  cp -r ${ASSETS_DIR}/vendor/bootstrap-icons/** ${STAGING}/css &&
+  cp -r ${ASSETS_DIR}/vendor/boxicons/css/*.css ${STAGING}/css &&
+  cp -r ${ASSETS_DIR}/vendor/glightbox/css/*.css ${STAGING}/css &&
+  cp -r ${ASSETS_DIR}/vendor/swiper/*.css ${STAGING}/css &&
 
   # stage all scss files
-  cp -r ${ASSETS_DIR}/scss/*.scss ${STAGING}/scss/ &&
+  cp -r ${ASSETS_DIR}/scss/*.scss ${STAGING}/scss &&
 
   # stage all forms
-  cp -r ${ASSETS_DIR}/forms/*.php ${STAGING}/forms/ &&
+  cp -r ${ASSETS_DIR}/forms/*.php ${STAGING}/forms &&
 
   # stage all image files
-  cp -r ${ASSETS_DIR}/img/** ${STAGING}/img/ &&
+  cp -r ${ASSETS_DIR}/img/** ${STAGING}/img &&
 
   # stage all .html files
-  cp -r ${VIEWS_DIR}/pages/*.html ${STAGING}/ &&
+  cp -r ${VIEWS_DIR}/pages/*.html ${STAGING} &&
 
   # list contents of all files staged
   ls -liaR ${STAGING}  &&
