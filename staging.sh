@@ -25,56 +25,58 @@ mkdir -p  staging/js \
           staging/scss \
           staging/fonts \
           staging/forms \
-          staging/img &&
+          staging/img
 
-ASSETS_DIR=$(find ~+ -type d -iname 'assets' -maxdepth 2)
+STAGING=$(find . -type d -iname 'staging' -maxdepth 2)
 
-VIEWS_DIR=$(find ~+ -type d -iname 'views' -maxdepth 2)
+ASSETS_DIR=$(find frontend -type d -iname 'assets' -maxdepth 2)
+
+VIEWS_DIR=$(find frontend -type d -iname 'views' -maxdepth 2)
 
 # state all boxicons fonts
-cp -r ${ASSETS_DIR}/vendor/boxicons/fonts/** staging/fonts/ &&
-cp -r ${ASSETS_DIR}/vendor/bootstrap-icons/fonts/** staging/fonts/ &&
+cp -r ${ASSETS_DIR}/vendor/boxicons/fonts/ ${STAGING}/fonts/ &&
+cp -r ${ASSETS_DIR}/vendor/bootstrap-icons/fonts/ ${STAGING}/fonts/ &&
 
 # stage all js files
-cp -r ${ASSETS_DIR}/js/** staging/js/ &&
-cp -r ${ASSETS_DIR}/vendor/aos/aos.js staging/js/ &&
-cp -r ${ASSETS_DIR}/vendor/purecounter/dist/*.js* staging/js/ &&
-cp -r ${ASSETS_DIR}/vendor/bootstrap/js/** staging/js/ &&
-cp -r ${ASSETS_DIR}/vendor/glightbox/js/** staging/js/ &&
-cp -r ${ASSETS_DIR}/vendor/isotope-layout/** staging/js/ &&
-cp -r ${ASSETS_DIR}/vendor/swiper/*.js* staging/js/ &&
-cp -r ${ASSETS_DIR}/vendor/typed.js/** staging/js/ &&
-cp -r ${ASSETS_DIR}/vendor/waypoints/** staging/js/ &&
-cp -r ${ASSETS_DIR}/vendor/php-email-form/*.js staging/js/ &&
-cp -r ${ASSETS_DIR}/vendor/webfont/*.js staging/js/ &&
+cp -r ${ASSETS_DIR}/js/ ${STAGING}/js/ &&
+cp -r ${ASSETS_DIR}/vendor/aos/aos.js ${STAGING}/js/ &&
+cp -r ${ASSETS_DIR}/vendor/purecounter/dist/*.js* ${STAGING}/js/ &&
+cp -r ${ASSETS_DIR}/vendor/bootstrap/js/** ${STAGING}/js/ &&
+cp -r ${ASSETS_DIR}/vendor/glightbox/js/** ${STAGING}/js/ &&
+cp -r ${ASSETS_DIR}/vendor/isotope-layout/** ${STAGING}/js/ &&
+cp -r ${ASSETS_DIR}/vendor/swiper/*.js* ${STAGING}/js/ &&
+cp -r ${ASSETS_DIR}/vendor/typed.js/** ${STAGING}/js/ &&
+cp -r ${ASSETS_DIR}/vendor/waypoints/** ${STAGING}/js/ &&
+cp -r ${ASSETS_DIR}/vendor/php-email-form/*.js ${STAGING}/js/ &&
+cp -r ${ASSETS_DIR}/vendor/webfont/*.js ${STAGING}/js/ &&
 
 # stage all css files
-cp -r ${ASSETS_DIR}/css/*.css staging/css/ &&
-cp -r ${ASSETS_DIR}/vendor/aos/*.css staging/css/ &&
-cp -r ${ASSETS_DIR}/vendor/bootstrap/css/*.css staging/css/ &&
-cp -r ${ASSETS_DIR}/vendor/bootstrap/css/*.css.map staging/css/ &&
-cp -r ${ASSETS_DIR}/vendor/bootstrap-icons/** staging/css/ &&
-cp -r ${ASSETS_DIR}/vendor/boxicons/css/*.css staging/css/ &&
-cp -r ${ASSETS_DIR}/vendor/glightbox/css/*.css staging/css/ &&
-cp -r ${ASSETS_DIR}/vendor/swiper/*.css staging/css/ &&
+cp -r ${ASSETS_DIR}/css/*.css ${STAGING}/css/ &&
+cp -r ${ASSETS_DIR}/vendor/aos/*.css ${STAGING}/css/ &&
+cp -r ${ASSETS_DIR}/vendor/bootstrap/css/*.css ${STAGING}/css/ &&
+cp -r ${ASSETS_DIR}/vendor/bootstrap/css/*.css.map ${STAGING}/css/ &&
+cp -r ${ASSETS_DIR}/vendor/bootstrap-icons/** ${STAGING}/css/ &&
+cp -r ${ASSETS_DIR}/vendor/boxicons/css/*.css ${STAGING}/css/ &&
+cp -r ${ASSETS_DIR}/vendor/glightbox/css/*.css ${STAGING}/css/ &&
+cp -r ${ASSETS_DIR}/vendor/swiper/*.css ${STAGING}/css/ &&
 
 # stage all scss files
-cp -r ${ASSETS_DIR}/scss/*.scss staging/scss/ &&
+cp -r ${ASSETS_DIR}/scss/*.scss ${STAGING}/scss/ &&
 
 # stage all forms
-cp -r ${ASSETS_DIR}/forms/*.php staging/forms/ &&
+cp -r ${ASSETS_DIR}/forms/*.php ${STAGING}/forms/ &&
 
 # stage all image files
-cp -R ${ASSETS_DIR}/img/** staging/img/ &&
+cp -r ${ASSETS_DIR}/img/** ${STAGING}/img/ &&
 
 # stage all .html files
-cp -r ${VIEWS_DIR}/views/pages/*.html staging/ &&
+cp -R ${VIEWS_DIR}/pages/*.html ${STAGING}/ &&
 
 echo "Staging github-pages files complete..." &&
 
 # list contents of all files staged
-ls -liaR staging
-
+ls -liaR ${STAGING}
+return 0;
 }
 
 __get_css_files(){
@@ -84,6 +86,6 @@ __get_css_files(){
   done
 }
 
-__setup_staging > ${LOGFILE} 2>&1
+__setup_staging
 
 ################################################################
