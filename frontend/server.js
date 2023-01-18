@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 // import environment variables
-require('./utils/config').config().then(console.dir).catch(console.dir)
+require('./utils/config').config().catch(console.dir)
 const fs = require('fs')
 const path = require('path');
 const https = require('https');
@@ -30,7 +30,9 @@ const morgan = require('morgan');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
 const indexRouter = require('./routes/index');
-const errorHandlers = require('./utils/errorHandlers');
+const errorHandler = require('./utils/errorHandler');
+const {sslOptions, cfg} = require('./utils/sslOptions')
+
 /**
  * Server middleware configuration. The order of middleware is crucial.
  * The middleware that parse request bodies and cookies should come before
@@ -102,7 +104,9 @@ async function main() {
          * By default, Helmet sets the following headers:
          *
          * Content-Security-Policy:
-         *      default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests
+         *      default-src 'self'; base-uri 'self'; font-src 'self' https: data:; form-action 'self';
+         *      frame-ancestors 'self'; img-src 'self' https: data: ; object-src 'none'; script-src 'self';
+         *      script-src-attr 'none'; style-src 'self' https: 'unsafe-inline'; upgrade-insecure-requests
          * Cross-Origin-Embedder-Policy: require-corp
          * Cross-Origin-Opener-Policy: same-origin
          * Cross-Origin-Resource-Policy: same-origin
@@ -124,7 +128,7 @@ async function main() {
                 defaultSrc: ["'self'"],
                 scriptSrc: [
                     "'self'",
-                    "example.com",
+                    process.env.HOSTNAME,
                     "*.googleapis.com",
                     " https://code.jquery.com/jquery-3.6.1.min.js",
                     "https://www.google.com/maps/",
@@ -156,8 +160,8 @@ async function main() {
          * and use the .<YOUR TEMPLATE ENGINE> or .html file extension to render your views.
          */
         app.set(`view engine`, 'ejs');
-        app.engine('html', require('ejs').renderFile)
-
+        // set view engine to explicitly override default behavior to include parsing of .html files
+        app.engine('html', require('ejs').__express)
         // set the view directory and .html as the default extension
         app.set('views', path.join(__dirname, 'views'));
 
@@ -171,9 +175,6 @@ async function main() {
         app.use('/css', express.static(path.join(__dirname, 'node_modules/boxicons/css')))
         // app.use('/css', express.static(path.join(__dirname, '')))
 
-        // load ejs library
-        app.use(express.static(path.join(__dirname, 'node_modules/ejs')))
-
         // Javascript dependencies
         app.use('/js', express.static(path.join(__dirname, 'node_modules/aos')))
         app.use('/js', express.static(path.join(__dirname, 'node_modules/purecounter/dist')))
@@ -183,6 +184,7 @@ async function main() {
         app.use('/js', express.static(path.join(__dirname, 'node_modules/swiper')))
         app.use('/js', express.static(path.join(__dirname, 'node_modules/typed.js')))
         app.use('/js', express.static(path.join(__dirname, 'node_modules/waypoints')))
+        // TODO(complete email routing and googleapis token authentication for email server.)
         // app.use('/js', express.static(path.join(__dirname, 'node_modules/php-email-form')))
         app.use('/js', express.static(path.join(__dirname, 'node_modules/html5shiv.min.js')))
         app.use('/js', express.static(path.join(__dirname, 'node_modules/webfont')))
@@ -203,48 +205,16 @@ async function main() {
 
         // Middleware for handling errors
         console.log('Setting errorCallback......')
-        app.use('/', errorHandlers);
+        app.use('/', errorHandler);
+
         console.log('Setting server configurations......')
-        /**
-         * Set server port configuration options
-         * @type {{hostname: string, port: (string|number), node_hostname: string}}
-         */
-        const cfg = {
-            port: process.env.PORT || 8080,
-            hostname: process.env.HOSTNAME || process.env.NODEHOSTNAME
-        }
-        console.dir(cfg)
 
-        // /**
-        //  * Setup server to use http protocol.
-        //  * Disable this if using https protocol.
-        //  */
-        // app.listen(
-        //     cfg.port,
-        //     cfg.hostname,
-        //     () => {
-        //         console.log(`Example app is listening on https://${cfg.hostname}:${cfg.port}`)
-        //     }
-        // );
-
-        /**
-         * create ssl options
-         * @type {{cert: string, key: string}}
-         */
-        const options = Object.assign({},
-            {
-                key: fs.readFileSync(path.resolve(process.env.PRIVATE_KEY_FILE), {encoding: 'utf-8'}),
-                cert: fs.readFileSync(path.resolve(process.env.SSL_CERT_FILE), {encoding: 'utf-8'}),
-                ca: fs.readFileSync(path.resolve(process.env.SSL_CA_FILE), {encoding: 'utf-8'}),
-            })
-
-        console.dir(options)
         /**
          * configure server to use SSL.
          * Test if server state is up by running: curl -k https://HOSTNAME:PORT
          * @type {Server<typeof https.IncomingMessage, typeof https.ServerResponse>}
          */
-        await https.createServer(options, app)
+        await https.createServer(sslOptions, app)
             .listen(
                 cfg.port,
                 cfg.hostname,
@@ -260,7 +230,7 @@ async function main() {
                 console.log(`Successfully up and running`)
                 console.log(req, res)
             })
-            .on('error', await errorHandlers)
+            .on('error', errorHandler)
 
 
         console.log('Server initialization complete......')

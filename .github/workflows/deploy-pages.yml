@@ -70,7 +70,6 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload entire repository to pages
-          name: 'staging'
           path: 'staging'
           # Depending on branch protection rules, a  manually populated
           # `GITHUB_TOKEN_WORKAROUND` secret with permissions to push to

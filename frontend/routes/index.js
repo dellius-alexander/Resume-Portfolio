@@ -29,8 +29,16 @@ router.get('/',  async function (req, res, next) {
         title: "Portfolio Resume",
         name: "Dellius Alexander"
     }
-
-    res.render('pages/index.ejs', {data});
+    res
+        .status(200)
+        .setHeader(
+            'Content-Type',
+            [
+                'text/html; charset=utf-8',
+            ]
+        )
+        .setHeader('Set-Cookie', {data: data})
+        .render('pages/index.ejs', {data});
 
 });
 

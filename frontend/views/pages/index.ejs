@@ -1,6 +1,6 @@
 <!--
 /**
- *    Copyright 2022 Dellius Alexander
+ *    Copyright 2023 Dellius Alexander
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -18,85 +18,49 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport"  content="width=device-width, initial-scale=1.0" >
-    <!-- Using EJS in a Script Tag -->
-    <script src="ejs.js"></script>
+    <!--    Head Section   -->
     <%- include('../partials/head.html'); %>
-</head>
 
-<body>
+    <body>
 
-<!-- Mobile nav toggle button -->
-<i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+        <!-- Mobile nav toggle button -->
+        <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
 
-<!-- Header -->
-<header id="header">
-    <%- include('../partials/header.html'); %>
-</header><!-- End Header -->
+        <!--   Header Section   -->
+        <%- include('../partials/header.html'); %>
 
-<!-- Hero Section -->
-<section id="hero" class="d-flex flex-column justify-content-center align-items-center">
-    <%- include('../partials/hero.html'); %>
-</section><!-- End Hero -->
-<!--  Mail Content Section  -->
-<main id="main">
+        <!-- Hero Section -->
+        <%- include('../partials/hero.html'); %>
 
-    <!-- About Section -->
-    <section id="about" class="about">
-        <%- include('../partials/about.html'); %>
-    </section><!-- End About Section -->
+        <!--  Mail Content Section  -->
+        <main id="main">
 
-    <!-- Facts Section -->
-    <section id="facts" class="facts">
-        <%- include('../partials/facts.html'); %>
-    </section><!-- End Facts Section -->
+            <!-- About Section -->
+            <%- include('../partials/about.html'); %>
 
-    <!-- Skills Section -->
-    <section id="skills" class="skills section-bg">
-        <%- include('../partials/skills.html'); %>
-    </section><!-- End Skills Section -->
+            <!-- Facts Section -->
+            <%- include('../partials/facts.html'); %>
 
-    <!-- Resume Section -->
-    <section id="resume" class="resume">
-        <%- include('../partials/resume.html'); %>
-    </section><!-- End Resume Section -->
+            <!-- Skills Section -->
+            <%- include('../partials/skills.html'); %>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <%- include('../partials/contact.html'); %>
-    </section><!-- End Contact Section -->
+            <!-- Resume Section -->
+            <%- include('../partials/resume.html'); %>
 
-</main><!-- End #main -->
+            <!-- Contact Section -->
+            <%- include('../partials/contact.html'); %>
 
-<!-- Footer -->
-<footer id="footer">
-    <%- include('../partials/footer.html'); %>
-</footer><!-- End  Footer -->
+        </main>
+        <!-- End main -->
 
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+        <!--    Footer Section    -->
+        <%- include('../partials/footer.html'); %>
 
-<!-- Vendor JS Files -->
-<script src="js/purecounter_vanilla.js" type="application/javascript" ></script>
-<script src="js/aos.js" type="text/javascript"></script>
-<script src="js/bootstrap.bundle.min.js" type="text/javascript"></script>
-<script src="js/glightbox.min.js" type="text/javascript"></script>
-<script src="js/isotope.pkgd.min.js" type="text/javascript"></script>
-<script src="js/swiper-bundle.min.js" type="text/javascript"></script>
-<script src="js/typed.min.js" type="text/javascript"></script>
-<script src="js/noframework.waypoints.js" type="text/javascript"></script>
-<!--  <script src="js/validate.js" type="text/javascript" ></script>-->
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-<!-- Main JS File -->
-<script src="js/main.js" type="text/javascript"></script>
+        <!--    Scripts Files   -->
+        <%- include('../partials/scripts.html'); %>
 
-<script
-        src="https://code.jquery.com/jquery-3.6.1.min.js"
-        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
-        crossorigin="anonymous">
-</script>
-
-</body>
+    </body>
 
 </html>

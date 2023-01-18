@@ -1,6 +1,4 @@
 const fs = require('fs')
-// initialize SSL configuration using child process
-const { exec } = require("node:child_process")
 // import environment variables
 const dotenv = require('dotenv')
 

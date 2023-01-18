@@ -25,7 +25,7 @@ mkdir -p  staging/js \
           staging/scss \
           staging/fonts \
           staging/forms \
-          staging/img
+          staging/img &2>/dev/null
 
 STAGING=$(find . -type d -iname 'staging' -maxdepth 2)
 
@@ -70,7 +70,7 @@ cp -r ${ASSETS_DIR}/forms/*.php ${STAGING}/forms/ &&
 cp -r ${ASSETS_DIR}/img/** ${STAGING}/img/ &&
 
 # stage all .html files
-cp -R ${VIEWS_DIR}/pages/*.html ${STAGING}/ &&
+cp -r ${VIEWS_DIR}/pages/*.html ${STAGING}/ &&
 
 echo "Staging github-pages files complete..." &&
 
