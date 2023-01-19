@@ -1,5 +1,5 @@
 /**
- *    Copyright 2022 Dellius Alexander
+ *    Copyright 2023 Dellius Alexander
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -74,33 +74,40 @@ const execShellCmd = async function execShellRun(script){
             );
 }
 
-
 /**
  * Generate certificates and private key
  */
 function gen_rsa(shell){
+    const certs_dir = path.resolve(process.env.CERTS_DIR)
+    const hostname = process.env.HOSTNAME || "localhost"
+    const prefix = hostname.toString().replace('.com', '') || "localhost"
+    const port = process.env.PORT || 8080
+
     // generate if no .certs directory found
-    if (!fs.existsSync(path.join(__dirname, `.certs`)))
+    if (!fs.existsSync(`${certs_dir}/.certs`))
     {
         console.log(`No certificate files found.\nGenerating new certificate files.\n`);
-        console.log(`Generating certificate for hostname: ${process.env.HOSTNAME}:${process.env.PORT}`)
-        shell(`sh ${path.resolve('certs.sh')} -s ${process.env.HOSTNAME}`)
+        console.log(`Generating certificate for hostname: ${hostname}:${port}`)
+        shell(`mkdir -p "${certs_dir}/.certs"`)
+        shell(`sh ${certs_dir} "-s" "${hostname}" "${certs_dir}/.certs"`)
     } else {
         // check the certs if they are found
-        fs.readdir(path.join(__dirname, `.certs`), (err, files) => {
+        fs.readdir(`${certs_dir}/.certs`, (err, files) => {
+            
             const certs = {
-                crt: `example.crt`,
-                key: `example.key`,
-                pem: `example.pem`,
-                pub: `example.pub`,
-                req: `example.req`
+                crt: `${prefix}.x509.crt`,
+                key: `${prefix}.key.pem`,
+                pem: `${prefix}.ca.pem`,
+                pub: `${prefix}.pub`,
+                req: `${prefix}.req`
             }
             let count = 0;
             try {
                 if (err) { // exit on errorCallback
                     console.error("No certificate files found.")
                     console.error(err);
-                } else {
+                }
+                else if (files){
                     for (let file of files) {
                         for (let key in certs) {
                             switch(`${file}`) {
@@ -119,8 +126,9 @@ function gen_rsa(shell){
                 {
                     console.log(`Expected 5 Certificate files but ${files.length} were found.
 Due to missing files, new certificates will have to be generated.
-Generating new certificate files for hostname: ${process.env.HOSTNAME}......\n`);
-                    shell(`sh  ./utils/certs.sh -s ${process.env.HOSTNAME}`)
+Generating new certificate files for hostname: ${hostname}......\n`);
+                    shell(`rm -rf ${certs_dir}/.certs`);
+                    shell(`sh ${certs_dir} "-s" "${hostname}" "${certs_dir}/.certs"`);
                 } else {
                     console.log(`SSL Certificate already exists...\nReusing certificates...`)
                 }

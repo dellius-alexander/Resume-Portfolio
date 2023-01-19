@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #/**
-# *    Copyright 2022 Dellius Alexander
+# *    Copyright 2023 Dellius Alexander
 # *
 # *    Licensed under the Apache License, Version 2.0 (the "License");
 # *    you may not use this file except in compliance with the License.
@@ -33,13 +33,18 @@ CONFIG_FILE="";
 
 OPTIONS="${1}"
 HOSTNAME="${2}"
-CERTS_DIR="${3}"
+_CERTS_DIR="${3}"
 
-if [[ -z "${CERTS_DIR}" || ! -d "${CERTS_DIR}" ]]; then
+if [[  "${#}" -eq 0 || "${#}" -lt 3 ]]; then
   echo "Missing parameter 3."
   echo "Usage: $0 -s <domain> <cert dir>"
+  echo "Parameters passed: [${1}, ${2}, ${3}]"
   exit 1
-fi;
+elif [[ ! -z "${_CERTS_DIR}" && ! -d "${_CERTS_DIR}"  ]]; then
+  echo "Certificate directory not found. Creating from input: [$_CERTS_DIR]"
+  mkdir -p "${_CERTS_DIR}"
+fi
+
 case ${OPTIONS} in
   -f | --file)
         echo "Entry is a file."
@@ -52,8 +57,7 @@ case ${OPTIONS} in
         DOMAIN_NAME="${HOSTNAME}"
         EXAMPLE_REQ=$( find ${PWD} -type f -iname "${DOMAIN}.req" &2>/dev/null)
         echo "Hostname: $HOSTNAME"
-        echo "Certificate Directory: $CERTS_DIR"
-        echo "Configuration file location: $EXAMPLE_REQ"
+        echo "Certificate Directory: $_CERTS_DIR"
     ;;
   -s | --string)
         echo "String domain/hostname provided: ${2}"
@@ -66,7 +70,7 @@ case ${OPTIONS} in
         DOMAIN_NAME="${HOSTNAME}"
         EXAMPLE_REQ=$( find ${PWD} -type f -iname "${DOMAIN}.req" &2>/dev/null)
         echo "Hostname: $HOSTNAME"
-        echo "Certificate Directory: $CERTS_DIR"
+        echo "Certificate Directory: $_CERTS_DIR"
         echo "Configuration file location: $EXAMPLE_REQ"
     ;;
   -d | --default) # invoke default hostname for development use
@@ -76,7 +80,7 @@ case ${OPTIONS} in
         DOMAIN_NAME="${HOSTNAME}"
         EXAMPLE_REQ=$( find ${PWD} -type f -iname "${DOMAIN}.req" &2>/dev/null)
         echo "Hostname: $HOSTNAME"
-        echo "Certificate Directory: $CERTS_DIR"
+        echo "Certificate Directory: $_CERTS_DIR"
         echo "Configuration file location: $EXAMPLE_REQ"
     ;;
   -c | --config)
@@ -90,7 +94,7 @@ case ${OPTIONS} in
         DOMAIN_NAME="${HOSTNAME} "
         EXAMPLE_REQ=$( find ${PWD} -type f -iname "${DOMAIN}.req" &2>/dev/null)
         echo "Hostname: $HOSTNAME"
-        echo "Certificate Directory: $CERTS_DIR"
+        echo "Certificate Directory: $_CERTS_DIR"
         echo "Configuration file location: $EXAMPLE_REQ"
     ;;
   * | -h | --help)
@@ -112,10 +116,10 @@ case ${OPTIONS} in
 esac
 
 
-SERVERKEYFILE="${CERTS_DIR}/${DOMAIN}.key.pem";
-CERTIFICATE_FILE="${CERTS_DIR}/${DOMAIN}.x509.crt";
-FULL_CHAIN="${CERTS_DIR}/${DOMAIN}.ca.pem";
-PUBLIC_KEY_FILE="${CERTS_DIR}/${DOMAIN}.pub";
+SERVERKEYFILE="${_CERTS_DIR}/${DOMAIN}.key.pem";
+CERTIFICATE_FILE="${_CERTS_DIR}/${DOMAIN}.x509.crt";
+FULL_CHAIN="${_CERTS_DIR}/${DOMAIN}.ca.pem";
+PUBLIC_KEY_FILE="${_CERTS_DIR}/${DOMAIN}.pub";
 LEAF="";
 
 __test(){
@@ -131,10 +135,10 @@ __test(){
 # get certificate directory
 __get_cert_dir() {
   # check for the config file example.req
-  if [ ! -f "${EXAMPLE_REQ}" ] || [ ! -d "${CERTS_DIR}" ]; then
+  if [ ! -f "${EXAMPLE_REQ}" ] || [ ! -d "${_CERTS_DIR}" ]; then
     __generate_config
   else
-    EXAMPLE_REQ=$( find ${CERTS_DIR} -type f -iname "${EXAMPLE_REQ}" &2>/dev/null )
+    EXAMPLE_REQ=$( find ${_CERTS_DIR} -type f -iname "${EXAMPLE_REQ}" &2>/dev/null )
   fi;
 
   # terminate script if config file not found
@@ -154,16 +158,15 @@ __get_cert_dir() {
 # generate random config file
 __generate_config() {
     # exit if no .certs directory
-    if [ -z "${CERTS_DIR}" ]; then
+    if [ -z "${_CERTS_DIR}" ]; then
       echo "Unable to locate \".certs directory\"."
-      echo "No directory at: \"${CERTS_DIR}\""
+      echo "No directory at: \"${_CERTS_DIR}\""
       exit 1
     fi;
 
-    echo "Generating config file for: ${HOSTNAME} @ ${CERTS_DIR}/${DOMAIN}.req" &&
+    echo "Generating config file for: ${HOSTNAME} @ ${_CERTS_DIR}/${DOMAIN}.req" &&
     # else generate new config file with defined domain name
-  rm -rf "${CERTS_DIR}/" && mkdir -p "${CERTS_DIR}/"
-  cat > "${CERTS_DIR}/${DOMAIN}.req" <<EOF
+    cat > "${_CERTS_DIR}/${DOMAIN}.req" <<EOF
   [ req ]
   default_bits        = 2048
   default_keyfile     = ${DOMAIN}.key
@@ -209,7 +212,7 @@ __generate_config() {
   DNS.5 = *.${DOMAIN_NAME}
 EOF
 
-EXAMPLE_REQ=$( find ${CERTS_DIR} -type f -iname "${DOMAIN}.req")
+EXAMPLE_REQ=$( find ${_CERTS_DIR} -type f -iname "${DOMAIN}.req")
 cnt=0
 while [[ ! -f "${EXAMPLE_REQ}" ]];
 do

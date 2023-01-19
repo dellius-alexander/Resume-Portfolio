@@ -13,8 +13,8 @@ services:
   # node backend service
   frontend:
     build:
-      context: .devcontainer
-      dockerfile: frontend.Dockerfile
+      context: .
+      dockerfile: .devcontainer/frontend.Dockerfile
       args:
         HOSTNAME: ${HOSTNAME}
         USER: ${USERNAME}
@@ -30,8 +30,8 @@ services:
     env_file:
       - .devcontainer/frontend.env
     volumes:
-      - ./frontend/:/home/${USERNAME}/app/
-      - .devcontainer/certs/.certs:/usr/local/app/.certs
+      - ./frontend:/home/${USERNAME}/app
+      - .devcontainer/certs/.certs:/usr/local/app/certs/.certs
     expose:
       - ${PORT}
     ports:
