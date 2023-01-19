@@ -5685,7 +5685,7 @@ class SMTP
         $errstr = '';
         if ($streamok) {
             $socket_context = stream_context_create($options);
-            set_error_handler([$this, 'errorHandler']);
+            set_error_handler([$this, 'errorRoute']);
             $connection = stream_socket_client(
                 $host . ':' . $port,
                 $errno,
@@ -5700,7 +5700,7 @@ class SMTP
                 'Connection: stream_socket_client not available, falling back to fsockopen',
                 self::DEBUG_CONNECTION
             );
-            set_error_handler([$this, 'errorHandler']);
+            set_error_handler([$this, 'errorRoute']);
             $connection = fsockopen(
                 $host,
                 $port,
@@ -5764,7 +5764,7 @@ class SMTP
         }
 
         //Begin encrypted connection
-        set_error_handler([$this, 'errorHandler']);
+        set_error_handler([$this, 'errorRoute']);
         $crypto_ok = stream_socket_enable_crypto(
             $this->smtp_conn,
             true,
@@ -6425,7 +6425,7 @@ class SMTP
         } else {
             $this->edebug('CLIENT -> SERVER: ' . $data, self::DEBUG_CLIENT);
         }
-        set_error_handler([$this, 'errorHandler']);
+        set_error_handler([$this, 'errorRoute']);
         $result = fwrite($this->smtp_conn, $data);
         restore_error_handler();
 
@@ -6528,7 +6528,7 @@ class SMTP
         while (is_resource($this->smtp_conn) && !feof($this->smtp_conn)) {
             //Must pass vars in here as params are by reference
             //solution for signals inspired by https://github.com/symfony/symfony/pull/6540
-            set_error_handler([$this, 'errorHandler']);
+            set_error_handler([$this, 'errorRoute']);
             $n = stream_select($selR, $selW, $selW, $this->Timelimit);
             restore_error_handler();
 
@@ -6701,7 +6701,7 @@ class SMTP
      * @param string $errfile The file the error occurred in
      * @param int    $errline The line number the error occurred on
      */
-    protected function errorHandler($errno, $errmsg, $errfile = '', $errline = 0)
+    protected function errorRoute($errno, $errmsg, $errfile = '', $errline = 0)
     {
         $notice = 'Connection failed.';
         $this->setError(

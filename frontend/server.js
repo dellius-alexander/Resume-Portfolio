@@ -28,7 +28,7 @@ const morgan = require('morgan');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
 const indexRouter = require('./routes/index');
-const errorHandler = require('./utils/errorHandler');
+const {errorRoute, errorHandler} = require('./utils/errorHandler');
 const {sslOptions, cfg} = require('./utils/sslOptions')
 
 /**
@@ -203,8 +203,19 @@ async function main() {
 
         // Middleware for handling errors
         console.log('Setting errorCallback......')
-        app.use('/', errorHandler);
+        app.use('/', errorRoute);
 
+        /**
+         * Catch all erroneous requests and send them to the error handler.
+         */
+        app.use(async (req, res, next) => {
+            if (!req.route) {
+                // If there is no matching route, this request is for a URL that does not exist
+                console.log(`Request for non-existent URL: ${req.url}`);
+                return await errorHandler(req, res, next);
+            }
+            res.redirect(req.url);
+        });
         console.log('Setting server configurations......')
 
         /**
@@ -228,7 +239,7 @@ async function main() {
                 console.log(`Successfully up and running`)
                 console.log(req, res)
             })
-            .on('error', errorHandler)
+            .on('error', errorRoute)
 
         console.log('Server initialization complete......')
     } catch (e) {

@@ -125,7 +125,7 @@ const errorMessage = function (statusCode){
         // 511 Network Authentication Required
         // Indicates that the client needs to authenticate to gain network access.
         default: // default implementation
-            return { status: 400, message: "The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing)."}
+            return { status: 500, message: "The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing)."}
     }
 }
 /**
@@ -134,24 +134,33 @@ const errorMessage = function (statusCode){
  * @param res the response object
  */
 const errorHandler = async function(req, res, next) {
-    const statusCode = req.statusCode === undefined || null ? req.status === undefined || null  ? req.statusCode : req.status : 400;
+    const statusCode = req.statusCode || req.status || 404;
     const resolved = errorMessage(statusCode);
-    const response = {
+    console.dir(resolved)
+    const data = {
         timestamp: new Date().toISOString(),
-        errorCode: resolved.status,
+        url: req.url,
+        status: resolved.status,
         errorMessage: resolved.message,
-        app: req.app,
-        status: req.status,
         body: req.body,
         headers: req.headers,
         params: req.params,
         query: req.query,
         secure: req.secure,
         route: req.route,
+        title: "Error",
         stackTrace: process.env.NODE_ENV === 'production' ? null : req.stack,
     }
-    return res .status(statusCode)
-        .json(response);
+
+
+    return res
+        .setHeader(
+            'Content-Type',
+            [
+                'text/html; charset=utf-8',
+            ]
+        )
+        .render('pages/error.ejs', {data});
 }
 /**
  * Standard http callback function to handle errors.
@@ -159,4 +168,6 @@ const errorHandler = async function(req, res, next) {
  */
 router.get('/error', errorHandler)
 
-module.exports = router;
+module.exports = {
+    errorRoute: router,
+    errorHandler: errorHandler};

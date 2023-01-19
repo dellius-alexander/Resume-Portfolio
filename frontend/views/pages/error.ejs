@@ -23,13 +23,32 @@
 
     <body>
 
-    <%= error %>
+        <!-- Mobile nav toggle button -->
+        <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
 
-    <!--    Footer Section    -->
-    <%- include('../partials/footer.html'); %>
+        <!--   Header Section   -->
+        <%- include('../partials/header.html'); %>
 
-    <!--    Scripts Files   -->
-    <%- include('../partials/scripts.html'); %>
+        <main class="container">
+            <div class="container-fluid">
+                <ul>
+                    <% for(let key in data){ %>
+                        <li>
+                            <p>
+                                <%= key %>: <%= JSON.stringify(data[key]) %>
+                            </p>
+                        </li>
+                        <hr />
+                    <% } %>
+                </ul>
+            </div>
+        </main>
+
+        <!--    Footer Section    -->
+        <%- include('../partials/footer.html'); %>
+
+        <!--    Scripts Files   -->
+        <%- include('../partials/scripts.html'); %>
 
     </body>
 
