@@ -15,10 +15,8 @@
  */
 // import environment variables
 require('./utils/config').config().catch(console.dir)
-const fs = require('fs')
 const path = require('path');
 const https = require('https');
-// const http = require('http');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -130,15 +128,15 @@ async function main() {
                     "'self'",
                     process.env.HOSTNAME,
                     "*.googleapis.com",
-                    " https://code.jquery.com/jquery-3.6.1.min.js",
+                    "https://code.jquery.com/jquery-3.6.1.min.js",
                     "https://www.google.com/maps/",
-                    " https://fonts.googleapis.com/",
+                    "https://fonts.googleapis.com/",
                     "'unsafe-inline'",
                     "'unsafe-eval'"
                 ],
                 objectSrc: ["'none'"],
-                fontSrc: ["'self'"," https://fonts.gstatic.com/","https:", "data:", "'unsafe-inline'"],
-                styleSrc: ["'self'", " https://fonts.googleapis.com/", "'unsafe-inline'"],
+                fontSrc: ["'self'", "https://fonts.gstatic.com/", "https:", "data:", "'unsafe-inline'"],
+                styleSrc: ["'self'", "https://fonts.googleapis.com/", "'unsafe-inline'"],
                 frameSrc: ["'self'", "https://www.google.com/maps/"],
                 upgradeInsecureRequests: [],
             },
@@ -231,7 +229,6 @@ async function main() {
                 console.log(req, res)
             })
             .on('error', errorHandler)
-
 
         console.log('Server initialization complete......')
     } catch (e) {
