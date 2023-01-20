@@ -1,5 +1,5 @@
 /**
- *    Copyright 2022 Dellius Alexander
+ *    Copyright 2023 Dellius Alexander
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -13,8 +13,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
-
 (function() {
   "use strict";
 
@@ -28,43 +26,33 @@
     }
   }
 
-  /* Easy event listener function */
-  const on = (type, el, listener, all = false) => {
-    let selectEl = select(el, all)
+  /**
+   * Event listener helper function.
+   * @param {Event} event
+   * @param {Selection} selector
+   * @param {Function} listener
+   * @param all
+   */
+  const on = (event, selector, listener, all = false) => {
+    let selectEl = select(selector, all)
     if (selectEl) {
       if (all) {
-        selectEl.forEach(e => e.addEventListener(type, listener))
+        selectEl.forEach(e => e.addEventListener(event, listener))
       } else {
-        selectEl.addEventListener(type, listener)
+        selectEl.addEventListener(event, listener)
       }
     }
   }
+
+
 
   /* Easy on scroll event listener */
   const onscroll = (el, listener) => {
     el.addEventListener('scroll', listener)
   }
 
-  /* Navbar links active state on scroll */
-  let navbarlinks = select('#navbar .scrollto', true)
-  const navbarlinksActive = () => {
-    let position = window.scrollY + 200
-    navbarlinks.forEach(navbarlink => {
-      if (!navbarlink.hash) return
-      let section = select(navbarlink.hash)
-      if (!section) return
-      if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
-        navbarlink.classList.add('active')
-      } else {
-        navbarlink.classList.remove('active')
-      }
-    })
-  }
-  window.addEventListener('load', navbarlinksActive)
-  onscroll(document, navbarlinksActive)
-
   /* Scrolls to an element with header offset */
-  const scrollto = (el) => {
+  const scroll_to = (el) => {
     let elementPos = select(el).offsetTop
     window.scrollTo({
       top: elementPos,
@@ -72,18 +60,40 @@
     })
   }
 
-  /* Back to top button */
-  let backtotop = select('.back-to-top')
-  if (backtotop) {
-    const toggleBacktotop = () => {
-      if (window.scrollY > 100) {
-        backtotop.classList.add('active')
+  /* Start of execution */
+
+  /* Navbar links active state on scroll */
+  let navBarLinks = select('#navbar .scrollto', true)
+  const activateNavBarLinks = () => {
+    let position = window.scrollY + 200
+    navBarLinks.forEach(navBarLink => {
+      if (!navBarLink.hash) return
+      let section = select(navBarLink.hash)
+      if (!section) return
+      if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
+        navBarLink.classList.add('active')
       } else {
-        backtotop.classList.remove('active')
+        navBarLink.classList.remove('active')
+      }
+    })
+  }
+  /* Load the navigation panel on page load */
+  window.addEventListener('load', activateNavBarLinks)
+  onscroll(document, activateNavBarLinks)
+
+
+  /* Back to top button */
+  let back_to_top_selector = select('.back-to-top')
+  if (back_to_top_selector) {
+    const load_toggle_button = () => {
+      if (window.scrollY > 100) {
+        back_to_top_selector.classList.add('active')
+      } else {
+        back_to_top_selector.classList.remove('active')
       }
     }
-    window.addEventListener('load', toggleBacktotop)
-    onscroll(document, toggleBacktotop)
+    window.addEventListener('load', load_toggle_button)
+    onscroll(document, load_toggle_button)
   }
 
   /* Mobile nav toggle */
@@ -93,7 +103,7 @@
     this.classList.toggle('bi-x')
   })
 
-  /* Scrool with ofset on links with a class name .scrollto */
+  /* Scroll with offset on links with a class name .scrollto */
   on('click', '.scrollto', function(e) {
     if (select(this.hash)) {
       e.preventDefault()
@@ -105,15 +115,15 @@
         navbarToggle.classList.toggle('bi-list')
         navbarToggle.classList.toggle('bi-x')
       }
-      scrollto(this.hash)
+      scroll_to(this.hash)
     }
   }, true)
 
-  /* Scroll with ofset on page load with hash links in the url */
+  /* Scroll with offset on page load with hash links in the url */
   window.addEventListener('load', () => {
     if (window.location.hash) {
       if (select(window.location.hash)) {
-        scrollto(window.location.hash)
+        scroll_to(window.location.hash)
       }
     }
   });
@@ -133,10 +143,10 @@
   }
 
   /* Skills animation */
-  let skilsContent = select('.skills-content');
-  if (skilsContent) {
+  let skillsContent = select('.skills-content');
+  if (skillsContent) {
     new Waypoint({
-      element: skilsContent,
+      element: skillsContent,
       offset: '80%',
       handler: function(direction) {
         let progress = select('.progress .progress-bar', true);
@@ -147,7 +157,7 @@
     })
   }
 
-  /* Porfolio isotope and filter */
+  /* Portfolio isotope and filter */
   window.addEventListener('load', () => {
     let portfolioContainer = select('.portfolio-container');
     if (portfolioContainer) {
@@ -231,6 +241,12 @@
       mirror: false
     })
   });
+
+  /* Style About title */
+  window.addEventListener('load', () => {
+    const aboutTitle = select('.about-greeting-title');
+    aboutTitle.style.fontFamily = 'Sans';
+  })
 
   /* Initiate Pure Counter */
   new PureCounter();
