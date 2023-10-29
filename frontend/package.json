@@ -24,7 +24,7 @@
   },
   "repository": {},
   "keywords": [],
-  "author": "Dellius Alexander <dellius.alexander@gmail.com>",
+  "author": "Dellius Alexander <info@delliusalexander.com>",
   "license": "MIT",
   "dependencies": {
     "aos": "file:./assets/vendor/aos",

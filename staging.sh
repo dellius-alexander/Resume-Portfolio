@@ -79,10 +79,27 @@ __setup_staging() {
 
   # list contents of all files staged
   ls -liaR ${STAGING}  &&
-#  # remove old docs
-#  mkdir -p ./docs &&
-#  cp -r ${STAGING}/** ./docs/  &2>/dev/null &&
-#  ls -liaR docs  &2>/dev/null &&
+
+  # set package.json file
+  echo """
+{
+  "name": "resume_portfolio",
+  "version": "1.0.0",
+  "description": "Resume portfolio for Dellius Alexander",
+  "private": false,
+  "main": "server.js",
+  "homepage": "https://dellius-alexander.github.io/Resume-Portfolio/",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "repository": {},
+  "keywords": [],
+  "author": "Dellius Alexander <info@delliusalexander.com>",
+  "license": "MIT",
+  "bugs": {},
+}
+
+  """ > ${STAGING}/js/package.json
   echo "Staging github-pages files complete..."
 
 }
