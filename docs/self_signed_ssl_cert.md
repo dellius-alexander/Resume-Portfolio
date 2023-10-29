@@ -44,16 +44,16 @@ Let's breakdown the command and understand what each option means:
 - `out example.crt` - Specifies the filename to write the newly created certificate to. You can specify any file name.
 - `keyout example.key` - Specifies the filename to write the newly created private key to. You can specify any file name.
 
-For more information about the openssl req command options, 
+For more information about the openssl req command options,
 visit the [OpenSSL req documentation page](https://www.openssl.org/docs/man1.0.2/man1/openssl-req.html).
 
-Once you hit Enter, the command will generate the private key and ask you a series of questions. 
+Once you hit Enter, the command will generate the private key and ask you a series of questions.
 The information you provided is used to generate the certificate.
 
-Once you hit Enter, the command will generate the private key and ask you a series of questions. 
+Once you hit Enter, the command will generate the private key and ask you a series of questions.
 The information you provided is used to generate the certificate.
 
-The certificate and private key will be created at the specified location. Use the ls command to 
+The certificate and private key will be created at the specified location. Use the ls command to
 verify that the files were created:
 
 That’s it! You have generated a new self-signed SSL certificate.
@@ -62,7 +62,7 @@ It is always a good idea to back up your new certificate and key to external sto
 
 <h2>Creating Self-Signed SSL Certificate without Prompt</h2>
 
-If you want to generate a self-signed SSL certificate without being prompted for any question 
+If you want to generate a self-signed SSL certificate without being prompted for any question
 use the -subj option and specify all the subject information:
 
 
@@ -109,15 +109,15 @@ openssl req -x509 \
             -extensions EXT -config <( \
             printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
 ```
-You can then configure your local web server with localhost.crt and `localhost.key`, and install `localhost.crt` 
+You can then configure your local web server with localhost.crt and `localhost.key`, and install `localhost.crt`
 in your list of locally trusted roots.
 
-If you want a little more realism in your development certificates, you can use 
-[minica](https://github.com/jsha/minica) to generate your own local root certificate, and 
-issue end-entity (aka leaf) certificates signed by it. You would then import the root 
+If you want a little more realism in your development certificates, you can use
+[minica](https://github.com/jsha/minica) to generate your own local root certificate, and
+issue end-entity (aka leaf) certificates signed by it. You would then import the root
 certificate rather than a self-signed end-entity certificate.
 
-You can also choose to use a domain with dots in it, like `www.localhost`, by adding it 
+You can also choose to use a domain with dots in it, like `www.localhost`, by adding it
 to `/etc/hosts` as an alias to `127.0.0.1`. This subtly changes how browsers handle cookie storage.
 
 <h2>Creating Self-Signed SSL Certificate from config file</h2>
@@ -194,8 +194,7 @@ openssl x509 -pubkey -noout -in example.pem > example.pub
 
 <h3>Conclusion</h3>
 
-We have generate a self-signed SSL certificate using the openssl tool. We have provided several alternatives 
-to generate a SSL certificate for managed or unmanaged use cases. Now that you have the certificate, you 
+We have generate a self-signed SSL certificate using the openssl tool. We have provided several alternatives
+to generate a SSL certificate for managed or unmanaged use cases. Now that you have the certificate, you
 can configure your application to use it.
-
 

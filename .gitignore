@@ -114,7 +114,9 @@ frontend/.npm
 /**/*.env
 !/**/*.env.example
 # exclude staging directory
-/staging/
+
 /.googleapis/
 /**/.certs
 /**/.backup/
+/**/.vscode/
+/**/staging/

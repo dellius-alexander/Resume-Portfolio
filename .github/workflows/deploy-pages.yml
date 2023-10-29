@@ -63,7 +63,28 @@ jobs:
 
       - name: Stage assets
         run: |
-          sh staging.sh "staging"
+          sh staging.sh "staging";
+
+      - name: Publish to github-pages
+        run: |
+          ls -lia;
+          git config --global user.name ${USER_NAME};
+          git config --global user.name ${USER_EMAIL};
+          git remote set-url origin https://${USER_NAME}:${RESUME_PORTFOLIO_TOKEN}@github.com/${GITHUB_REPOSITORY};
+          cd ./frontend;        
+          export NODE_ENV=${NODE_ENV};
+          npm install --save-dev gh-pages;
+          npx gh-pages -d 'staging' -m 'github pages demo updated' \
+          --dest '.' \
+          -b 'github-pages' -u "${FULL_NAME} \< ${USER_EMAIL} \>";
+          echo "Successfully Published to gh-pages repository................................................";
+        env:
+          RESUME_PORTFOLIO_TOKEN: ${{ secrets.RESUME_PORTFOLIO_TOKEN }}
+          FULL_NAME: ${{ secrets.FULL_NAME }}
+          NODE_ENV: ${{ env.NODE_ENV }};
+          USER_NAME: ${{ secrets.USER_NAME }}
+          USER_EMAIL: ${{ secrets.USER_EMAIL }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload artifact
         env:

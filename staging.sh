@@ -74,9 +74,15 @@ __setup_staging() {
   # stage all .html files
   cp -r ${VIEWS_DIR}/pages/*.html ${STAGING} &&
 
+  # stage LICENSE file
+  cp -r LICENSE ${STAGING} &&
+
   # list contents of all files staged
   ls -liaR ${STAGING}  &&
-
+#  # remove old docs
+#  mkdir -p ./docs &&
+#  cp -r ${STAGING}/** ./docs/  &2>/dev/null &&
+#  ls -liaR docs  &2>/dev/null &&
   echo "Staging github-pages files complete..."
 
 }
