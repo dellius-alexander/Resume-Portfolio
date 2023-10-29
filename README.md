@@ -10,5 +10,5 @@ As well as highlight some of my more notable projects and accomplishments.
 
 ---
 
-[![Resume Portfolio](docs/images/resume-poster.png)](https://profile.delliusalexander.com/Resume-Portfolio/)
+[![Resume Portfolio](docs/images/resume-poster.png)](https://delliusalexander.com/)
 
