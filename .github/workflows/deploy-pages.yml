@@ -63,7 +63,7 @@ jobs:
 
       - name: Publish to github-pages
         run: |
-          echo 'https://profile.delliusalexander.com' >> staging/CNAME;
+          cp CNAME* staging/CNAME;
           ls -lia;
           git config --global user.name ${USER_NAME};
           git config --global user.name ${USER_EMAIL};
