@@ -63,7 +63,7 @@ jobs:
 
       - name: Publish to github-pages
         run: |
-          cp CNAME* staging/CNAME;
+          cp CNAME* staging/CNAME.txt;
           ls -lia;
           git config --global user.name ${USER_NAME};
           git config --global user.name ${USER_EMAIL};
