@@ -76,7 +76,7 @@ jobs:
           npm install --save-dev gh-pages;
           npx gh-pages -d 'staging' -m 'github pages demo updated' \
           --dest '.' \
-          -b 'github-pages' -u "${FULL_NAME} \< ${USER_EMAIL} \>";
+          -b 'github-pages' -u "${FULL_NAME} < ${USER_EMAIL} >";
           echo "Successfully Published to gh-pages repository................................................";
         env:
           RESUME_PORTFOLIO_TOKEN: ${{ secrets.RESUME_PORTFOLIO_TOKEN }}
