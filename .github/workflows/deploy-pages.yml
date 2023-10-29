@@ -72,7 +72,7 @@ jobs:
           npx gh-pages -d 'staging' -m 'github pages demo updated' \
           --dest '.' \
           -b 'github-pages' -u "${FULL_NAME} <${USER_EMAIL}>";
-          echo "Successfully Published to gh-pages repository................................................";
+          echo "Successfully Published to github-pages repository................................................";
         env:
           RESUME_PORTFOLIO_TOKEN: ${{ secrets.RESUME_PORTFOLIO_TOKEN }}
           FULL_NAME: ${{ secrets.FULL_NAME }}

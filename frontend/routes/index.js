@@ -38,7 +38,7 @@ router.get('/',  async function (req, res, next) {
             ]
         )
         .setHeader('Set-Cookie', {data: data})
-        .render('pages/index.ejs', {data});
+        .render('pages/index.html', {data});
 
 });
 
