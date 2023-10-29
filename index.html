@@ -19,14 +19,28 @@
 <html lang="en">
 
 <head>
+  <!-- Charset -->
   <meta charset="utf-8">
+  <!-- Content-Security-Policy -->
+  <meta
+          http-equiv="Content-Security-Policy"
+          content="
+            default-src 'self' https://127.0.0.1 https://backend:4443 https://www.google.com/maps/embed https://delliusalexander.com https://dellius-alexander.github.io https://code.jquery.com/ data: https://ssl.gstatic.com content: 'unsafe-inline' 'unsafe-eval' ;
+            style-src 'self' 'unsafe-inline';
+            media-src 'self' *;
+            frame-src 'self' https://127.0.0.1 https://backend:4443 https://www.google.com/maps/embed https://delliusalexander.com data: content:;
+            img-src 'self' https://api.wolframalpha.com https://dellius-alexander.github.io https://delliusalexander.com data: content:;
+            connect-src 'self' https://0.0.0.0:4443 https://backend:4443 https://delliusalexander.com https://api.wolframalpha.com https://dellius-alexander.github.io data: content: 'unsafe-inline';
+            font-src 'self' https://fonts.gstatic.com data: content: 'unsafe-inline';
+            "
+  />
   <meta name="viewport"  content="width=device-width, initial-scale=1.0" >
-
   <!--   SEO Integration   -->
   <meta name="author" content="Dellius Alexander">
   <meta name="keyword" content="System Analysis and Design; Design Patterns Integration; Software Development; Data Science; Quantum Computing; DevOps Engineering; ">
   <meta name="description" content="A Software Engineer with 4 years of academic and 2 years of Enterprise experience seeking a highly rewarding
         career IT. My aspirations are to some day become a Solutions Architect.">
+
   <!--  Use Google Webfonts library -->
   <script src="js/webfont.js" type="text/javascript"></script>
 
@@ -39,7 +53,7 @@
   <!--  -->
   <script type="text/javascript">
     !function(o,c){
-      let n=c.documentElement,
+      var n=c.documentElement,
               t=" w-mod-";
       n.className+=t+"js",
       ("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")
@@ -65,9 +79,10 @@
   <!-- Main CSS File -->
   <link href="css/style.css" rel="stylesheet" type="text/css">
 
-  <!--  Tab Title   -->
-  <title>Portfolio Resume</title>
+  <!--    Tab Title    -->
+  <title><%= data.title %></title>
 </head>
+<!--    End Head Section    -->
 
 <body>
 
@@ -80,7 +95,7 @@
       <!-- Need to link my profiles-->
       <div class="profile">
         <img src="img/profile-img.jpg" alt="" class="img-fluid rounded-circle">
-        <h1 class="text-light"><a href="index.html">Dellius Alexander</a></h1>
+        <h1 class="text-light"><a href="index.html"><%= data.name %></a></h1>
         <div class="social-links mt-3 text-center">
           <!--          <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>-->
           <!--          <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>-->
@@ -102,7 +117,8 @@
         </ul>
       </nav><!-- .nav-menu -->
     </div>
-  </header><!-- End Header -->
+  </header>
+  <!--   End Header Section   -->
 
   <!-- Hero Section -->
   <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
