@@ -122,3 +122,4 @@ frontend/.npm
 /**/staging/
 
 .dns
+.devcontainer/persistent/**

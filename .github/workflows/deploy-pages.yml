@@ -64,7 +64,6 @@ jobs:
       - name: Publish to github-pages
         run: |
           cp CNAME* staging/CNAME;
-          ls -lia;
           git config --global user.name ${USER_NAME};
           git config --global user.name ${USER_EMAIL};
           git remote set-url origin https://${USER_NAME}:${RESUME_PORTFOLIO_TOKEN}@github.com/${GITHUB_REPOSITORY};

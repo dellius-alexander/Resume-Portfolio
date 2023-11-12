@@ -45,6 +45,7 @@
     "multer": "^1.4.5-lts.1",
     "php-email-form": "file:./assets/vendor/php-email-form",
     "purecounter": "file:./assets/vendor/purecounter",
+    "smtp": "file:./assets/vendor/smtp",
     "swiper": "file:./assets/vendor/swiper",
     "typed.js": "file:./assets/vendor/typed.js",
     "waypoints": "file:./assets/vendor/waypoints",
