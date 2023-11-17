@@ -109,7 +109,8 @@
       e.preventDefault()
 
       let body = select('body')
-      if (body.classList.contains('mobile-nav-active')) {
+      if (body.classList.contains('mobile-nav-active'))
+      {
         body.classList.remove('mobile-nav-active')
         let navbarToggle = select('.mobile-nav-toggle')
         navbarToggle.classList.toggle('bi-list')
@@ -248,7 +249,69 @@
     aboutTitle.style.fontFamily = 'Sans';
   })
 
+
+  /**
+   * Function to shrink the skills section
+   */
+  const shrinkSkills = () => {
+    "use strict";
+    const showMoreRegex = /Show\s*?More/g;
+    const showLessRegex = /Show\s*?Less/g;
+    let right_column = document.getElementById('right-column');
+    let left_column = document.getElementById('left-column');
+    let accordion_button = document.getElementById("accordion-button");
+    let right_progress =  right_column.getElementsByClassName('progress');
+    let left_progress =  left_column.getElementsByClassName('progress');
+    if (showLessRegex.test(accordion_button.innerText))
+    {
+      accordion_button.innerText = 'Show More';
+      for (let i = 0; i <= 5; i++)
+      {
+        setTimeout(function() {
+          right_progress.item(i).style.display = "block";
+          left_progress.item(i).style.display = "block";
+        }, 200);
+      }
+      for (let i = 6; i < right_progress.length ; i++)
+      {
+        setTimeout(function() {
+          right_progress.item(i).style.display = "none";
+        }, 200);
+      }
+      for (let i = 6; i < left_progress.length; i++)
+      {
+        setTimeout(function() {
+          left_progress.item(i).style.display = "none";
+        }, 200);
+      }
+    } else if (showMoreRegex.test(accordion_button.innerText))
+    {
+      accordion_button.innerText = 'Show Less';
+      for (let i = 6; i < right_progress.length; i++)
+      {
+        setTimeout(function() {
+          right_progress.item(i).style.display = "block";
+        }, 200);
+      }
+      for (let i = 6; i < left_progress.length; i++)
+      {
+        setTimeout(function() {
+          left_progress.item(i).style.display = "block";
+        }, 200);
+      }
+    }
+  }
+  /* shrink the skills list */
+  window.addEventListener('DOMContentLoaded', () => {
+    const accordion_button = select('#accordion-button');
+    if (/Show\s*?Less/g.test(accordion_button.innerText)){
+      shrinkSkills();
+    }
+    accordion_button.addEventListener('click', shrinkSkills);
+  })
+
   /* Initiate Pure Counter */
   new PureCounter();
 
 })()
+

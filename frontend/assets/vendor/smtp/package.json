@@ -1,8 +1,0 @@
-{
-  "name": "smtp",
-  "version": "v3.0.0",
-  "description": "SmtpJS is a free library you can use for sending emails from JavaScript.",
-  "private": false,
-  "main": "smtp.js",
-  "homepage": "https://SmtpJS.com/"
-}

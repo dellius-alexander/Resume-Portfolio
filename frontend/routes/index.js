@@ -14,6 +14,8 @@
  *    limitations under the License.
  */
 const router = require('express').Router();
+const {getSkillsData} = require('../utils/resumeParser');
+const fs = require('fs');
 
 /**
  * Index route.
@@ -25,10 +27,14 @@ const router = require('express').Router();
  * @type {Router}
  */
 router.get('/',  async function (req, res, next) {
-    const data = {
-        title: "Portfolio Resume",
-        name: "Dellius Alexander"
-    }
+    // create data object
+    const data = Object.assign({},
+        {
+            title: "Portfolio Resume",
+            name: "Dellius Alexander",
+            skills: await getSkillsData().then((data) => data),
+        });
+    // render the html/ejs template file
     res
         .status(200)
         .setHeader(
@@ -38,8 +44,22 @@ router.get('/',  async function (req, res, next) {
             ]
         )
         .setHeader('Set-Cookie', {data: data})
-        .render('pages/index.html', {data});
-
+        // parse the ejs templates and send html
+        .render('pages/index.ejs', {data: data}, (err, html) => {
+            if (err) {
+                console.error(err);
+                res.status(500).send('Internal Server Error');
+            } else {
+                // Use fs to write new html to file
+                fs.writeFile("views/pages/index.html", Buffer.from(html), (err) => {
+                    if (err) {
+                        console.error('Error writing file.\n', err);
+                    }
+                    console.log('Successfully wrote file');
+                });
+            }
+            res.send(html);
+        });
 });
 
 module.exports = router;

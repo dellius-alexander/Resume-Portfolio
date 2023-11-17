@@ -121,5 +121,6 @@ frontend/.npm
 /**/.vscode/
 /**/staging/
 
-.dns
 .devcontainer/persistent/**
+email-engine.docker-compose.yml
+mailu.docker-compose.yml

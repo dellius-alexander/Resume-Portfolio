@@ -17,8 +17,12 @@ const fs = require('fs')
 // import environment variables
 const dotenv = require('dotenv')
 
-async function config(options){
-    this.envFile = __dirname.replace(`utils`, ``) + ".env";
+async function config(envFile, options){
+    this.envFile = envFile || ".env";
+    // walk up the directory tree recursively until we find the .env file
+    while (!fs.existsSync(this.envFile)){
+        this.envFile = '../' + this.envFile;
+    }
     this.options = options === undefined || options === null || Object.keys(options).length === 0 ? Object.create({
         path: this.envFile,
         encoding: 'utf8',

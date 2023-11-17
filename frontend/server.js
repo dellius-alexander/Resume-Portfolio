@@ -13,8 +13,12 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+console.log('Starting server initialization......')
 // import environment variables
-require('./utils/config').config().catch(console.dir)
+const config =  require('./utils/config').config().catch(console.dir);
+console.log('Importing server dependencies......')
+console.dir(config)
+
 const path = require('path');
 const https = require('https');
 const express = require('express');
@@ -30,6 +34,7 @@ const upload = multer({ dest: 'uploads/' });
 const indexRouter = require('./routes/index');
 const {errorRoute, errorHandler} = require('./utils/errorHandler');
 const {sslOptions, cfg} = require('./utils/sslOptions')
+const Console = require("console");
 
 /**
  * Server middleware configuration. The order of middleware is crucial.
@@ -131,10 +136,11 @@ async function main() {
                     "https://code.jquery.com/jquery-3.6.1.min.js",
                     "https://www.google.com/maps/",
                     "https://fonts.googleapis.com/",
+
                     "'unsafe-inline'",
                     "'unsafe-eval'"
                 ],
-                objectSrc: ["'none'"],
+                objectSrc: ["'self'", "https://www.google.com/maps/", "https://delliusalexander.com:4443/partials/header.html"],
                 fontSrc: ["'self'", "https://fonts.gstatic.com/", "https:", "data:", "'unsafe-inline'"],
                 styleSrc: ["'self'", "https://fonts.googleapis.com/", "'unsafe-inline'"],
                 frameSrc: ["'self'", "https://www.google.com/maps/"],
@@ -186,9 +192,10 @@ async function main() {
         // app.use('/js', express.static(path.join(__dirname, 'node_modules/php-email-form')))
         app.use('/js', express.static(path.join(__dirname, 'node_modules/html5shiv.min.js')))
         app.use('/js', express.static(path.join(__dirname, 'node_modules/webfont')))
+        app.use('/js',  express.static(path.join(__dirname, 'node_modules/pdf-parse')))
 
         // add assets directory static file paths
-        app.use('/js', express.static(path.join(__dirname, 'assets/js')))
+        app.use('/js/', express.static(path.join(__dirname, 'assets/js')))
         app.use('/css', express.static(path.join(__dirname, 'assets/css')))
         app.use('/img', express.static(path.join(__dirname, 'assets/img')))
         app.use('/scss', express.static(path.join(__dirname, 'assets/scss')))
@@ -196,6 +203,9 @@ async function main() {
         // fonts path for boxicons
         app.use('/fonts', express.static(path.join(__dirname, 'node_modules/boxicons/fonts')))
         app.use('/fonts', express.static(path.join(__dirname, 'node_modules/bootstrap-icons/fonts')))
+
+        // Documentation path for resume document
+        app.use('/docs', express.static(path.join(__dirname, 'assets/docs')))
 
         // Middleware for handling index route
         console.log('Setting index route......')
@@ -248,5 +258,5 @@ async function main() {
 
     }
 }
-
+console.log('Server initialization complete, running main......')
 main().catch(console.dir);

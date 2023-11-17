@@ -16,7 +16,7 @@ case "${NODE_ENV}" in
     ;;
   dev | development)
     echo "Node running in ${NODE_ENV} mode." &&
-    export DEBUG=resume_portfolio:*
+#    export DEBUG=resume_portfolio:*
     npm run dev
     ;;
 esac
