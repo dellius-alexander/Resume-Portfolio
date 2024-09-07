@@ -265,39 +265,42 @@
     if (showLessRegex.test(accordion_button.innerText))
     {
       accordion_button.innerText = 'Show More';
+      // Display the first 6 skills
       for (let i = 0; i <= 5; i++)
       {
         setTimeout(function() {
           right_progress.item(i).style.display = "block";
           left_progress.item(i).style.display = "block";
-        }, 200);
+        }, 1000);
       }
+      // Hide the rest of the skills
       for (let i = 6; i < right_progress.length ; i++)
       {
         setTimeout(function() {
           right_progress.item(i).style.display = "none";
-        }, 200);
+        }, 1000);
       }
       for (let i = 6; i < left_progress.length; i++)
       {
         setTimeout(function() {
           left_progress.item(i).style.display = "none";
-        }, 200);
+        }, 1000);
       }
     } else if (showMoreRegex.test(accordion_button.innerText))
     {
       accordion_button.innerText = 'Show Less';
+      // Display all the skills
       for (let i = 6; i < right_progress.length; i++)
       {
         setTimeout(function() {
           right_progress.item(i).style.display = "block";
-        }, 200);
+        }, 1000);
       }
       for (let i = 6; i < left_progress.length; i++)
       {
         setTimeout(function() {
           left_progress.item(i).style.display = "block";
-        }, 200);
+        }, 1000);
       }
     }
   }
@@ -308,7 +311,7 @@
       shrinkSkills();
     }
     accordion_button.addEventListener('click', shrinkSkills);
-  })
+  }, true);
 
   /* Initiate Pure Counter */
   new PureCounter();
