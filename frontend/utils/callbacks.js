@@ -13,6 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+
 /**
  * Standard callback function
  * @param req
@@ -24,10 +25,69 @@ async function callback(req, res, next) {
     console.dir(res);
     console.dir(req);
     console.dir(next);
-    return {message: "Something went wrong..."};
+    if (res.statusCode === 200) {
+        return {
+            message: "Success",
+            status: res.statusCode
+        }
+    }
+    if (res.statusCode === 400) {
+        return {
+            message: "Bad Request",
+            error: res.statusMessage,
+            status: res.statusCode
+        }
+    }
+    if (res.statusCode === 401) {
+        return {
+            message: "Unauthorized",
+            error: res.statusMessage,
+            status: res.statusCode
+        }
+    }
+    if (res.statusCode === 403) {
+        return {
+            message: "Forbidden",
+            error: res.statusMessage,
+            status: res.statusCode
+        }
+    }
+    if (res.statusCode === 404) {
+        return {
+            message: "Not Found",
+            error: res.statusMessage,
+            status: res.statusCode
+        }
+    }
+    if (res.statusCode === 500) {
+        return {
+            message: "Internal Server Error",
+            error: res.statusMessage,
+            status: res.statusCode
+        }
+    }
+    if (res.statusCode === 503) {
+        return {
+            message: "Service Unavailable",
+            error: res.statusMessage,
+            status: res.statusCode
+        }
+    }
+    if (res.statusCode === 504) {
+        return {
+            message: "Gateway Timeout",
+            error: res.statusMessage,
+            status: res.statusCode
+        }
+    }
+    return {
+        message: "Unknown Error",
+        error: res.statusMessage,
+        status: res.statusCode
+    }
 }
 
 
 module.exports = {
-    callback
+    callback: callback
 }

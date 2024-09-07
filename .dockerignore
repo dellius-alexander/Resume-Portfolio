@@ -1,3 +1,5 @@
 /**/node_modules/
 .github/
 .backup/
+email-engine.docker-compose.yml
+mailu.docker-compose.yml

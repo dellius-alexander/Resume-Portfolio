@@ -16,36 +16,85 @@
 const fs = require('fs')
 // import environment variables
 const dotenv = require('dotenv')
+const path = require('path')
 
-async function config(envFile, options){
-    this.envFile = envFile || ".env";
-    // walk up the directory tree recursively until we find the .env file
-    while (!fs.existsSync(this.envFile)){
-        this.envFile = '../' + this.envFile;
-    }
-    this.options = options === undefined || options === null || Object.keys(options).length === 0 ? Object.create({
-        path: this.envFile,
+/**
+ * Loads environment variables from a file into process.env
+ * @param options - pathEnv: string, encoding: string, debug: boolean, override: boolean
+ * @returns {{error: Error}|*}
+ */
+function config(
+    options  = {
+        pathEnv: '.env',
         encoding: 'utf8',
         debug: true,
         override: true
-    }) : Object.assign({}, options);
-    // get environment file
-    if (fs.existsSync(this.envFile)){
-        const result = dotenv.config(
-            this.options
-        )
-        if (result.error) {
-            throw result.error
+    }) {
+    try {
+        let pathEnv = options.pathEnv === undefined || options.pathEnv === null ? '.env' : options.pathEnv;
+        console.log("Loading environment file: " + pathEnv);
+        // check for absolute path
+        if (path.isAbsolute(`${pathEnv}`) && fs.existsSync(`${pathEnv}`)) {
+            pathEnv = path.resolve(`${pathEnv}`);
         } else {
-            console.dir(result)
-            return result;
+            // check for relative path
+            if (!fs.existsSync(pathEnv)) {
+                // walk up the directory tree to find the file, a maximum of 3 levels
+                let i = 0;
+                let found = false;
+                pathEnv = pathEnv.split(/\//g).slice(-1).join('/');
+                // pathEnv =  process.cwd() + "/" + pathEnv;
+                console.log(`Testing current env file path: ${pathEnv}`)
+
+                let parentDir = ".";
+                while (found === false && i < 5)
+                {
+                    const tempEnv = path.join(`${parentDir}`, `${pathEnv}`)
+                    console.log("Checking directory: " + tempEnv)
+
+                    if (fs.existsSync(`${tempEnv}`)) {
+                        pathEnv = path.resolve(`${tempEnv}`);
+                        console.log(`Found file: ${pathEnv}`)
+                        found = true;
+                        break;
+                    }
+                    i++;
+                    parentDir = process.cwd().split('/').slice(0, -1).join('/');
+                }
+            }
+
         }
-    } else {
-        console.dir("No environment file found. Continuing with default runtime configuration.")
-        console.dir(process.env)
+        console.log("Using environment file: " + pathEnv);
+        // set options
+        this.options = Object.assign({}, {
+            path: pathEnv,
+            encoding: options.encoding || 'utf8',
+            debug: options.debug || true,
+            override: options.override || true
+        });
+        console.log(Object.entries(this.options));
+        // get environment file
+        if (fs.existsSync(pathEnv)){
+            const result = dotenv.config(this.options);
+            if (result.error) {
+                throw new Error(`Error loading environment file: ${pathEnv} \n
+                Please ensure that the file exists and is valid.\n
+                If you are using a custom file name, please ensure that the file is in the root directory of your project.\n
+                ${result.error}
+                `);
+            } else {
+                return result;
+            }
+        } else {
+            console.log("No environment file found. Continuing with default runtime configuration.");
+            console.log(process.env);
+        }
+    } catch (err) {
+        console.error(err)
+        return {error: err}
     }
 }
 
 module.exports = {
-    config
+    config: config
 }

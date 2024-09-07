@@ -1,8 +1,57 @@
-const promises = require('fs').promises;
+const {readFile} = require('fs').promises;
 const existsSync = require('fs').existsSync;
 const pdfParse = require('pdf-parse');
+const path = require('path');
+const traceback = require('stack-trace');
+const {YAMLParser} = require('./yaml-parser.js')
+const log = require('./logger').getLogger();
 
-let resumeData = null;
+/**
+ * @description Wrapper function to retrieve the resume data.
+ * @param {string} filePath The resume data file path.
+ * @return {Promise<{}>} The resume data object.
+ */
+function getResumeDataFromYAMLFile(filePath = `${process.env.RESUME_YAML_FILE}` || null) {
+    try {
+        if (filePath == null) {  // resume data has not been retrieved yet
+            throw new Error('Resume data has not been retrieved yet. Please provide the correct file path.');
+        } else { // resume data has already been retrieved
+            let parser  = null;
+            parser = new YAMLParser(
+                filePath,
+                {encoding: 'utf8', flag: 'r'});
+
+            log.info('Resume data retrieved successfully.');
+            log.info(`Version: ${parser.parsedData['version']}`);
+            return parser.parsedData;
+        }
+
+    } catch (error) {
+        log.error(
+            'Error parsing PDF:\n',
+            error
+        )
+        traceback.get().forEach((trace) => {
+            log.error(trace.getFileName());
+            log.error(trace.getFunctionName());
+            log.error(trace.getLineNumber());
+            log.error(trace.getColumnNumber());
+            log.error(trace.getEvalOrigin());
+            log.error(trace.getModuleName());
+            log.error(trace.getTypeName());
+            log.error(trace.getMethodName());
+            log.error(trace.getThis());
+            log.error(trace.isToplevel());
+            log.error(trace.isEval());
+            log.error(trace.isNative());
+            log.error(trace.isConstructor());
+            log.error(trace.isAsync());
+            log.error(trace.isPromiseAll());
+            log.error(trace.getPromiseIndex());
+        })
+        return error;
+    }
+}
 
 /**
  * @description This function parses the raw text and returns the section data of the resume pdf.
@@ -54,43 +103,43 @@ async function parseSection(rawText, sectionName, nextSectionName) {
  */
 async function  extractDataFromPdf (pdfPath) {
     try {
-        console.log(`PDF Path: ${pdfPath}`);
+        log.info(`PDF Path: ${pdfPath}`);
         if (!existsSync(pdfPath)) {
-            console.error('The PDF file does not exist.');
-            console.error('Current working directory:', process.cwd());
+            log.error('The PDF file does not exist.');
+            log.error('Current working directory:', process.cwd());
             // Exit code execution.
             process.exit(1);
         } else {
-            console.log('The PDF file exists.');
-            console.log('Extracting data from PDF...');
+            log.info('The PDF file exists.');
+            log.info('Extracting data from PDF...');
 
         }
-        const pdfBuffer = await promises.readFile(pdfPath)
+        const pdfBuffer = await readFile(pdfPath)
             .then((data) => {
-                console.log(`PDF file read successfully. \nSize of Data: ${data.length} bytes.`);
-                // console.dir(data);
+                log.info(`PDF file read successfully. \nSize of Data: ${data.length} bytes.`);
+                // log.info(data);
                 return data;
             })
         const data = await pdfParse(pdfBuffer);
         const rawText = data.text;
         const academicData = await parseSection(rawText, 'ACADEMICS', 'SKILLS & TOOLS')
             .then((data) => {
-                console.log(`Size of Academic Data: ${data.length} bytes.`);
+                log.info(`Size of Academic Data: ${data.length} bytes.`);
                 return data;
             })
         const skillsData = await parseSection(rawText, 'SKILLS & TOOLS', 'REPOSITORIES:')
             .then((data) => {
-                console.log(`Size of Skills Data: ${data.length} bytes.`);
+                log.info(`Size of Skills Data: ${data.length} bytes.`);
                 return data;
             })
         const repositoriesData = await parseSection(rawText, 'REPOSITORIES:', 'WORK EXPERIENCE')
             .then((data) => {
-                console.log(`Size of Repository Data: ${data.length} bytes.`);
+                log.info(`Size of Repository Data: ${data.length} bytes.`);
                 return data;
             })
         const experienceData = await parseSection(rawText, 'WORK EXPERIENCE', '~ 4 ~')
             .then((data) => {
-                console.log(`Size of Experience Data: ${data.length} bytes.`);
+                log.info(`Size of Experience Data: ${data.length} bytes.`);
                 return data;
             })
 
@@ -101,40 +150,26 @@ async function  extractDataFromPdf (pdfPath) {
             experienceData,
         });
     } catch (error) {
-        console.error('Error parsing PDF:', error);
-    }
-};
-
-
-/**
- * @description Wrapper function to retrieve the resume data.
- * @return {Promise<{academicData: string, skillsData: string, repositoriesData: string, experienceData: string}>}
- */
-async function retrieveResumeData() {
-    try {
-        if (resumeData === null) {  // resume data has not been retrieved yet
-            resumeData = await extractDataFromPdf(`${process.cwd()}/${process.env.RESUME_PDF_FILE}`).then((data) => data);
-        } else { // resume data has already been retrieved
-            console.log('Resume data has already been retrieved.');
-            return resumeData;
-        }
-    } catch (error) {
-        console.error(error);
+        log.error('Error parsing PDF:', error);
     }
 };
 
 /**
  * @description Wrapper function to retrieve the resume skills data.
- * @return {Promise<string[]>}
+ * @param {string} resumeData The resume data or file path.
+ * @return {Promise<*>} The resume skills data.
  */
-async function getSkillsData(){
+async function getSkillsData(resumeData = `${process.env.RESUME_PDF_FILE}` || null){
     const bulletsRegex = new RegExp(/(●|•|▪|▫|■|□|▲|▼|◆|◇)*?/g);
     const skillsRegex = new RegExp(/(\s?SKILLS\s*?\D?\s*?TOOLS\s?)+/g);
     const splitSkillsRegex = new  RegExp(/[,\n●•▪▫■□▲▼◆◇]/g);
     let sentinal = 0;
     try {
+        let skillsData = null;
         if (resumeData == null) {  // resume data has not been retrieved yet
-            resumeData = await extractDataFromPdf(`${process.cwd()}/${process.env.RESUME_PDF_FILE}`)
+            throw new Error('Resume data has not been retrieved yet. Please provide the correct file path.');
+        } else { // resume data has already been retrieved
+            skillsData = await extractDataFromPdf(path.resolve(resumeData))
                 .then((data) => {
                     return [...data.skillsData
                         .split(splitSkillsRegex)
@@ -150,16 +185,50 @@ async function getSkillsData(){
                             return skill.trim();
                         })];
                 });
-        } else { // resume data has already been retrieved
-            console.log('Resume data has already been retrieved.');
         }
-        return resumeData;
+        return skillsData;
     } catch (error) {
-        console.error(
+        log.error(
             'Error parsing PDF:\n',
             error
         )
+        traceback.raw();
+        return error;
     }
 }
 
-module.exports = {getSkillsData};
+/**
+ * @description Wrapper function to retrieve the resume introduction data.
+ * @param {string} introFilePath The introduction file path.
+ * @return {Promise<*>} The resume introduction data.
+ */
+async function getIntroduction(introFilePath = `${process.env.INTRODUCTION_FILE}` || null) {
+    try {
+        let introData = null;
+        if (introFilePath == null) {  // intro data has not been retrieved yet
+            throw new Error('Introduction data has not been retrieved yet. Please provide the correct file path.');
+        } else { // intro data has already been retrieved
+            introData = await readFile(path.resolve(introFilePath))
+                .then((data) => {
+                    return data.toString();
+                });
+
+        }
+        return introData;
+    } catch (error) {
+        log.error(
+            `Error parsing introduction text: ${introFilePath}\n`,
+            error
+        )
+        traceback.raw();
+        return error;
+    }
+}
+
+
+module.exports = {
+    getSkillsData,
+    getIntroduction,
+    getResumeDataFromYAMLFile
+};
+

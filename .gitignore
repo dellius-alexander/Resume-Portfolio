@@ -124,3 +124,6 @@ frontend/.npm
 .devcontainer/persistent/**
 email-engine.docker-compose.yml
 mailu.docker-compose.yml
+/frontend/certs/**
+!/frontend/certs/.gitkeep
+/.devcontainer/certs

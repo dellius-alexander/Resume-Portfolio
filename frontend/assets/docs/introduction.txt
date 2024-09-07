@@ -1,0 +1,31 @@
+<p data-aos="fade-up">
+I am Dellius Alexander, a highly skilled and experienced professional with a Bachelor of Science in
+Computer Science from Clayton State University. I have a strong background in various programming
+languages and tools such as <strong>Java, JavaScript, TypeScript, PHP, CSS, HTML, Python, Unix/Linux shell,
+PowerShell, DOS, Prolog, C#, SQL, Kotlin, SASS, Docker, Kubernetes, GCP, Android Studio, Wire Shark,
+CSysdig, Git, Selenium, Cypress, Chocolatey, Qemu, Hyper-V, Hibernate, JPA, Apache, Nginx, Spring Boot,
+NodeJS, ExpressJS, Visual Paradigm, Putty, MS Office Pro, MS Visio Pro, AutoCAD, VS code, Eclipse,
+NetBeans, IntelliJ IDEA, Apache Cordova, Vector DB, Milvus, and React</strong>.
+</p>
+<br/>
+<p data-aos="fade-up">
+I have a proven track record in <strong>Full-Stack development, design patterns, SDLC methodologies, MVC Framework,
+MERN Framework, REST API, SEO practices & analytics, Agile, Scrum, software testing & QA methodologies,
+unit testing, machine learning, X509 Authentication and Https Transport Protocol, OOP principles and methodologies,
+SOA practices, Test-Driven Development, web application development, object relational modeling, network diagnostics
+practices, project management, SOW generation, and Dev Ops implementation for K8S, Google Cloud Engine
+and bare metal infrastructure</strong>.
+</p>
+<br/>
+<p data-aos="fade-up">
+I have contributed to various repositories demonstrating my skills in different areas of software development.
+My work experience spans across different roles in the IT sector, including Assistant in Information Technology and
+Services at Clayton State University, Manager at Namco Entertainment Inc., Technical Manager at HYFI Solutions Inc.,
+and Market Manager at DirecPath LLC & GigaMonster.  I have demonstrated my ability to manage telecommunications
+operations, quality control processes, and logistics. I have a knack for overseeing comprehensive site inspections,
+ensuring compliance with industry regulations, and managing large inventories. I am adept at mentoring and
+training technicians to optimize performance and maintain network stability. I have a proven track record of
+effectively managing budgets and delivering consistent results. My strong organizational and analytical
+abilities coupled with excellent communication skills make me a valuable asset in any team.
+</p>
+<br/>

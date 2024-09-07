@@ -9,20 +9,20 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "prestart": "npm audit fix;",
+    "prestart": "npm install; npm audit fix --f;",
     "start": "node server.js;",
+    "predev": "npm install; ",
     "dev": "nodemon server.js;",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "directories": {
     "node_modules": "node_modules",
-    "assets": "assets",
-    "controller": "controller",
-    "routes": "routes",
-    "utils": "utils",
-    "views": "views"
+    "frontend": "frontend",
+    "routes": "frontend/routes",
+    "utils": "frontend/utils",
+    "views": "frontend/views"
   },
-  "repository": {},
+  "repository": "https://github.com/dellius-alexander/Resume-Portfolio.git",
   "keywords": [],
   "author": "Dellius Alexander <info@delliusalexander.com>",
   "license": "MIT",
@@ -41,18 +41,29 @@
     "helmet": "^6.0.1",
     "html5shiv.min.js": "file:./assets/vendor/html5shiv.min.js",
     "isotope-layout": "file:./assets/vendor/isotope-layout",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.0.1",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "pdf-parse": "^1.1.1",
     "php-email-form": "file:./assets/vendor/php-email-form",
     "purecounter": "file:./assets/vendor/purecounter",
     "swiper": "file:./assets/vendor/swiper",
+    "stack-trace": "latest",
     "typed.js": "file:./assets/vendor/typed.js",
     "waypoints": "file:./assets/vendor/waypoints",
-    "webfont": "file:./assets/vendor/webfont"
+    "webfont": "file:./assets/vendor/webfont",
+    "winston": "latest",
+    "yaml": "latest"
   },
   "devDependencies": {
     "dotenv": "^16.0.3",
-    "nodemon": "^3.0.1"
+    "dotenv-expand": "^10.0.0",
+    "nodemon": "^2.0.12",
+    "npm": "^10.3.0",
+    "npm-check-updates": "^16.14.12",
+    "npm-run-all": "^4.1.5",
+    "onchange": "^7.1.0",
+    "parallelshell": "^3.0.2"
   }
 }

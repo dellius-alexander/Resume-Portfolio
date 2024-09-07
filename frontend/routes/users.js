@@ -18,7 +18,8 @@ const router = require('express').Router();
 
 /* GET users listing. */
 module.exports = router.get('/user', function(req, res, next) {
-  res.send('respond with a resource');
+  // TODO: Add user authentication and authorization
+    res.send('<h1>Under Maintenance...</h1>');
 });
 
 

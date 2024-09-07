@@ -13,11 +13,28 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-console.log('Starting server initialization......')
+
 // import environment variables
-const config =  require('./utils/config').config().catch(console.dir);
-console.log('Importing server dependencies......')
-console.dir(config)
+try {
+    ;(function(){
+        console.log('Importing environmental variables......');
+        let result = require('./utils/config').config();
+        const dotenvExpand = require('dotenv-expand');
+        result = dotenvExpand.expand(result);
+        if (result) {
+            console.log('Successfully imported environmental variables......');
+            console.dir(result, {depth: null, colors: true})
+        }
+    })();
+} catch (e) {
+    console.error('Error loading environment variables.')
+    console.error(e)
+}
+
+const log = require('./utils/logger').getLogger();
+log.info('Starting server......');
+
+log.info('Starting server initialization......');
 
 const path = require('path');
 const https = require('https');
@@ -31,10 +48,9 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
-const indexRouter = require('./routes/index');
-const {errorRoute, errorHandler} = require('./utils/errorHandler');
-const {sslOptions, cfg} = require('./utils/sslOptions')
-const Console = require("console");
+const {indexRouter} = require('./routes/index');
+const {errorRouter, errorHandler} = require('./utils/errorHandler');
+const {sslOptions, cfg} = require('./utils/sslOptions');
 
 /**
  * Server middleware configuration. The order of middleware is crucial.
@@ -208,12 +224,12 @@ async function main() {
         app.use('/docs', express.static(path.join(__dirname, 'assets/docs')))
 
         // Middleware for handling index route
-        console.log('Setting index route......')
+        log.info('Setting index route......')
         app.use('/', indexRouter);
 
         // Middleware for handling errors
-        console.log('Setting errorCallback......')
-        app.use('/', errorRoute);
+        log.info('Setting errorCallback......')
+        app.use('/', errorRouter);
 
         /**
          * Catch all erroneous requests and send them to the error handler.
@@ -221,12 +237,12 @@ async function main() {
         app.use(async (req, res, next) => {
             if (!req.route) {
                 // If there is no matching route, this request is for a URL that does not exist
-                console.log(`Request for non-existent URL: ${req.url}`);
+                log.info(`Request for non-existent URL: ${req.url}`);
                 return await errorHandler(req, res, next);
             }
             res.redirect(req.url);
         });
-        console.log('Setting server configurations......')
+        log.info('Setting server configurations......')
 
         /**
          * configure server to use SSL.
@@ -238,25 +254,25 @@ async function main() {
                 cfg.port,
                 cfg.hostname,
                 () => {
-                    console.log(`Example app is listening on https://${cfg.hostname}:${cfg.port}`);
-                    console.log(`To test server entrypoint Run: curl -k https://${cfg.hostname}:${cfg.port}`);
+                    log.info(`Example app is listening on https://${cfg.hostname}:${cfg.port}/`);
+                    log.info(`To test server entrypoint Run: curl -k https://${cfg.hostname}:${cfg.port}/`);
                 })
             .on('load', async function(req, res) {
-                    console.log(`Successfully loaded`)
-                    console.log(req, res)
+                    log.info(`Successfully loaded`)
+                    log.info(req, res)
             })
             .on('success', async function(req, res) {
-                console.log(`Successfully up and running`)
-                console.log(req, res)
+                log.info(`Successfully up and running`)
+                log.info(req, res)
             })
-            .on('error', errorRoute)
+            .on('error', errorRouter)
 
-        console.log('Server initialization complete......')
+        log.info('Server initialization complete......')
     } catch (e) {
-        console.dir(e)
-        console.error('Something went wrong during server initialization.')
+        log.error(e)
+        log.error('Something went wrong during server initialization.')
 
     }
 }
-console.log('Server initialization complete, running main......')
-main().catch(console.dir);
+
+main().catch(log.info);

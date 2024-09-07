@@ -191,6 +191,46 @@ Then to extract the public key for use in validation:
 openssl x509 -pubkey -noout -in example.pem > example.pub
 ```
 
+---
+<h1>Creating Self-Signed SSL Certificate Step-By-Step</h1>
+
+
+To sign an X509 certificate using OpenSSL, you would typically follow these steps:  
+Generate a private key for the Certificate Authority (CA).
+Generate a Certificate Signing Request (CSR) for the CA.
+Self-sign the CA's CSR to create the CA's certificate.
+Generate a private key for the server.
+Generate a CSR for the server.
+Sign the server's CSR with the CA's private key to create the server's certificate.
+Here's how you can do it using OpenSSL commands:
+
+```bash
+# Step 1: Generate a private key for the CA
+openssl genrsa -out ca.key 2048
+
+# Step 2: Generate a CSR for the CA
+openssl req -new -key ca.key -out ca.csr
+
+# Step 3: Self-sign the CA's CSR to create the CA's certificate
+openssl x509 -req -in ca.csr -signkey ca.key -out ca.crt
+
+# Step 4: Generate a private key for the server
+openssl genrsa -out server.key 2048
+
+# Step 5: Generate a CSR for the server
+openssl req -new -key server.key -out server.csr
+
+# Step 6: Sign the server's CSR with the CA's private key to create the server's certificate
+openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt
+```
+
+These commands will prompt you for information such as the country name, state or province name, organization name, etc. This information will be included in the certificates.  
+
+The `-CAcreateserial` option in the last command creates a CA serial number file if one does not exist. This file keeps track of the next serial number to be used for a certificate.  
+
+The resulting `ca.crt` and `server.crt` files are the CA and server certificates, respectively.
+
+---
 
 <h3>Conclusion</h3>
 

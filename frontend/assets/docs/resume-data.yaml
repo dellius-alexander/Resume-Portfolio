@@ -1,0 +1,210 @@
+version: "1.0.0"
+name: Dellius Alexander
+contact:
+  email: dellius.alexander@gmail.com
+  phone: +1 678-650-9414
+  address: Atlanta, GA, USA
+  github: dellius-alexander
+  linkedin: dellius-alexander
+  website: https://delliusalexander.com
+introduction: |
+  <p data-aos="fade-up">
+  I am Dellius Alexander, a highly skilled and experienced professional with a Bachelor of Science in
+  Computer Science from Clayton State University. I have a strong background in various programming
+  languages and tools such as <strong>Java, JavaScript, TypeScript, PHP, CSS, HTML, Python, Unix/Linux shell,
+  PowerShell, DOS, Prolog, C#, SQL, Kotlin, SASS, Docker, Kubernetes, GCP, Android Studio, Wire Shark,
+  CSysdig, Git, Selenium, Cypress, Chocolatey, Qemu, Hyper-V, Hibernate, JPA, Apache, Nginx, Spring Boot,
+  NodeJS, ExpressJS, Visual Paradigm, Putty, MS Office Pro, MS Visio Pro, AutoCAD, VS code, Eclipse,
+  NetBeans, IntelliJ IDEA, Apache Cordova, Vector DB, Milvus, and React</strong>.
+  </p>
+  <br/>
+  <p data-aos="fade-up">
+  I have a proven track record in <strong>Full-Stack development, design patterns, SDLC methodologies, MVC Framework,
+  MERN Framework, REST API, SEO practices & analytics, Agile, Scrum, software testing & QA methodologies,
+  unit testing, machine learning, X509 Authentication and Https Transport Protocol, OOP principles and methodologies,
+  SOA practices, Test-Driven Development, web application development, object relational modeling, network diagnostics
+  practices, project management, SOW generation, and Dev Ops implementation for K8S, Google Cloud Engine
+  and bare metal infrastructure</strong>.
+  </p>
+  <br/>
+  <p data-aos="fade-up">
+  I have contributed to various repositories demonstrating my skills in different areas of software development.
+  My work experience spans across different roles in the IT sector, including AI Trainer at Data Annotation, Assistant Engineer in Information Technology and
+  Services at Clayton State University, Manager at Namco Entertainment Inc., Technical Manager at HYFI Solutions Inc.,
+  and Market Manager at DirecPath LLC & GigaMonster. I have demonstrated my ability to manage telecommunications
+  operations, quality control processes, and logistics. I have a knack for overseeing comprehensive site inspections,
+  ensuring compliance with industry regulations, and managing large inventories. I am adept at mentoring and
+  training technicians to optimize performance and maintain network stability. I have a proven track record of
+  effectively managing budgets and delivering consistent results. My strong organizational and analytical
+  abilities coupled with excellent communication skills make me a valuable asset in any team.
+  </p>
+  <br/>
+skills:
+#  languages:
+  - Java
+  - JavaScript
+  - TypeScript
+  - PHP
+  - CSS
+  - HTML
+  - Python
+  - Unix/Linux shell
+  - PowerShell
+  - DOS
+  - Prolog
+  - C#
+  - SQL
+  - Kotlin
+  - SASS
+#  frameworks:
+  - Spring Boot
+  - Spring Security
+  - NodeJS
+  - ExpressJS
+  - AngularJS
+  - React
+  - Flutter
+  - Apache Cordova
+#  development_tools:
+  - Wireshark
+  - CSysdig
+  - Selenium
+  - Cypress
+  - QEMU
+  - Hyper-V
+  - Hibernate
+  - JPA
+  - Visual Paradigm
+  - VS Code
+  - Eclipse
+  - NetBeans
+  - JetBrains Toolbox (PyCharm, DataGrip, Rider, IntelliJ IDEA, WebStorm, AppCode, Android Studio, PhpStorm)
+  - MS Office Pro
+  - MS Visio Pro
+  - AutoCAD
+  - Chocolatey
+  - Brew
+  - NuGet
+  - Java SDK
+  - GNU compilers
+  - keytool
+  - putty
+#  distributed_systems:
+  - Kubernetes
+  - GKE
+  - Docker Swarm
+#  databases:
+  - MySQL
+  - PostgreSQL
+  - SQLite
+  - MongoDB
+  - MariaDB
+  - OracleDb
+  - SQL Server
+  - MS Access
+  - VectorDB
+  - Milvus
+#  operating_systems:
+  - Linux (Ubuntu, CentOS)
+  - Windows
+  - macOS
+#  version_control:
+  - Git
+  - GitLab
+#  cloud_services:
+  - Google Cloud Platform (GCP)
+#  methodologies:
+  - Agile
+  - Scrum
+  - Test-Driven Development
+  - DevOps
+  - SDLC
+  - OOP
+  - MVC
+  - MERN
+  - MVVM
+  - SEO practices & analytics
+  - Machine Learning
+  - Data Structures
+  - Project Management
+#  soft_skills:
+  - Team Leadership
+  - Communication
+  - Problem-Solving
+  - Time Management
+  - Adaptability
+  - Critical Thinking
+#  component_technologies:
+  - X509 Authentication
+  - HTTPS Transport Protocol
+  - REST API
+  - Web Application Development
+repositories:
+  - name: CRUD Repository
+    url: https://github.com/dellius-alexander/CRUDRepository.git
+  - name: Multiplatform React Application Demo
+    url: https://github.com/dellius-alexander/Cordova-React-App.git
+  - name: Vector Database Domain Search Engine Bot
+    url: https://github.com/dellius-alexander/Vector-DB-SearchBot.git
+  - name: Continuous Integration Continuous Delivery (CICD) Pipeline Demo
+    url: https://github.com/dellius-alexander/Testing-Strategy.git
+  - name: Hardy-Weinberg Equilibrium
+    url: https://github.com/dellius-alexander/Hardy-Weinberg.git
+  - name: Modular AI Driven Search Pipeline
+    url: https://github.com/dellius-alexander/Smart-Search.git
+work_experience:
+  - company: Data Annotation
+    position: AI Trainer
+    start_date: 2024-02-01
+    end_date: present
+    description: |
+      Generated comprehensive coding prompts with varying difficulties targeting domains like integrated architectural patterns, machine learning, MVC frameworks, and debugging. Performed reinforcement learning by guiding AI models through diverse reasoning tasks and validating AI responses across metrics such as accuracy, security, and correctness. Contributed to training Vision, LLMs, and Computational models.
+  - company: Clayton State University
+    position: Assistant Engineer | Information Technology and Services
+    start_date: 2019-05-01
+    end_date: 2022-03-01
+    description: |
+      Managed data-related tasks, authored SQL reports, and contributed to IT documentation. Supported the Dev Team with Kubernetes administration and stayed current with emerging technologies, recommending enhancements to improve campus IT infrastructure.
+  - company: Namco Entertainment Inc.
+    position: Manager
+    start_date: 2017-09-01
+    end_date: 2019-03-01
+    description: |
+      Oversaw store operations, managed audits and reporting, and oversaw equipment maintenance. Recruited and trained staff, optimized inventory management, and fostered strong relationships with partners and customers to enhance operational efficiency.
+  - company: HYFI Solutions Inc.
+    position: Technical Manager
+    start_date: 2016-09-01
+    end_date: 2017-10-01
+    description: |
+      Led system design, implementation, and project management efforts. Developed Bill of Materials (BOM), Bill of Labor (BOL), and Scope of Work (SOW) documents, managed subcontractors, and coordinated with cross-functional teams to ensure timely project completion. Implemented quality control measures and maintained client relationships.
+  - company: DirecPath LLC & GigaMonster
+    position: Market Manager | Operations
+    start_date: 2015-06-01
+    end_date: 2016-09-01
+    description: |
+      Managed telecommunications operations, quality control, and logistics. Trained technicians, conducted site inspections, and maintained telecommunications infrastructure. Created SOW and BOM/BOL, documented site As-Builds, and managed market inventory. Conducted audits and reconciled assets upon contract expiration, ensuring network performance and customer satisfaction.
+education:
+  - institution: Clayton State University
+    degree: Bachelor of Science in Computer Science
+    start_date: 2014-08-01
+    end_date: 2024-12-01
+    concentration: Machine Learning, Software Engineering, Software Test & QA
+    relevant_courses:
+      - Algorithm Design Analysis
+      - Artificial Intelligence & Machine Learning
+      - Computer Networking
+      - Computer Science Research
+      - Software Engineering
+      - Quality Assurance
+      - Data Structures
+      - Algorithms
+      - Database Systems
+      - Operating Systems
+      - Web Development
+      - Network Design & Security
+      - Systems Analysis & Design
+other:
+  references: "Available upon request."
+  location: "Currently living in Atlanta, GA area. Willing to travel."
+  citizenship: "US Citizen."
+  last_updated: "2024-09-05"

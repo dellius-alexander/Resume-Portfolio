@@ -34,6 +34,7 @@ CONFIG_FILE="";
 OPTIONS="${1}"
 HOSTNAME="${2}"
 _CERTS_DIR="${3}"
+PORT="${4}"
 
 if [[  "${#}" -eq 0 || "${#}" -lt 3 ]]; then
   echo "Missing parameter 3."
@@ -175,6 +176,7 @@ __generate_config() {
   x509_extensions     = x509_ext
   string_mask         = utf8only
   prompt              = no
+  port                = ${PORT}
 
   [ subject ]
   countryName         = US

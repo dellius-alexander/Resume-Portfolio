@@ -14,8 +14,9 @@
  *    limitations under the License.
  */
 const router = require('express').Router();
-const {getSkillsData} = require('../utils/resumeParser');
-const fs = require('fs');
+const {ResumeFromYaml} = require("../utils/resume")
+const {writeFile} = require('fs');
+let resumeData = null;
 
 /**
  * Index route.
@@ -27,15 +28,21 @@ const fs = require('fs');
  * @type {Router}
  */
 router.get('/',  async function (req, res, next) {
+    // check if resume data is null
+    if (resumeData === null) {
+        resumeData = new ResumeFromYaml(`${process.env.RESUME_YAML_FILE}`).resumeData;
+    }
     // create data object
     const data = Object.assign({},
         {
+            resume: resumeData,
             title: "Portfolio Resume",
-            name: "Dellius Alexander",
-            skills: await getSkillsData().then((data) => data),
+            name: resumeData['name'],
+            skills: resumeData['skills'],
+            introduction: resumeData['introduction'],
         });
     // render the html/ejs template file
-    res
+    await res
         .status(200)
         .setHeader(
             'Content-Type',
@@ -45,21 +52,29 @@ router.get('/',  async function (req, res, next) {
         )
         .setHeader('Set-Cookie', {data: data})
         // parse the ejs templates and send html
-        .render('pages/index.ejs', {data: data}, (err, html) => {
+        .render('pages/index.ejs', {data: data}, async (err, html) => {
             if (err) {
                 console.error(err);
                 res.status(500).send('Internal Server Error');
+                return next();
             } else {
-                // Use fs to write new html to file
-                fs.writeFile("views/pages/index.html", Buffer.from(html), (err) => {
-                    if (err) {
-                        console.error('Error writing file.\n', err);
-                    }
+                try{
+                    // Use fs to write new html to file
+                    await  writeFile("views/pages/index.html", Buffer.from(html), async (err) => {
+                        if (err) {
+                            console.error('Error writing file.\n', err);
+                        }
+
+                    });
                     console.log('Successfully wrote file');
-                });
+                } catch (e) {
+                    console.error(e);
+                }
             }
             res.send(html);
         });
 });
 
-module.exports = router;
+module.exports = {
+    indexRouter: router
+};

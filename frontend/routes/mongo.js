@@ -1,144 +1,119 @@
-// /**
-//  *    Copyright 2023 Dellius Alexander
-//  *
-//  *    Licensed under the Apache License, Version 2.0 (the "License");
-//  *    you may not use this file except in compliance with the License.
-//  *    You may obtain a copy of the License at
-//  *
-//  *        http://www.apache.org/licenses/LICENSE-2.0
-//  *
-//  *    Unless required by applicable law or agreed to in writing, software
-//  *    distributed under the License is distributed on an "AS IS" BASIS,
-//  *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//  *    See the License for the specific language governing permissions and
-//  *    limitations under the License.
-//  */
-// // const username = encodeURIComponent("<username>");
-// // const password = encodeURIComponent("<password>");
-// // const cluster = "<clusterName>";
-// // const authSource = "<authSource>";
-// // const authMechanism = "<authMechanism>";
-// const { MongoClient, ServerApiVersion }  = require("mongodb");
-// const dotenv = require('dotenv')
-// const result = dotenv.config({ path:  "../config.env", encoding: 'utf8', debug: true, override: true })
-// // test that config file loaded successfully
-// if (result.error) {
-//     throw result.error;
-// } else {
-//     console.log("Config file loaded successfully")
-//     console.log(result.parsed)
-// }
-//
-// /**
-//  * Establish MongoDB connection
-//  * @returns {Promise<void>}
-//  */
-// async function mongodb_connect(callback){
-//     console.log('MongoClient URL: ' + process.env.MONGODB_URI)
-//     /**
-//      * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
-//      * The connection URI is the set of instructions that the driver uses to connect to a MongoDB deployment.
-//      * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
-//      * The following example shows each part of the connection URI:
-//      * ["mongodb://<username>:<password>@<hostname/ip address>:<port>/<connection options>"]
-//      */
-//     const uri = `${process.env.MONGODB_URI}`
-//
-//     /**
-//      * The Mongo Client you will use to interact with your database
-//      * See https://mongodb.github.io/node-mongodb-native/3.6/api/MongoClient.html for more details
-//      * In case: '[MONGODB DRIVER] Warning: Current Server Discovery and Monitoring engine is deprecated...'
-//      * pass option { useUnifiedTopology: true } to the MongoClient constructor.
-//      * const client =  new MongoClient(uri, {useUnifiedTopology: true})
-//      */
-//     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-//     // const client = new MongoClient(process.env.MONGODB_URL);
-//     try {
-//         // connect to the MongoDB cluster
-//         await client.connect()
-//             .catch(err => {
-//                 console.error(`DB Connection error: ${err}`)
-//             });
-//
-//         // Establish and verify the connection
-//         const response = await client
-//             .db("admin")
-//             .command({ping: 2})
-//             .then(
-//                 (value) => {
-//                     console.log(`Connection ${value['ok'] === 1 ? "Successful..." : "Error"}`)
-//                     return value;
-//                 }
-//             )
-//             .catch(err => {
-//                 console.error(`Error: ${err}`)
-//             }).finally((value) => {
-//                 // verify connection
-//                 console.log(value)
-//             })
-//
-//
-//         // get a list of databases from callback function
-//         if (callback === null){
-//             await listDatabases(client);
-//         } else {
-//             await callback(client);
-//         }
-//
-//     } catch (e) {
-//         console.error(e)
-//         process.exit(1)
-//     } finally {
-//         await client.close()
-//             .catch(err => {
-//             console.error(`Error: ${err}`)
-//         })
-//     }
-// };
-//
-// /**
-//  * Get collection from database.
-//  * @param {MongoClient} client A MongoClient that is connected to a cluster
-//  * @param db_name the database name
-//  * @param collection_name the collection name
-//  * @param callback the callback function
-//  * @returns {Promise<void>}
-//  */
-// async function get_collection(client, db_name, collection_name, callback) {
-//     try {
-//         await client.connect(err => {
-//             const collection = client.db(db_name).collection(collection_name);
-//             if (err) {
-//                 console.error(err)
-//             } else{
-//                 // perform actions on the collection object
-//                 console.log(collection)
-//                 callback()
-//             }
-//         });
-//     } catch (e) {
-//         console.error(e);
-//     }
-// };
-//
-// /**
-//  * Print the names of all available databases
-//  * @param {MongoClient} client A MongoClient that is connected to a cluster
-//  * @returns {Promise<void>}
-//  */
-// async function listDatabases(client){
-//     try {
-//         // get the list of databases
-//         const databasesList = await client.db().admin().listDatabases();
-//         // now list the databases
-//         console.log("Databases:");
-//         databasesList.databases.forEach(db => console.log(` - ${db.name}`));
-//     } catch (e) {
-//         console.error(e);
-//     }
-//
-// };
-//
-// mongodb_connect(listDatabases).catch(console.error);
-//
-//
+const mongoose = require('mongoose');
+
+// import environment variables
+try {
+    ;(function(){
+        console.log('Importing server dependencies......');
+        const result =  require('../utils/config').config({pathEnv: '../../.env'});
+        if (result.error) {
+                console.error('Error loading environment variables.')
+                console.dir(result)
+                process.exit(1)
+            }
+            console.log('Successfully imported server dependencies......');
+            console.dir(result);
+    })();
+} catch (e) {
+    console.error('Error loading environment variables.')
+    console.dir(e)
+}
+
+const MONGO_USERNAME = process.env.MONGO_INITDB_ROOT_USERNAME || 'resume';
+const MONGO_PASSWORD = process.env.MONGO_INITDB_ROOT_PASSWORD || 'portfolio';
+
+console.log(`MONGODB_USERNAME: ${MONGO_USERNAME}`);
+console.log(`MONGODB_PASSWORD: ${MONGO_PASSWORD}`);
+
+const MONGO_DATABASE = process.env.MONGO_INITDB_DATABASE || 'resume';
+const MONGO_HOST = process.env.MONGO_HOST || '0.0.0.0';
+const MONGO_PORT = process.env.MONGO_PORT || 27017;
+const MONGO_CONNECTION_STRING = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DATABASE}`;
+console.log(`MONGO_CONNECTION_STRING: ${MONGO_CONNECTION_STRING}`);
+/**
+ * @class MongoDB
+ * @description MongoDB class for connecting to MongoDB
+ * @param {string} connectionString - MongoDB connection string
+ * @param {string} db - MongoDB database name
+ * @returns {MongoDB} - MongoDB class
+ * @example
+ * const mongodb = new MongoDB(connectionString, db);
+ * await mongodb.init();
+ * await mongodb.health_check();
+ * await mongodb.ping_db();
+ * await mongodb.close();
+ */
+class MongoDB {
+    constructor(connectionString = MONGO_CONNECTION_STRING, db = MONGO_DATABASE){
+        this.connectionString = connectionString;
+        this.db = db;
+        this.client = null;
+    }
+
+    async init(){
+        try{
+            this.client = await mongoose.connect(this.connectionString);
+            console.log("Connected to MongoDB successfully.");
+        } catch(err){
+            console.error('Error connecting to MongoDB:', err);
+            process.exit();
+        }
+    }
+
+    async health_check(){
+        try{
+            await this.client.db(this.db).command({ ping: 1 })
+                .then((resp) => {
+                    console.log('MongoDB health check:', resp);
+                });
+            return true;
+        } catch (err){
+            return false;
+        }
+    }
+
+    async ping_db(){
+        try{
+            await this.client.db.admin().command({ ping: 1 });
+            return true;
+        } catch (err){
+            return false;
+        }
+    }
+
+    async get_db(){
+        return this.client.databases(this.db);
+    }
+
+    async close(){
+        try{
+            await this.client.disconnect();
+        } catch (err){
+            console.error('Error while disconnecting from MongoDB:', err);
+        }
+    }
+}
+
+/**
+ * @function main
+ * @description Main function for testing MongoDB connection
+ * @return {Promise<MongoDB>}
+ */
+async function main() {
+    const mongodb = new MongoDB();
+    await mongodb.init();
+
+    if(!await mongodb.health_check())
+        console.error("Server not available.");
+    else if(!await mongodb.ping_db())
+        console.error("Could not ping MongoDB.");
+    else
+        console.log('MongoDB ping successful.');
+
+    return mongodb;
+}
+
+main().then((mongoDB) => {
+    console.log('MongoDB class:', mongoDB);
+    mongoDB.close();
+    process.exit();
+}).catch(console.dir);

@@ -14,10 +14,9 @@ networks:
     driver: bridge
     ipam:
       driver: default
-  backend-network:
-    driver: bridge
-    ipam:
-      driver: default
+
+## Define volumes
+#volumes:
 
 # Define services
 services:
@@ -25,11 +24,10 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: .devcontainer/services/frontend/frontend.Dockerfile
+      dockerfile: .devcontainer/services/frontend/Dockerfile
       args:
         HOSTNAME: ${HOSTNAME}
         USER: ${USERNAME}
-        CERTS_DIR: ${CERTS_DIR}
         UUID: ${UUID}
         PORT: ${PORT}
         WORKDIR: /home/${USERNAME}/app
@@ -38,8 +36,9 @@ services:
     user: ${USERNAME}
     hostname: ${HOSTNAME}
     working_dir: /home/${USERNAME}/app
+    restart: on-failure
     env_file:
-      - .devcontainer/frontend.env
+      - .devcontainer/services/frontend/frontend.env
     volumes:
       - ./frontend:/home/${USERNAME}/app
       - .devcontainer/certs/.certs:/etc/ssl/delliusalexander.com.d
@@ -51,3 +50,4 @@ services:
       resume-network:
         aliases:
           - frontend
+
